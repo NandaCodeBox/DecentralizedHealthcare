@@ -67,3 +67,10 @@ yarn.lock
 
 # Scripts (deployment/build scripts - not needed in public repo)
 scripts/
+
+# Internal documentation and task summaries (development notes)
+TASK_*.md
+FRONTEND_INTEGRATION.md
+MOBILE_RESPONSIVENESS_SUMMARY.md
+QUICK_DEPLOY_GUIDE.md
+SCRIPTS_REMOVAL_SUMMARY.md

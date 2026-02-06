@@ -1,0 +1,37 @@
+🚀 Healthcare OS Frontend - AWS Deployment Info
+==============================================
+
+📅 Deployment Date: 2026-02-01
+🌍 Website URL: http://healthcare-os-frontend-1769968600.s3-website-us-east-1.amazonaws.com
+🪣 S3 Bucket: healthcare-os-frontend-1769968600
+🌐 Region: us-east-1
+
+🔧 Configuration:
+- Environment: Production
+- API Base URL: https://gm858vl0lh.execute-api.us-east-1.amazonaws.com/v1
+- Demo API Mode: ENABLED (no authentication required)
+- Mock API Mode: DISABLED
+
+🎯 Backend Services:
+- API Gateway: https://gm858vl0lh.execute-api.us-east-1.amazonaws.com/v1/
+- Demo Endpoints: /demo/symptoms, /test, /health (no auth required)
+- Authenticated Endpoints: /symptoms, /episodes, /profile (require Cognito auth)
+
+🔍 Testing URLs:
+- Main App: http://healthcare-os-frontend-1769968600.s3-website-us-east-1.amazonaws.com
+- Symptom Intake: http://healthcare-os-frontend-1769968600.s3-website-us-east-1.amazonaws.com/symptom-intake
+- API Test Page: http://healthcare-os-frontend-1769968600.s3-website-us-east-1.amazonaws.com/api-test
+
+🛠️ Recent Fixes Applied:
+- Fixed API service configuration to use demo endpoints
+- Updated useOfflineSync hook to use activeApiService instead of apiService
+- Updated useOnlineStatus hook to use activeApiService instead of apiService
+- Added updateProfile method to demoApiService
+- Removed unused apiService imports from components
+- **FIXED: Reduced repeated /test API calls by implementing cooldown and singleton pattern**
+- Changed connectivity check interval from 30 seconds to 2 minutes
+- Added global state to prevent multiple simultaneous checks across hook instances
+- Added 30-second cooldown between connectivity checks
+
+🗑️ Cleanup Command:
+aws s3 rb s3://healthcare-os-frontend-1769968600 --force

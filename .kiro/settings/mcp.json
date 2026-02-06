@@ -1,0 +1,53 @@
+{
+  "mcpServers": {
+    "graphviz": {
+      "command": "uvx",
+      "args": [
+        "awslabs.aws-diagram-mcp-server"
+      ],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "get_diagram_examples",
+        "list_icons",
+        "generate_diagram"
+      ]
+    },
+    "powerpoint": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "office-powerpoint-mcp-server",
+        "ppt_mcp_server.exe"
+      ],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "read_presentation",
+        "create_presentation",
+        "add_slide",
+        "update_slide",
+        "add_image",
+        "save_presentation",
+        "open_presentation",
+        "get_presentation_info",
+        "get_slide_info",
+        "get_slide_info",
+        "manage_image",
+        "extract_slide_text",
+        "manage_text",
+        "create_slide_from_template",
+        "create_slide_from_template",
+        "list_slide_templates",
+        "add_table",
+        "list_presentations",
+        "switch_presentation",
+        "extract_presentation_text"
+      ]
+    }
+  }
+}

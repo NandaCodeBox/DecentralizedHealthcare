@@ -1,0 +1,93 @@
+digraph HumanInLoop {
+    rankdir=TB;
+    bgcolor=white;
+    node [fontname="Arial", fontsize=10];
+    edge [fontname="Arial", fontsize=8];
+    
+    // Title
+    title [label="Human-in-the-Loop Safety Architecture", shape=plaintext, fontsize=16, fontname="Arial Bold"];
+    
+    // AI Decision Points
+    subgraph cluster_ai_decisions {
+        label="AI Decision Points";
+        style=filled;
+        fillcolor="#FFE6E6";
+        fontsize=12;
+        fontname="Arial Bold";
+        
+        ai_triage [label="AI Triage\nAssessment", shape=box, style="rounded,filled", fillcolor="#8B5CF6", fontcolor=white];
+        ai_confidence [label="AI Confidence\nScore", shape=diamond, style=filled, fillcolor="#F5A623", fontcolor=white];
+        ai_reasoning [label="AI Reasoning\n& Explanation", shape=box, style="rounded,filled", fillcolor="#8B5CF6", fontcolor=white];
+    }
+    
+    // Human Validation Layer
+    subgraph cluster_human_validation {
+        label="Mandatory Human Validation";
+        style=filled;
+        fillcolor="#E6FFE6";
+        fontsize=12;
+        fontname="Arial Bold";
+        
+        supervisor_queue [label="Supervisor\nValidation Queue", shape=box, style="rounded,filled", fillcolor="#7ED321", fontcolor=white];
+        supervisor_review [label="Healthcare Supervisor\nReview", shape=ellipse, style=filled, fillcolor="#4A90E2", fontcolor=white];
+        supervisor_decision [label="Approve/Override\nDecision", shape=diamond, style=filled, fillcolor="#FF6B35", fontcolor=white];
+    }
+    
+    // Safety Mechanisms
+    subgraph cluster_safety {
+        label="Safety & Escalation";
+        style=filled;
+        fillcolor="#FFF0E6";
+        fontsize=12;
+        fontname="Arial Bold";
+        
+        emergency_flag [label="Emergency\nDetection", shape=octagon, style=filled, fillcolor="#FF4444", fontcolor=white];
+        backup_supervisor [label="Backup Supervisor\nEscalation", shape=box, style="rounded,filled", fillcolor="#FF9500", fontcolor=white];
+        default_higher_care [label="Default to\nHigher Care Level", shape=box, style="rounded,filled", fillcolor="#D946EF", fontcolor=white];
+    }
+    
+    // Final Actions
+    subgraph cluster_actions {
+        label="Patient Routing Actions";
+        style=filled;
+        fillcolor="#E6F3FF";
+        fontsize=12;
+        fontname="Arial Bold";
+        
+        approved_routing [label="Approved\nPatient Routing", shape=box, style="rounded,filled", fillcolor="#059669", fontcolor=white];
+        override_routing [label="Override\nAlternative Routing", shape=box, style="rounded,filled", fillcolor="#FF6B35", fontcolor=white];
+        audit_log [label="Complete\nAudit Trail", shape=cylinder, style=filled, fillcolor="#3F48CC", fontcolor=white];
+    }
+    
+    // Flow Connections
+    title -> ai_triage [style=invis];
+    
+    ai_triage -> ai_confidence [label="Generate", color="#8B5CF6", penwidth=2];
+    ai_confidence -> ai_reasoning [label="High Confidence", color="#7ED321", penwidth=2];
+    ai_confidence -> emergency_flag [label="Low Confidence", color="#FF4444", penwidth=2];
+    
+    ai_reasoning -> supervisor_queue [label="Queue for\nValidation", color="#333333", penwidth=2];
+    emergency_flag -> supervisor_queue [label="Immediate\nAlert", color="#FF4444", penwidth=3];
+    
+    supervisor_queue -> supervisor_review [label="Notify", color="#7ED321", penwidth=2];
+    supervisor_review -> supervisor_decision [label="Review", color="#4A90E2", penwidth=2];
+    
+    supervisor_decision -> approved_routing [label="Approve", color="#059669", penwidth=2];
+    supervisor_decision -> override_routing [label="Override", color="#FF6B35", penwidth=2];
+    
+    // Safety Escalations
+    supervisor_review -> backup_supervisor [label="Unavailable", color="#FF9500", penwidth=2, style=dashed];
+    backup_supervisor -> default_higher_care [label="No Response", color="#D946EF", penwidth=2, style=dashed];
+    
+    // Audit Connections
+    approved_routing -> audit_log [color="#3F48CC", style=dashed];
+    override_routing -> audit_log [color="#3F48CC", style=dashed];
+    default_higher_care -> audit_log [color="#3F48CC", style=dashed];
+    
+    // Annotations
+    safety_note [label="Safety Principles:\n• No AI decision without human validation\n• Emergency cases get immediate attention\n• Default to higher care when uncertain\n• Complete audit trail for all decisions", 
+                shape=note, style=filled, fillcolor="#FFFACD", fontcolor="#8B4513"];
+    
+    cost_note [label="Cost Control:\n• Human validation prevents AI errors\n• Reduces inappropriate referrals\n• Minimizes liability risks\n• Ensures quality care routing", 
+              shape=note, style=filled, fillcolor="#E6F7FF", fontcolor="#1890FF"];
+}

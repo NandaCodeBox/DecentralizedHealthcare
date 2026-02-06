@@ -1,0 +1,159 @@
+digraph AWSStyledIcons {
+    rankdir=TB;
+    bgcolor=white;
+    node [fontname="Arial", fontsize=10];
+    edge [fontname="Arial", fontsize=8];
+    
+    // Title
+    title [label="AI-Enabled Decentralized Care Orchestration System\nAWS Architecture", 
+           shape=plaintext, fontsize=16, fontname="Arial Bold", fontcolor="#232F3E"];
+    
+    // User Layer
+    subgraph cluster_users {
+        label="👥 User Interfaces";
+        style=filled;
+        fillcolor="#E8F4FD";
+        fontsize=12;
+        fontname="Arial Bold";
+        
+        patient [label="👤\nPatient Portal\n(PWA)", shape=ellipse, style=filled, fillcolor="#4A90E2", fontcolor=white, width=2, height=1.5];
+        supervisor [label="👨‍⚕️\nHealthcare\nSupervisor", shape=ellipse, style=filled, fillcolor="#7ED321", fontcolor=white, width=2, height=1.5];
+        admin [label="👨‍💼\nSystem\nAdministrator", shape=ellipse, style=filled, fillcolor="#F5A623", fontcolor=white, width=2, height=1.5];
+    }
+    
+    // Internet Gateway
+    internet [label="🌐\nInternet", shape=cloud, style=filled, fillcolor="#87CEEB", fontcolor="#000080", width=2.5];
+    
+    // AWS Services with Official Colors
+    subgraph cluster_aws {
+        label="☁️ Amazon Web Services";
+        style=filled;
+        fillcolor="#F0F8FF";
+        fontsize=14;
+        fontname="Arial Bold";
+        fontcolor="#232F3E";
+        
+        // API Gateway (Official AWS Orange)
+        gateway [label="🌐\nAmazon\nAPI Gateway\nREST API", shape=box, style="rounded,filled", fillcolor="#FF4B4B", fontcolor=white, width=2.2, height=1.2];
+        
+        // Cognito (Official AWS Orange)
+        cognito [label="🔐\nAmazon\nCognito\nAuthentication", shape=box, style="rounded,filled", fillcolor="#FF6B35", fontcolor=white, width=2.2, height=1.2];
+        
+        // Lambda Functions (Official AWS Orange)
+        subgraph cluster_lambda {
+            label="⚡ AWS Lambda Functions";
+            style=filled;
+            fillcolor="#FFF2E8";
+            fontsize=11;
+            fontname="Arial Bold";
+            
+            intake [label="λ\nSymptom\nIntake", shape=box, style="rounded,filled", fillcolor="#FF9900", fontcolor=white, width=1.8, height=1];
+            triage [label="λ\nTriage\nEngine", shape=box, style="rounded,filled", fillcolor="#FF9900", fontcolor=white, width=1.8, height=1];
+            validation [label="λ\nHuman\nValidation", shape=box, style="rounded,filled", fillcolor="#FF9900", fontcolor=white, width=1.8, height=1];
+            discovery [label="λ\nProvider\nDiscovery", shape=box, style="rounded,filled", fillcolor="#FF9900", fontcolor=white, width=1.8, height=1];
+            coordinator [label="λ\nCare\nCoordinator", shape=box, style="rounded,filled", fillcolor="#FF9900", fontcolor=white, width=1.8, height=1];
+            referral [label="λ\nReferral\nManager", shape=box, style="rounded,filled", fillcolor="#FF9900", fontcolor=white, width=1.8, height=1];
+            tracker [label="λ\nEpisode\nTracker", shape=box, style="rounded,filled", fillcolor="#FF9900", fontcolor=white, width=1.8, height=1];
+        }
+        
+        // DynamoDB (Official AWS Blue)
+        dynamodb [label="⚡\nAmazon\nDynamoDB\nNoSQL Database\nPatient & Provider Data", shape=cylinder, style=filled, fillcolor="#3F48CC", fontcolor=white, width=2.5, height=1.8];
+        
+        // Bedrock (Official AWS Purple)
+        bedrock [label="🧠\nAmazon\nBedrock\nClaude 3 Haiku\nMax 1 call/episode", shape=box, style="rounded,filled", fillcolor="#8B5CF6", fontcolor=white, width=2.5, height=1.8];
+        
+        // S3 (Official AWS Green)
+        s3 [label="🗄️\nAmazon S3\nStatic Website\nHosting", shape=cylinder, style=filled, fillcolor="#569A31", fontcolor=white, width=2, height=1.5];
+        
+        // SNS (Official AWS Pink)
+        sns [label="📢\nAmazon SNS\nNotifications\n& Alerts", shape=box, style="rounded,filled", fillcolor="#D946EF", fontcolor=white, width=2, height=1.5];
+        
+        // CloudWatch (Official AWS Green)
+        cloudwatch [label="📊\nAmazon\nCloudWatch\nMonitoring\nLogs & Metrics", shape=box, style="rounded,filled", fillcolor="#059669", fontcolor=white, width=2.2, height=1.5];
+        
+        // Transcribe (Optional - AWS Red)
+        transcribe [label="🎤\nAmazon\nTranscribe\nSpeech-to-Text\n(Optional)", shape=box, style="rounded,filled", fillcolor="#FF6B6B", fontcolor=white, width=2, height=1.5];
+        
+        // CloudFront (AWS Orange)
+        cloudfront [label="☁️\nAmazon\nCloudFront\nCDN", shape=box, style="rounded,filled", fillcolor="#FF9900", fontcolor=white, width=2, height=1.2];
+        
+        // IAM (AWS Orange)
+        iam [label="👤\nAWS IAM\nIdentity &\nAccess Management", shape=box, style="rounded,filled", fillcolor="#FF9900", fontcolor=white, width=2.2, height=1.2];
+        
+        // KMS (AWS Red)
+        kms [label="🔑\nAWS KMS\nKey Management\nEncryption", shape=box, style="rounded,filled", fillcolor="#DD344C", fontcolor=white, width=2, height=1.2];
+    }
+    
+    // External Systems
+    healthcare_providers [label="🏥\nHealthcare\nProviders\nHospitals & Clinics", shape=box, style="rounded,filled", fillcolor="#4CAF50", fontcolor=white, width=2.5, height=1.5];
+    
+    // Cost Control Box
+    cost_control [label="💰 Cost Optimization\n• AWS Free Tier: Lambda, DynamoDB, API Gateway\n• Bedrock: Max 1 call per episode\n• Serverless: Pay-per-use\n• Target: <$100/month for 10K episodes", 
+                 shape=note, style=filled, fillcolor="#FFFACD", fontcolor="#8B4513", width=4];
+    
+    // Human Safety Box
+    safety_control [label="🛡️ Human Safety Controls\n• Mandatory human validation for all AI decisions\n• Emergency escalation protocols\n• Supervisor override authority\n• Complete audit trails in CloudWatch", 
+                   shape=note, style=filled, fillcolor="#E6FFE6", fontcolor="#2D5016", width=4];
+    
+    // Main Flow
+    title -> internet [style=invis];
+    internet -> cloudfront [label="HTTPS", color="#4A90E2", penwidth=3];
+    cloudfront -> s3 [label="Static Assets", color="#569A31", penwidth=2];
+    
+    patient -> internet [color="#4A90E2", penwidth=2];
+    supervisor -> internet [color="#7ED321", penwidth=2];
+    admin -> internet [color="#F5A623", penwidth=2];
+    
+    internet -> gateway [label="API Requests", color="#FF4B4B", penwidth=3];
+    gateway -> cognito [label="Authentication", color="#FF6B35", penwidth=2];
+    
+    // Lambda Orchestration
+    gateway -> intake [color="#FF9900", penwidth=2];
+    intake -> triage [label="Process", color="#333333", penwidth=2];
+    triage -> validation [label="Validate", color="#333333", penwidth=2];
+    validation -> coordinator [label="Route", color="#333333", penwidth=2];
+    coordinator -> discovery [label="Search", color="#333333", penwidth=1.5];
+    coordinator -> referral [label="Escalate", color="#333333", penwidth=1.5];
+    
+    // Data Layer
+    intake -> dynamodb [label="Store", color="#3F48CC", penwidth=2, style=dashed];
+    triage -> dynamodb [label="Query", color="#3F48CC", penwidth=2, style=dashed];
+    discovery -> dynamodb [label="Search", color="#3F48CC", penwidth=2, style=dashed];
+    tracker -> dynamodb [label="Track", color="#3F48CC", penwidth=2, style=dashed];
+    
+    // AI Integration (Conditional)
+    triage -> bedrock [label="AI Assist\n(Only if rules insufficient)", color="#8B5CF6", penwidth=3, style=dashed, fontcolor="#8B5CF6"];
+    
+    // Optional Voice
+    intake -> transcribe [label="Voice Input\n(Optional)", color="#FF6B6B", penwidth=1, style=dotted];
+    
+    // Communication
+    validation -> sns [label="Alerts", color="#D946EF", penwidth=2];
+    referral -> sns [label="Notifications", color="#D946EF", penwidth=2];
+    
+    // Episode Tracking
+    intake -> tracker [color="#666666", penwidth=1];
+    triage -> tracker [color="#666666", penwidth=1];
+    coordinator -> tracker [color="#666666", penwidth=1];
+    referral -> tracker [color="#666666", penwidth=1];
+    
+    // Monitoring
+    intake -> cloudwatch [color="#059669", penwidth=1, style=dotted];
+    triage -> cloudwatch [color="#059669", penwidth=1, style=dotted];
+    validation -> cloudwatch [color="#059669", penwidth=1, style=dotted];
+    discovery -> cloudwatch [color="#059669", penwidth=1, style=dotted];
+    coordinator -> cloudwatch [color="#059669", penwidth=1, style=dotted];
+    referral -> cloudwatch [color="#059669", penwidth=1, style=dotted];
+    tracker -> cloudwatch [color="#059669", penwidth=1, style=dotted];
+    
+    // Security
+    cognito -> iam [color="#FF9900", penwidth=1, style=dashed];
+    dynamodb -> kms [label="Encryption", color="#DD344C", penwidth=1, style=dashed];
+    
+    // External Integration
+    referral -> healthcare_providers [label="Patient Referrals", color="#4CAF50", penwidth=2, style=dashed];
+    
+    // Annotations
+    bedrock -> cost_control [style=dotted, color="#8B4513"];
+    validation -> safety_control [style=dotted, color="#2D5016"];
+}

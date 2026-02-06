@@ -1,0 +1,397 @@
+// Property-based tests for Symptom Intake Lambda Function
+// Feature: decentralized-healthcare-orchestration, Property 1: Symptom Data Capture and Validation
+
+import * as fc from 'fast-check';
+import { APIGatewayProxyEvent, Context } from 'aws-lambda';
+import { handler, setDynamoClient } from '../index';
+import { DynamoDBDocumentClient, PutCommand, GetCommand } from '@aws-sdk/lib-dynamodb';
+import { mockClient } from 'aws-sdk-client-mock';
+import { EpisodeStatus, InputMethod, Gender, Language } from '../../../types/enums';
+
+// Mock AWS SDK
+const ddbMock = mockClient(DynamoDBDocumentClient);
+
+// Mock environment variables
+process.env.PATIENT_TABLE_NAME = 'test-patients';
+process.env.EPISODE_TABLE_NAME = 'test-episodes';
+
+// Mock UUID generation
+jest.mock('uuid', () => ({
+  v4: () => '550e8400-e29b-41d4-a716-446655440001'
+}));
+
+describe('Symptom Intake Lambda Function - Property Tests', () => {
+  const mockContext: Context = {
+    callbackWaitsForEmptyEventLoop: false,
+    functionName: 'test-function',
+    functionVersion: '1',
+    invokedFunctionArn: 'arn:aws:lambda:us-east-1:123456789012:function:test-function',
+    memoryLimitInMB: '256',
+    awsRequestId: 'test-request-id',
+    logGroupName: '/aws/lambda/test-function',
+    logStreamName: '2023/01/01/[$LATEST]test-stream',
+    getRemainingTimeInMillis: () => 30000,
+    done: jest.fn(),
+    fail: jest.fn(),
+    succeed: jest.fn()
+  };
+
+  const mockPatient = {
+    patientId: '550e8400-e29b-41d4-a716-446655440000',
+    demographics: {
+      age: 35,
+      gender: Gender.FEMALE,
+      location: {
+        state: 'Maharashtra',
+        district: 'Mumbai',
+        pincode: '400001',
+        coordinates: { lat: 19.0760, lng: 72.8777 }
+      },
+      preferredLanguage: Language.ENGLISH
+    },
+    medicalHistory: {
+      conditions: [],
+      medications: [],
+      allergies: [],
+      lastVisit: new Date('2023-01-01')
+    },
+    preferences: {
+      providerGender: Gender.FEMALE,
+      maxTravelDistance: 10,
+      costSensitivity: 'medium'
+    },
+    createdAt: new Date('2023-01-01'),
+    updatedAt: new Date('2023-01-01')
+  };
+
+  beforeEach(() => {
+    ddbMock.reset();
+    jest.clearAllMocks();
+    setDynamoClient(ddbMock as any);
+  });
+
+  // Custom arbitraries for generating test data
+  const validUuidArbitrary = fc.constant('550e8400-e29b-41d4-a716-446655440000');
+  
+  const symptomComplaintArbitrary = fc.string({ minLength: 1, maxLength: 500 })
+    .filter(s => s.trim().length > 0);
+  
+  const durationArbitrary = fc.oneof(
+    fc.constant('1 hour'),
+    fc.constant('2 days'),
+    fc.constant('1 week'),
+    fc.constant('sudden onset'),
+    fc.constant('3 months'),
+    fc.string({ minLength: 1, maxLength: 50 }).filter(s => s.trim().length > 0)
+  );
+  
+  const severityArbitrary = fc.integer({ min: 1, max: 10 });
+  
+  const associatedSymptomsArbitrary = fc.array(
+    fc.string({ minLength: 1, maxLength: 100 }).filter(s => s.trim().length > 0),
+    { minLength: 0, maxLength: 10 }
+  );
+  
+  const inputMethodArbitrary = fc.constantFrom(InputMethod.TEXT, InputMethod.VOICE);
+
+  const validSymptomInputArbitrary = fc.record({
+    patientId: validUuidArbitrary,
+    symptoms: fc.record({
+      primaryComplaint: symptomComplaintArbitrary,
+      duration: durationArbitrary,
+      severity: severityArbitrary,
+      associatedSymptoms: associatedSymptomsArbitrary,
+      inputMethod: inputMethodArbitrary
+    })
+  });
+
+  const createApiGatewayEvent = (body: any): APIGatewayProxyEvent => ({
+    body: JSON.stringify(body),
+    headers: {},
+    multiValueHeaders: {},
+    httpMethod: 'POST',
+    isBase64Encoded: false,
+    path: '/symptoms',
+    pathParameters: null,
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null,
+    stageVariables: null,
+    requestContext: {} as any,
+    resource: ''
+  });
+
+  /**
+   * Property 1: Symptom Data Capture and Validation
+   * **Validates: Requirements 1.2, 1.4, 1.5**
+   * 
+   * For any valid patient symptom input (text or voice), the Care_Orchestrator should 
+   * successfully capture, validate, and store the data with appropriate prompting for 
+   * missing essential information.
+   */
+  it('Property 1: should successfully capture, validate, and store any valid symptom data', async () => {
+    await fc.assert(
+      fc.asyncProperty(validSymptomInputArbitrary, async (symptomInput) => {
+        // Setup mocks for successful case
+        ddbMock.on(GetCommand).resolves({ Item: mockPatient });
+        ddbMock.on(PutCommand).resolves({});
+
+        const event = createApiGatewayEvent(symptomInput);
+        const result = await handler(event, mockContext);
+
+        // Property assertions
+        expect(result.statusCode).toBe(200);
+        
+        const responseBody = JSON.parse(result.body);
+        expect(responseBody.episodeId).toBeDefined();
+        expect(responseBody.status).toBe(EpisodeStatus.ACTIVE);
+        expect(responseBody.message).toBe('Symptom intake completed successfully');
+
+        // Verify data was captured and stored
+        expect(ddbMock.commandCalls(GetCommand)).toHaveLength(1);
+        expect(ddbMock.commandCalls(PutCommand)).toHaveLength(1);
+
+        const putCall = ddbMock.commandCalls(PutCommand)[0];
+        const episodeData = putCall.args[0].input.Item;
+        
+        expect(episodeData).toBeDefined();
+        expect(episodeData!.patientId).toBe(symptomInput.patientId);
+        expect(episodeData!.symptoms.primaryComplaint).toBeDefined();
+        expect(episodeData!.symptoms.severity).toBe(symptomInput.symptoms.severity);
+        expect(episodeData!.symptoms.inputMethod).toBe(symptomInput.symptoms.inputMethod);
+        expect(episodeData!.interactions).toHaveLength(1);
+        expect(episodeData!.interactions[0].type).toBe('symptom_intake');
+
+        // Reset mocks for next iteration
+        ddbMock.reset();
+      }),
+      { numRuns: 100 }
+    );
+  });
+
+  /**
+   * Property 2: Input Sanitization and Security
+   * **Validates: Requirements 9.1**
+   * 
+   * For any symptom input containing potentially malicious content, the system should
+   * sanitize the input while preserving the essential medical information.
+   */
+  it('Property 2: should sanitize all symptom text input while preserving medical information', async () => {
+    const maliciousInputArbitrary = fc.record({
+      patientId: validUuidArbitrary,
+      symptoms: fc.record({
+        primaryComplaint: fc.string({ minLength: 1, maxLength: 200 })
+          .map(s => `<script>${s}</script>headache`),
+        duration: fc.string({ minLength: 1, maxLength: 50 })
+          .map(s => `${s}<img src=x>`),
+        severity: severityArbitrary,
+        associatedSymptoms: fc.array(
+          fc.string({ minLength: 1, maxLength: 50 })
+            .map(s => `<b>${s}</b>`),
+          { minLength: 0, maxLength: 5 }
+        ),
+        inputMethod: inputMethodArbitrary
+      })
+    });
+
+    await fc.assert(
+      fc.asyncProperty(maliciousInputArbitrary, async (symptomInput) => {
+        // Setup mocks
+        ddbMock.on(GetCommand).resolves({ Item: mockPatient });
+        ddbMock.on(PutCommand).resolves({});
+
+        const event = createApiGatewayEvent(symptomInput);
+        const result = await handler(event, mockContext);
+
+        expect(result.statusCode).toBe(200);
+
+        const putCall = ddbMock.commandCalls(PutCommand)[0];
+        const episodeData = putCall.args[0].input.Item;
+        
+        // Verify sanitization occurred
+        expect(episodeData!.symptoms.primaryComplaint).not.toContain('<script>');
+        expect(episodeData!.symptoms.primaryComplaint).not.toContain('</script>');
+        expect(episodeData!.symptoms.duration).not.toContain('<img');
+        
+        // Verify essential information is preserved
+        expect(episodeData!.symptoms.primaryComplaint).toContain('headache');
+        expect(episodeData!.symptoms.severity).toBe(symptomInput.symptoms.severity);
+
+        // Reset mocks
+        ddbMock.reset();
+      }),
+      { numRuns: 50 }
+    );
+  });
+
+  /**
+   * Property 3: Urgency Indicator Analysis
+   * **Validates: Requirements 2.1**
+   * 
+   * For any symptom input with high severity or emergency keywords, the system should
+   * identify and log appropriate urgency indicators.
+   */
+  it('Property 3: should identify urgency indicators for high-severity or emergency symptoms', async () => {
+    const highUrgencyInputArbitrary = fc.record({
+      patientId: validUuidArbitrary,
+      symptoms: fc.record({
+        primaryComplaint: fc.oneof(
+          fc.constant('severe chest pain'),
+          fc.constant('difficulty breathing'),
+          fc.constant('heart attack symptoms'),
+          fc.constant('stroke symptoms'),
+          fc.string({ minLength: 10, maxLength: 100 })
+        ),
+        duration: durationArbitrary,
+        severity: fc.integer({ min: 8, max: 10 }), // High severity
+        associatedSymptoms: associatedSymptomsArbitrary,
+        inputMethod: inputMethodArbitrary
+      })
+    });
+
+    await fc.assert(
+      fc.asyncProperty(highUrgencyInputArbitrary, async (symptomInput) => {
+        // Setup mocks
+        ddbMock.on(GetCommand).resolves({ Item: mockPatient });
+        ddbMock.on(PutCommand).resolves({});
+
+        const event = createApiGatewayEvent(symptomInput);
+        const result = await handler(event, mockContext);
+
+        expect(result.statusCode).toBe(200);
+
+        const responseBody = JSON.parse(result.body);
+        
+        // For high severity symptoms, urgency indicators should be present
+        if (symptomInput.symptoms.severity >= 8) {
+          expect(responseBody.urgencyIndicators).toBeDefined();
+          expect(Array.isArray(responseBody.urgencyIndicators)).toBe(true);
+          expect(responseBody.urgencyIndicators.length).toBeGreaterThan(0);
+        }
+
+        // Reset mocks
+        ddbMock.reset();
+      }),
+      { numRuns: 50 }
+    );
+  });
+
+  /**
+   * Property 4: Error Handling for Invalid Data
+   * **Validates: Requirements 1.4**
+   * 
+   * For any symptom input with missing essential information, the system should
+   * return appropriate validation errors without storing incomplete data.
+   */
+  it('Property 4: should handle invalid symptom data with appropriate error responses', async () => {
+    const invalidInputArbitrary = fc.oneof(
+      // Missing primary complaint
+      fc.record({
+        patientId: validUuidArbitrary,
+        symptoms: fc.record({
+          duration: durationArbitrary,
+          severity: severityArbitrary,
+          associatedSymptoms: associatedSymptomsArbitrary,
+          inputMethod: inputMethodArbitrary
+        })
+      }),
+      // Invalid severity
+      fc.record({
+        patientId: validUuidArbitrary,
+        symptoms: fc.record({
+          primaryComplaint: symptomComplaintArbitrary,
+          duration: durationArbitrary,
+          severity: fc.integer({ min: 11, max: 20 }), // Invalid range
+          associatedSymptoms: associatedSymptomsArbitrary,
+          inputMethod: inputMethodArbitrary
+        })
+      }),
+      // Invalid input method
+      fc.record({
+        patientId: validUuidArbitrary,
+        symptoms: fc.record({
+          primaryComplaint: symptomComplaintArbitrary,
+          duration: durationArbitrary,
+          severity: severityArbitrary,
+          associatedSymptoms: associatedSymptomsArbitrary,
+          inputMethod: fc.constant('invalid-method' as any)
+        })
+      })
+    );
+
+    await fc.assert(
+      fc.asyncProperty(invalidInputArbitrary, async (symptomInput) => {
+        const event = createApiGatewayEvent(symptomInput);
+        const result = await handler(event, mockContext);
+
+        // Should return validation error
+        expect(result.statusCode).toBe(400);
+        
+        const responseBody = JSON.parse(result.body);
+        expect(responseBody.error).toBe('Validation failed');
+        expect(responseBody.details).toBeDefined();
+        expect(Array.isArray(responseBody.details)).toBe(true);
+        expect(responseBody.details.length).toBeGreaterThan(0);
+
+        // Should not store invalid data
+        expect(ddbMock.commandCalls(PutCommand)).toHaveLength(0);
+
+        // Reset mocks
+        ddbMock.reset();
+      }),
+      { numRuns: 50 }
+    );
+  });
+
+  /**
+   * Property 5: CORS Headers Consistency
+   * **Validates: Requirements 9.2**
+   * 
+   * For any request (valid or invalid), the system should always return proper
+   * CORS headers for secure cross-origin communication.
+   */
+  it('Property 5: should always include proper CORS headers in all responses', async () => {
+    const anyInputArbitrary = fc.oneof(
+      validSymptomInputArbitrary,
+      fc.record({ invalid: fc.string() }), // Invalid structure
+      fc.constant(null) // No body
+    );
+
+    await fc.assert(
+      fc.asyncProperty(anyInputArbitrary, async (input) => {
+        const event: APIGatewayProxyEvent = {
+          body: input ? JSON.stringify(input) : null,
+          headers: {},
+          multiValueHeaders: {},
+          httpMethod: 'POST',
+          isBase64Encoded: false,
+          path: '/symptoms',
+          pathParameters: null,
+          queryStringParameters: null,
+          multiValueQueryStringParameters: null,
+          stageVariables: null,
+          requestContext: {} as any,
+          resource: ''
+        };
+
+        // Setup mocks for valid cases
+        if (input && 'patientId' in input) {
+          ddbMock.on(GetCommand).resolves({ Item: mockPatient });
+          ddbMock.on(PutCommand).resolves({});
+        }
+
+        const result = await handler(event, mockContext);
+
+        // CORS headers should always be present
+        expect(result.headers).toBeDefined();
+        expect(result.headers!['Content-Type']).toBe('application/json');
+        expect(result.headers!['Access-Control-Allow-Origin']).toBe('*');
+        expect(result.headers!['Access-Control-Allow-Headers']).toContain('Content-Type');
+        expect(result.headers!['Access-Control-Allow-Methods']).toContain('POST');
+
+        // Reset mocks
+        ddbMock.reset();
+      }),
+      { numRuns: 30 }
+    );
+  });
+});

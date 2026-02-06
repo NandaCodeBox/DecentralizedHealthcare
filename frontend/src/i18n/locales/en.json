@@ -1,0 +1,151 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "next": "Next",
+    "previous": "Previous",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "close": "Close",
+    "retry": "Retry",
+    "offline": "You are currently offline",
+    "online": "You are back online"
+  },
+  "navigation": {
+    "home": "Home",
+    "symptomIntake": "Report Symptoms",
+    "episodes": "My Episodes",
+    "profile": "Profile",
+    "settings": "Settings",
+    "help": "Help"
+  },
+  "symptomIntake": {
+    "title": "Report Your Symptoms",
+    "subtitle": "Please describe your symptoms so we can help you find the right care",
+    "primaryComplaint": "What is your main concern?",
+    "primaryComplaintPlaceholder": "Describe your main symptom or concern...",
+    "duration": "How long have you had these symptoms?",
+    "durationOptions": {
+      "lessThan1Hour": "Less than 1 hour",
+      "1to6Hours": "1-6 hours",
+      "6to24Hours": "6-24 hours",
+      "1to3Days": "1-3 days",
+      "3to7Days": "3-7 days",
+      "1to4Weeks": "1-4 weeks",
+      "moreThan4Weeks": "More than 4 weeks"
+    },
+    "severity": "How severe are your symptoms?",
+    "severityScale": "Rate from 1 (mild) to 10 (severe)",
+    "associatedSymptoms": "Do you have any other symptoms?",
+    "associatedSymptomsPlaceholder": "List any other symptoms you're experiencing...",
+    "medicalHistory": "Relevant Medical History",
+    "medicalHistoryPlaceholder": "Any relevant medical conditions, medications, or allergies...",
+    "emergencyWarning": "If this is a medical emergency, please call emergency services immediately or go to the nearest hospital.",
+    "validation": {
+      "primaryComplaintRequired": "Please describe your main concern",
+      "durationRequired": "Please select how long you've had these symptoms",
+      "severityRequired": "Please rate the severity of your symptoms",
+      "severityRange": "Severity must be between 1 and 10"
+    },
+    "submitSuccess": "Your symptoms have been reported successfully. You will receive care recommendations shortly.",
+    "submitError": "There was an error submitting your symptoms. Please try again."
+  },
+  "triage": {
+    "title": "Care Recommendations",
+    "subtitle": "Based on your symptoms, here are our recommendations:",
+    "urgencyLevels": {
+      "emergency": "Emergency Care Required",
+      "urgent": "Urgent Care Needed",
+      "routine": "Routine Care Recommended",
+      "selfCare": "Self-Care Guidance"
+    },
+    "emergencyMessage": "Please seek immediate medical attention at the nearest emergency room.",
+    "urgentMessage": "You should see a healthcare provider within the next few hours.",
+    "routineMessage": "Schedule an appointment with a healthcare provider in the next few days.",
+    "selfCareMessage": "You may be able to manage this at home with proper self-care.",
+    "pendingValidation": "Your case is being reviewed by a healthcare professional. Please wait for recommendations.",
+    "findProviders": "Find Healthcare Providers",
+    "selfCareInstructions": "Self-Care Instructions"
+  },
+  "providers": {
+    "title": "Healthcare Providers",
+    "subtitle": "Recommended providers based on your needs",
+    "noProviders": "No providers found matching your criteria",
+    "distance": "Distance",
+    "rating": "Rating",
+    "availability": "Availability",
+    "cost": "Estimated Cost",
+    "contact": "Contact",
+    "directions": "Get Directions",
+    "bookAppointment": "Book Appointment",
+    "filters": {
+      "specialty": "Specialty",
+      "distance": "Maximum Distance",
+      "cost": "Cost Range",
+      "availability": "Availability"
+    }
+  },
+  "episodes": {
+    "title": "My Care Episodes",
+    "subtitle": "Track your healthcare journey",
+    "noEpisodes": "You don't have any care episodes yet",
+    "status": {
+      "active": "Active",
+      "completed": "Completed",
+      "escalated": "Escalated"
+    },
+    "viewDetails": "View Details",
+    "episodeDetails": {
+      "symptoms": "Symptoms",
+      "triage": "Assessment",
+      "carePathway": "Care Plan",
+      "interactions": "Interactions",
+      "outcome": "Outcome"
+    }
+  },
+  "profile": {
+    "title": "My Profile",
+    "personalInfo": "Personal Information",
+    "medicalInfo": "Medical Information",
+    "preferences": "Preferences",
+    "name": "Full Name",
+    "age": "Age",
+    "gender": "Gender",
+    "location": "Location",
+    "phone": "Phone Number",
+    "email": "Email Address",
+    "emergencyContact": "Emergency Contact",
+    "medicalConditions": "Medical Conditions",
+    "medications": "Current Medications",
+    "allergies": "Allergies",
+    "insurance": "Insurance Information",
+    "preferredLanguage": "Preferred Language",
+    "providerGender": "Preferred Provider Gender",
+    "maxTravelDistance": "Maximum Travel Distance",
+    "costSensitivity": "Cost Sensitivity"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "notifications": "Notifications",
+    "privacy": "Privacy",
+    "about": "About",
+    "version": "Version",
+    "offlineMode": "Offline Mode",
+    "dataSync": "Data Synchronization",
+    "clearCache": "Clear Cache",
+    "exportData": "Export My Data"
+  },
+  "offline": {
+    "title": "Offline Mode",
+    "message": "You are currently offline. Your data will be saved and synchronized when you reconnect.",
+    "savedLocally": "Saved locally",
+    "willSyncWhenOnline": "Will sync when online",
+    "pendingSync": "Pending synchronization"
+  }
+}

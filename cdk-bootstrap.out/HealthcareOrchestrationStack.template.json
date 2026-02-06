@@ -1,0 +1,7324 @@
+{
+ "Description": "AI-enabled decentralized care orchestration system for India healthcare network",
+ "Resources": {
+  "PatientTable7407942F": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "patientId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "state",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "district",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "insuranceProvider",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "createdAt",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "PatientLocationIndex",
+      "KeySchema": [
+       {
+        "AttributeName": "state",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "district",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     },
+     {
+      "IndexName": "InsuranceProviderIndex",
+      "KeySchema": [
+       {
+        "AttributeName": "insuranceProvider",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "createdAt",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "patientId",
+      "KeyType": "HASH"
+     }
+    ],
+    "PointInTimeRecoverySpecification": {
+     "PointInTimeRecoveryEnabled": true
+    },
+    "SSESpecification": {
+     "SSEEnabled": true
+    },
+    "StreamSpecification": {
+     "StreamViewType": "NEW_AND_OLD_IMAGES"
+    },
+    "TableName": "healthcare-patients"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/PatientTable/Resource"
+   }
+  },
+  "EpisodeTable0271EE8C": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "episodeId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "patientId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "createdAt",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "status",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "updatedAt",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "urgencyLevel",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "validationStatus",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "PatientEpisodesIndex",
+      "KeySchema": [
+       {
+        "AttributeName": "patientId",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "createdAt",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     },
+     {
+      "IndexName": "EpisodeStatusIndex",
+      "KeySchema": [
+       {
+        "AttributeName": "status",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "updatedAt",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     },
+     {
+      "IndexName": "UrgencyLevelIndex",
+      "KeySchema": [
+       {
+        "AttributeName": "urgencyLevel",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "createdAt",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     },
+     {
+      "IndexName": "ValidationStatusIndex",
+      "KeySchema": [
+       {
+        "AttributeName": "validationStatus",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "updatedAt",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "episodeId",
+      "KeyType": "HASH"
+     }
+    ],
+    "PointInTimeRecoverySpecification": {
+     "PointInTimeRecoveryEnabled": true
+    },
+    "SSESpecification": {
+     "SSEEnabled": true
+    },
+    "StreamSpecification": {
+     "StreamViewType": "NEW_AND_OLD_IMAGES"
+    },
+    "TableName": "healthcare-episodes"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/EpisodeTable/Resource"
+   }
+  },
+  "ProviderTableEC5D0597": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "providerId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "state",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "district",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "primarySpecialty",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "rating",
+      "AttributeType": "N"
+     },
+     {
+      "AttributeName": "type",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "isActive",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "currentLoad",
+      "AttributeType": "N"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "LocationIndex",
+      "KeySchema": [
+       {
+        "AttributeName": "state",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "district",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     },
+     {
+      "IndexName": "SpecialtyIndex",
+      "KeySchema": [
+       {
+        "AttributeName": "primarySpecialty",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "rating",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     },
+     {
+      "IndexName": "TypeAvailabilityIndex",
+      "KeySchema": [
+       {
+        "AttributeName": "type",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "isActive",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     },
+     {
+      "IndexName": "CapacityIndex",
+      "KeySchema": [
+       {
+        "AttributeName": "type",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "currentLoad",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "providerId",
+      "KeyType": "HASH"
+     }
+    ],
+    "PointInTimeRecoverySpecification": {
+     "PointInTimeRecoveryEnabled": true
+    },
+    "SSESpecification": {
+     "SSEEnabled": true
+    },
+    "TableName": "healthcare-providers"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/ProviderTable/Resource"
+   }
+  },
+  "ReferralTableA1C513C2": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "referralId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "episodeId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "requestedAt",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "toProvider",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "status",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "urgency",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "EpisodeReferralsIndex",
+      "KeySchema": [
+       {
+        "AttributeName": "episodeId",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "requestedAt",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     },
+     {
+      "IndexName": "ProviderReferralsIndex",
+      "KeySchema": [
+       {
+        "AttributeName": "toProvider",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "status",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     },
+     {
+      "IndexName": "UrgencyStatusIndex",
+      "KeySchema": [
+       {
+        "AttributeName": "urgency",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "status",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "referralId",
+      "KeyType": "HASH"
+     }
+    ],
+    "PointInTimeRecoverySpecification": {
+     "PointInTimeRecoveryEnabled": true
+    },
+    "SSESpecification": {
+     "SSEEnabled": true
+    },
+    "TableName": "healthcare-referrals"
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/ReferralTable/Resource"
+   }
+  },
+  "HealthcareUserPoolsmsRole93A93D84": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Condition": {
+        "StringEquals": {
+         "sts:ExternalId": "HealthcareOrchestrationStackHealthcareUserPool368B74ED"
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "cognito-idp.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Policies": [
+     {
+      "PolicyDocument": {
+       "Statement": [
+        {
+         "Action": "sns:Publish",
+         "Effect": "Allow",
+         "Resource": "*"
+        }
+       ],
+       "Version": "2012-10-17"
+      },
+      "PolicyName": "sns-publish"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareUserPool/smsRole/Resource"
+   }
+  },
+  "HealthcareUserPoolB0B82BD7": {
+   "Type": "AWS::Cognito::UserPool",
+   "Properties": {
+    "AccountRecoverySetting": {
+     "RecoveryMechanisms": [
+      {
+       "Name": "verified_email",
+       "Priority": 1
+      },
+      {
+       "Name": "verified_phone_number",
+       "Priority": 2
+      }
+     ]
+    },
+    "AdminCreateUserConfig": {
+     "AllowAdminCreateUserOnly": false
+    },
+    "AutoVerifiedAttributes": [
+     "email",
+     "phone_number"
+    ],
+    "EmailVerificationMessage": "The verification code to your new account is {####}",
+    "EmailVerificationSubject": "Verify your new account",
+    "Policies": {
+     "PasswordPolicy": {
+      "MinimumLength": 8,
+      "RequireLowercase": true,
+      "RequireNumbers": true,
+      "RequireSymbols": true,
+      "RequireUppercase": true
+     }
+    },
+    "Schema": [
+     {
+      "Mutable": true,
+      "Name": "email",
+      "Required": true
+     },
+     {
+      "Mutable": true,
+      "Name": "phone_number",
+      "Required": true
+     },
+     {
+      "Mutable": true,
+      "Name": "given_name",
+      "Required": true
+     },
+     {
+      "Mutable": true,
+      "Name": "family_name",
+      "Required": true
+     },
+     {
+      "AttributeDataType": "String",
+      "Mutable": true,
+      "Name": "role",
+      "StringAttributeConstraints": {
+       "MaxLength": "50",
+       "MinLength": "1"
+      }
+     },
+     {
+      "AttributeDataType": "String",
+      "Mutable": true,
+      "Name": "organization",
+      "StringAttributeConstraints": {
+       "MaxLength": "100",
+       "MinLength": "1"
+      }
+     }
+    ],
+    "SmsConfiguration": {
+     "ExternalId": "HealthcareOrchestrationStackHealthcareUserPool368B74ED",
+     "SnsCallerArn": {
+      "Fn::GetAtt": [
+       "HealthcareUserPoolsmsRole93A93D84",
+       "Arn"
+      ]
+     }
+    },
+    "SmsVerificationMessage": "The verification code to your new account is {####}",
+    "UserPoolName": "healthcare-orchestration-users",
+    "UsernameAttributes": [
+     "email",
+     "phone_number"
+    ],
+    "VerificationMessageTemplate": {
+     "DefaultEmailOption": "CONFIRM_WITH_CODE",
+     "EmailMessage": "The verification code to your new account is {####}",
+     "EmailSubject": "Verify your new account",
+     "SmsMessage": "The verification code to your new account is {####}"
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareUserPool/Resource"
+   }
+  },
+  "HealthcareUserPoolClient222FAC30": {
+   "Type": "AWS::Cognito::UserPoolClient",
+   "Properties": {
+    "AccessTokenValidity": 60,
+    "AllowedOAuthFlows": [
+     "code"
+    ],
+    "AllowedOAuthFlowsUserPoolClient": true,
+    "AllowedOAuthScopes": [
+     "openid",
+     "email",
+     "profile"
+    ],
+    "CallbackURLs": [
+     "https://example.com"
+    ],
+    "ClientName": "healthcare-orchestration-client",
+    "ExplicitAuthFlows": [
+     "ALLOW_USER_PASSWORD_AUTH",
+     "ALLOW_ADMIN_USER_PASSWORD_AUTH",
+     "ALLOW_USER_SRP_AUTH",
+     "ALLOW_REFRESH_TOKEN_AUTH"
+    ],
+    "GenerateSecret": false,
+    "IdTokenValidity": 60,
+    "RefreshTokenValidity": 43200,
+    "SupportedIdentityProviders": [
+     "COGNITO"
+    ],
+    "TokenValidityUnits": {
+     "AccessToken": "minutes",
+     "IdToken": "minutes",
+     "RefreshToken": "minutes"
+    },
+    "UserPoolId": {
+     "Ref": "HealthcareUserPoolB0B82BD7"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareUserPoolClient/Resource"
+   }
+  },
+  "HealthcareAuthorizerFDB06FC9": {
+   "Type": "AWS::ApiGateway::Authorizer",
+   "Properties": {
+    "IdentitySource": "method.request.header.Authorization",
+    "Name": "healthcare-orchestration-authorizer",
+    "ProviderARNs": [
+     {
+      "Fn::GetAtt": [
+       "HealthcareUserPoolB0B82BD7",
+       "Arn"
+      ]
+     }
+    ],
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    },
+    "Type": "COGNITO_USER_POOLS"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareAuthorizer/Resource"
+   }
+  },
+  "NotificationTopicEB7A0DF1": {
+   "Type": "AWS::SNS::Topic",
+   "Properties": {
+    "DisplayName": "Healthcare Orchestration Notifications",
+    "TopicName": "healthcare-notifications"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/NotificationTopic/Resource"
+   }
+  },
+  "EmergencyAlertTopicF26533EF": {
+   "Type": "AWS::SNS::Topic",
+   "Properties": {
+    "DisplayName": "Healthcare Emergency Alerts",
+    "TopicName": "healthcare-emergency-alerts"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/EmergencyAlertTopic/Resource"
+   }
+  },
+  "AudioUploadBucket6CED280A": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "BucketName": "healthcare-audio-uploads-289892867722-us-east-1",
+    "CorsConfiguration": {
+     "CorsRules": [
+      {
+       "AllowedHeaders": [
+        "*"
+       ],
+       "AllowedMethods": [
+        "POST",
+        "PUT"
+       ],
+       "AllowedOrigins": [
+        "*"
+       ],
+       "MaxAge": 3000
+      }
+     ]
+    },
+    "LifecycleConfiguration": {
+     "Rules": [
+      {
+       "ExpirationInDays": 7,
+       "Id": "DeleteAudioFilesAfter7Days",
+       "Status": "Enabled"
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/AudioUploadBucket/Resource"
+   }
+  },
+  "HealthcareApi12A101EA": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Description": "API for AI-enabled decentralized care orchestration system",
+    "Name": "Healthcare Orchestration API"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Resource"
+   }
+  },
+  "HealthcareApiCloudWatchRoleEB46F72C": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "apigateway.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+       ]
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/CloudWatchRole/Resource"
+   }
+  },
+  "HealthcareApiAccountFA288AEF": {
+   "Type": "AWS::ApiGateway::Account",
+   "Properties": {
+    "CloudWatchRoleArn": {
+     "Fn::GetAtt": [
+      "HealthcareApiCloudWatchRoleEB46F72C",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "HealthcareApi12A101EA"
+   ],
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Account"
+   }
+  },
+  "HealthcareApiDeployment5DC2E099706827656fc6fb01bf217b029aa0d24d": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "API for AI-enabled decentralized care orchestration system",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "DependsOn": [
+    "HealthcareApicareOPTIONSB59E7442",
+    "HealthcareApicarePOSTB49CAB72",
+    "HealthcareApicare8A502699",
+    "HealthcareApiemergencyepisodeIdGET8E6CC47A",
+    "HealthcareApiemergencyepisodeIdOPTIONS625905CE",
+    "HealthcareApiemergencyepisodeIdE39064C6",
+    "HealthcareApiemergencyalertOPTIONSA35E9A9C",
+    "HealthcareApiemergencyalertPOST4EB1E888",
+    "HealthcareApiemergencyalertFBC8FDFF",
+    "HealthcareApiemergencyescalateOPTIONS5607B854",
+    "HealthcareApiemergencyescalatePOSTA7A4A254",
+    "HealthcareApiemergencyescalateE1F4EC45",
+    "HealthcareApiemergencyGET85405F00",
+    "HealthcareApiemergencyOPTIONSDE682A44",
+    "HealthcareApiemergencyPOST2142BFE8",
+    "HealthcareApiemergencyPUTAD663BC1",
+    "HealthcareApiemergency4A34C8F6",
+    "HealthcareApiepisodesepisodeIdGET5DD33C68",
+    "HealthcareApiepisodesepisodeIdOPTIONS2B2D24B9",
+    "HealthcareApiepisodesepisodeIdCC9ADF1F",
+    "HealthcareApiepisodesGETE9150A23",
+    "HealthcareApiepisodesOPTIONSC17DD524",
+    "HealthcareApiepisodes2DB8A090",
+    "HealthcareApihealthGETBDF82521",
+    "HealthcareApihealthOPTIONS4A08A92D",
+    "HealthcareApihealth324AAF91",
+    "HealthcareApiOPTIONS55DBC759",
+    "HealthcareApiprovidersproviderIdGET8487BEBA",
+    "HealthcareApiprovidersproviderIdOPTIONS526BDDBA",
+    "HealthcareApiprovidersproviderIdPUTC86C33A5",
+    "HealthcareApiprovidersproviderIdEDED55C4",
+    "HealthcareApiproviderscapacityGET79FC7CEC",
+    "HealthcareApiproviderscapacityOPTIONS0D6C085F",
+    "HealthcareApiproviderscapacityB90307E4",
+    "HealthcareApiproviderscapacityupdateOPTIONS12C866E0",
+    "HealthcareApiproviderscapacityupdatePOST38DF7B6A",
+    "HealthcareApiproviderscapacityupdate2C1A957A",
+    "HealthcareApiprovidersGET60233DD0",
+    "HealthcareApiprovidersOPTIONSB12B758C",
+    "HealthcareApiprovidersregisterOPTIONSB16D661E",
+    "HealthcareApiprovidersregisterPOSTDD05205B",
+    "HealthcareApiprovidersregister4DA8481B",
+    "HealthcareApiprovidersABC7AB52",
+    "HealthcareApiproviderssearchGETE4FDD5EF",
+    "HealthcareApiproviderssearchOPTIONSB2AC87C6",
+    "HealthcareApiproviderssearch67117171",
+    "HealthcareApireferralsGETFF7AC71E",
+    "HealthcareApireferralsOPTIONS4546505F",
+    "HealthcareApireferralsPOSTABA23A19",
+    "HealthcareApireferralsAA08F7E9",
+    "HealthcareApisymptomsOPTIONS4FB7DD3E",
+    "HealthcareApisymptomsPOST593DC731",
+    "HealthcareApisymptomspresignedurlOPTIONS3E5DBE64",
+    "HealthcareApisymptomspresignedurlPOST0760122C",
+    "HealthcareApisymptomspresignedurl38ECD5BF",
+    "HealthcareApisymptomsE870E576",
+    "HealthcareApisymptomsvoiceinputOPTIONSF065422F",
+    "HealthcareApisymptomsvoiceinputPOST562B31AC",
+    "HealthcareApisymptomsvoiceinput70B72A20",
+    "HealthcareApitriageOPTIONSC479487D",
+    "HealthcareApitriagePOSTB20AA714",
+    "HealthcareApitriageD01EEB7A",
+    "HealthcareApivalidationGET02B9C5C7",
+    "HealthcareApivalidationOPTIONS783EF9F5",
+    "HealthcareApivalidationPOSTB4F50A59",
+    "HealthcareApivalidationPUT9DD8C459",
+    "HealthcareApivalidation4A7CCB30",
+    "HealthcareAuthorizerFDB06FC9"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Deployment/Resource",
+    "aws:cdk:do-not-refactor": true
+   }
+  },
+  "HealthcareApiDeploymentStagev1F71232D0": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "HealthcareApiDeployment5DC2E099706827656fc6fb01bf217b029aa0d24d"
+    },
+    "MethodSettings": [
+     {
+      "DataTraceEnabled": true,
+      "HttpMethod": "*",
+      "LoggingLevel": "INFO",
+      "MetricsEnabled": true,
+      "ResourcePath": "/*"
+     }
+    ],
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    },
+    "StageName": "v1"
+   },
+   "DependsOn": [
+    "HealthcareApiAccountFA288AEF"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/DeploymentStage.v1/Resource"
+   }
+  },
+  "HealthcareApiOPTIONS55DBC759": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "HealthcareApi12A101EA",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApisymptomsE870E576": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "HealthcareApi12A101EA",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "symptoms",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/Resource"
+   }
+  },
+  "HealthcareApisymptomsOPTIONS4FB7DD3E": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApisymptomsE870E576"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApisymptomsPOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTsymptoms9EFA9253": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SymptomIntakeFunction27396F6B",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/POST/symptoms"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..symptoms"
+   }
+  },
+  "HealthcareApisymptomsPOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTsymptomsAD65AE84": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SymptomIntakeFunction27396F6B",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/POST/symptoms"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..symptoms"
+   }
+  },
+  "HealthcareApisymptomsPOST593DC731": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "SymptomIntakeFunction27396F6B",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApisymptomsE870E576"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/POST/Resource"
+   }
+  },
+  "HealthcareApisymptomsvoiceinput70B72A20": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "HealthcareApisymptomsE870E576"
+    },
+    "PathPart": "voice-input",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/voice-input/Resource"
+   }
+  },
+  "HealthcareApisymptomsvoiceinputOPTIONSF065422F": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApisymptomsvoiceinput70B72A20"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/voice-input/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApisymptomsvoiceinputPOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTsymptomsvoiceinput3B77D9C6": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SymptomIntakeFunction27396F6B",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/POST/symptoms/voice-input"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/voice-input/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..symptoms.voice-input"
+   }
+  },
+  "HealthcareApisymptomsvoiceinputPOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTsymptomsvoiceinput36BC4514": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SymptomIntakeFunction27396F6B",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/POST/symptoms/voice-input"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/voice-input/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..symptoms.voice-input"
+   }
+  },
+  "HealthcareApisymptomsvoiceinputPOST562B31AC": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "SymptomIntakeFunction27396F6B",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApisymptomsvoiceinput70B72A20"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/voice-input/POST/Resource"
+   }
+  },
+  "HealthcareApisymptomspresignedurl38ECD5BF": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "HealthcareApisymptomsE870E576"
+    },
+    "PathPart": "presigned-url",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/presigned-url/Resource"
+   }
+  },
+  "HealthcareApisymptomspresignedurlOPTIONS3E5DBE64": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApisymptomspresignedurl38ECD5BF"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/presigned-url/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApisymptomspresignedurlPOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTsymptomspresignedurlD723B054": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SymptomIntakeFunction27396F6B",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/POST/symptoms/presigned-url"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/presigned-url/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..symptoms.presigned-url"
+   }
+  },
+  "HealthcareApisymptomspresignedurlPOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTsymptomspresignedurlBFBC11AC": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SymptomIntakeFunction27396F6B",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/POST/symptoms/presigned-url"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/presigned-url/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..symptoms.presigned-url"
+   }
+  },
+  "HealthcareApisymptomspresignedurlPOST0760122C": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "SymptomIntakeFunction27396F6B",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApisymptomspresignedurl38ECD5BF"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/presigned-url/POST/Resource"
+   }
+  },
+  "HealthcareApitriageD01EEB7A": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "HealthcareApi12A101EA",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "triage",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/triage/Resource"
+   }
+  },
+  "HealthcareApitriageOPTIONSC479487D": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApitriageD01EEB7A"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/triage/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApitriagePOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTtriage8B9FC378": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "TriageEngineFunction708F6525",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/POST/triage"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/triage/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..triage"
+   }
+  },
+  "HealthcareApitriagePOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTtriage22F0AAC8": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "TriageEngineFunction708F6525",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/POST/triage"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/triage/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..triage"
+   }
+  },
+  "HealthcareApitriagePOSTB20AA714": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "TriageEngineFunction708F6525",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApitriageD01EEB7A"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/triage/POST/Resource"
+   }
+  },
+  "HealthcareApivalidation4A7CCB30": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "HealthcareApi12A101EA",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "validation",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/validation/Resource"
+   }
+  },
+  "HealthcareApivalidationOPTIONS783EF9F5": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApivalidation4A7CCB30"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/validation/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApivalidationPOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTvalidation737A7DF7": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "HumanValidationFunction9E900253",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/POST/validation"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/validation/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..validation"
+   }
+  },
+  "HealthcareApivalidationPOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTvalidation6F7B1264": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "HumanValidationFunction9E900253",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/POST/validation"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/validation/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..validation"
+   }
+  },
+  "HealthcareApivalidationPOSTB4F50A59": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "HumanValidationFunction9E900253",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApivalidation4A7CCB30"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/validation/POST/Resource"
+   }
+  },
+  "HealthcareApivalidationGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETvalidationBA7CB3AC": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "HumanValidationFunction9E900253",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/GET/validation"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/validation/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..validation"
+   }
+  },
+  "HealthcareApivalidationGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETvalidation4A56FB56": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "HumanValidationFunction9E900253",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/GET/validation"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/validation/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..validation"
+   }
+  },
+  "HealthcareApivalidationGET02B9C5C7": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "HumanValidationFunction9E900253",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApivalidation4A7CCB30"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/validation/GET/Resource"
+   }
+  },
+  "HealthcareApivalidationPUTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90PUTvalidationB33CE158": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "HumanValidationFunction9E900253",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/PUT/validation"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/validation/PUT/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.PUT..validation"
+   }
+  },
+  "HealthcareApivalidationPUTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90PUTvalidation442B6ED3": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "HumanValidationFunction9E900253",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/PUT/validation"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/validation/PUT/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.PUT..validation"
+   }
+  },
+  "HealthcareApivalidationPUT9DD8C459": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "PUT",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "HumanValidationFunction9E900253",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApivalidation4A7CCB30"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/validation/PUT/Resource"
+   }
+  },
+  "HealthcareApiemergency4A34C8F6": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "HealthcareApi12A101EA",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "emergency",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/Resource"
+   }
+  },
+  "HealthcareApiemergencyOPTIONSDE682A44": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApiemergency4A34C8F6"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApiemergencyPOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTemergencyF7B9A6BF": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "EmergencyAlertFunctionB0710E7F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/POST/emergency"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..emergency"
+   }
+  },
+  "HealthcareApiemergencyPOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTemergencyFCBDE897": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "EmergencyAlertFunctionB0710E7F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/POST/emergency"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..emergency"
+   }
+  },
+  "HealthcareApiemergencyPOST2142BFE8": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "EmergencyAlertFunctionB0710E7F",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApiemergency4A34C8F6"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/POST/Resource"
+   }
+  },
+  "HealthcareApiemergencyGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETemergency36ACFE82": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "EmergencyAlertFunctionB0710E7F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/GET/emergency"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..emergency"
+   }
+  },
+  "HealthcareApiemergencyGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETemergencyB31AEF91": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "EmergencyAlertFunctionB0710E7F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/GET/emergency"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..emergency"
+   }
+  },
+  "HealthcareApiemergencyGET85405F00": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "EmergencyAlertFunctionB0710E7F",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApiemergency4A34C8F6"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/GET/Resource"
+   }
+  },
+  "HealthcareApiemergencyPUTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90PUTemergency9A05E90F": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "EmergencyAlertFunctionB0710E7F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/PUT/emergency"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/PUT/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.PUT..emergency"
+   }
+  },
+  "HealthcareApiemergencyPUTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90PUTemergency06F4C08C": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "EmergencyAlertFunctionB0710E7F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/PUT/emergency"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/PUT/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.PUT..emergency"
+   }
+  },
+  "HealthcareApiemergencyPUTAD663BC1": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "PUT",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "EmergencyAlertFunctionB0710E7F",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApiemergency4A34C8F6"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/PUT/Resource"
+   }
+  },
+  "HealthcareApiemergencyalertFBC8FDFF": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "HealthcareApiemergency4A34C8F6"
+    },
+    "PathPart": "alert",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/alert/Resource"
+   }
+  },
+  "HealthcareApiemergencyalertOPTIONSA35E9A9C": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApiemergencyalertFBC8FDFF"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/alert/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApiemergencyalertPOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTemergencyalert47E3A5E2": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "EmergencyAlertFunctionB0710E7F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/POST/emergency/alert"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/alert/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..emergency.alert"
+   }
+  },
+  "HealthcareApiemergencyalertPOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTemergencyalertAE5170F0": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "EmergencyAlertFunctionB0710E7F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/POST/emergency/alert"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/alert/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..emergency.alert"
+   }
+  },
+  "HealthcareApiemergencyalertPOST4EB1E888": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "EmergencyAlertFunctionB0710E7F",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApiemergencyalertFBC8FDFF"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/alert/POST/Resource"
+   }
+  },
+  "HealthcareApiemergencyescalateE1F4EC45": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "HealthcareApiemergency4A34C8F6"
+    },
+    "PathPart": "escalate",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/escalate/Resource"
+   }
+  },
+  "HealthcareApiemergencyescalateOPTIONS5607B854": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApiemergencyescalateE1F4EC45"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/escalate/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApiemergencyescalatePOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTemergencyescalate5431813A": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "EmergencyAlertFunctionB0710E7F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/POST/emergency/escalate"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/escalate/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..emergency.escalate"
+   }
+  },
+  "HealthcareApiemergencyescalatePOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTemergencyescalate1AF028F4": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "EmergencyAlertFunctionB0710E7F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/POST/emergency/escalate"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/escalate/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..emergency.escalate"
+   }
+  },
+  "HealthcareApiemergencyescalatePOSTA7A4A254": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "EmergencyAlertFunctionB0710E7F",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApiemergencyescalateE1F4EC45"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/escalate/POST/Resource"
+   }
+  },
+  "HealthcareApiemergencyepisodeIdE39064C6": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "HealthcareApiemergency4A34C8F6"
+    },
+    "PathPart": "{episodeId}",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/{episodeId}/Resource"
+   }
+  },
+  "HealthcareApiemergencyepisodeIdOPTIONS625905CE": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApiemergencyepisodeIdE39064C6"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/{episodeId}/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApiemergencyepisodeIdGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETemergencyepisodeId26AF374C": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "EmergencyAlertFunctionB0710E7F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/GET/emergency/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/{episodeId}/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..emergency.{episodeId}"
+   }
+  },
+  "HealthcareApiemergencyepisodeIdGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETemergencyepisodeIdF3869E4A": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "EmergencyAlertFunctionB0710E7F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/GET/emergency/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/{episodeId}/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..emergency.{episodeId}"
+   }
+  },
+  "HealthcareApiemergencyepisodeIdGET8E6CC47A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "EmergencyAlertFunctionB0710E7F",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApiemergencyepisodeIdE39064C6"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/emergency/{episodeId}/GET/Resource"
+   }
+  },
+  "HealthcareApiprovidersABC7AB52": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "HealthcareApi12A101EA",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "providers",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/Resource"
+   }
+  },
+  "HealthcareApiprovidersOPTIONSB12B758C": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApiprovidersABC7AB52"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApiprovidersGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETproviders3EEF5DF1": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ProviderDiscoveryFunction29AB086F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/GET/providers"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..providers"
+   }
+  },
+  "HealthcareApiprovidersGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETprovidersFC796FD2": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ProviderDiscoveryFunction29AB086F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/GET/providers"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..providers"
+   }
+  },
+  "HealthcareApiprovidersGET60233DD0": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ProviderDiscoveryFunction29AB086F",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApiprovidersABC7AB52"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/GET/Resource"
+   }
+  },
+  "HealthcareApiproviderssearch67117171": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "HealthcareApiprovidersABC7AB52"
+    },
+    "PathPart": "search",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/search/Resource"
+   }
+  },
+  "HealthcareApiproviderssearchOPTIONSB2AC87C6": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApiproviderssearch67117171"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/search/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApiproviderssearchGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETproviderssearchFB3C8CE9": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ProviderDiscoveryFunction29AB086F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/GET/providers/search"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/search/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..providers.search"
+   }
+  },
+  "HealthcareApiproviderssearchGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETproviderssearchC048174C": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ProviderDiscoveryFunction29AB086F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/GET/providers/search"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/search/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..providers.search"
+   }
+  },
+  "HealthcareApiproviderssearchGETE4FDD5EF": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ProviderDiscoveryFunction29AB086F",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApiproviderssearch67117171"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/search/GET/Resource"
+   }
+  },
+  "HealthcareApiprovidersregister4DA8481B": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "HealthcareApiprovidersABC7AB52"
+    },
+    "PathPart": "register",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/register/Resource"
+   }
+  },
+  "HealthcareApiprovidersregisterOPTIONSB16D661E": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApiprovidersregister4DA8481B"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/register/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApiprovidersregisterPOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTprovidersregister167EA2C8": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ProviderDiscoveryFunction29AB086F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/POST/providers/register"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/register/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..providers.register"
+   }
+  },
+  "HealthcareApiprovidersregisterPOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTprovidersregisterB9A0E622": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ProviderDiscoveryFunction29AB086F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/POST/providers/register"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/register/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..providers.register"
+   }
+  },
+  "HealthcareApiprovidersregisterPOSTDD05205B": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ProviderDiscoveryFunction29AB086F",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApiprovidersregister4DA8481B"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/register/POST/Resource"
+   }
+  },
+  "HealthcareApiproviderscapacityB90307E4": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "HealthcareApiprovidersABC7AB52"
+    },
+    "PathPart": "capacity",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/Resource"
+   }
+  },
+  "HealthcareApiproviderscapacityOPTIONS0D6C085F": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApiproviderscapacityB90307E4"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApiproviderscapacityGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETproviderscapacityC5A5339E": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ProviderDiscoveryFunction29AB086F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/GET/providers/capacity"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..providers.capacity"
+   }
+  },
+  "HealthcareApiproviderscapacityGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETproviderscapacity975E8E71": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ProviderDiscoveryFunction29AB086F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/GET/providers/capacity"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..providers.capacity"
+   }
+  },
+  "HealthcareApiproviderscapacityGET79FC7CEC": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ProviderDiscoveryFunction29AB086F",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApiproviderscapacityB90307E4"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/GET/Resource"
+   }
+  },
+  "HealthcareApiproviderscapacityupdate2C1A957A": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "HealthcareApiproviderscapacityB90307E4"
+    },
+    "PathPart": "update",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/update/Resource"
+   }
+  },
+  "HealthcareApiproviderscapacityupdateOPTIONS12C866E0": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApiproviderscapacityupdate2C1A957A"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/update/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApiproviderscapacityupdatePOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTproviderscapacityupdate8E2F9EC9": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ProviderDiscoveryFunction29AB086F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/POST/providers/capacity/update"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/update/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..providers.capacity.update"
+   }
+  },
+  "HealthcareApiproviderscapacityupdatePOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTproviderscapacityupdateDC8CD66B": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ProviderDiscoveryFunction29AB086F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/POST/providers/capacity/update"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/update/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..providers.capacity.update"
+   }
+  },
+  "HealthcareApiproviderscapacityupdatePOST38DF7B6A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ProviderDiscoveryFunction29AB086F",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApiproviderscapacityupdate2C1A957A"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/update/POST/Resource"
+   }
+  },
+  "HealthcareApiprovidersproviderIdEDED55C4": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "HealthcareApiprovidersABC7AB52"
+    },
+    "PathPart": "{providerId}",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/{providerId}/Resource"
+   }
+  },
+  "HealthcareApiprovidersproviderIdOPTIONS526BDDBA": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApiprovidersproviderIdEDED55C4"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/{providerId}/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApiprovidersproviderIdGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETprovidersproviderIdB3DDA6EB": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ProviderDiscoveryFunction29AB086F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/GET/providers/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/{providerId}/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..providers.{providerId}"
+   }
+  },
+  "HealthcareApiprovidersproviderIdGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETprovidersproviderIdA3ED420F": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ProviderDiscoveryFunction29AB086F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/GET/providers/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/{providerId}/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..providers.{providerId}"
+   }
+  },
+  "HealthcareApiprovidersproviderIdGET8487BEBA": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ProviderDiscoveryFunction29AB086F",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApiprovidersproviderIdEDED55C4"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/{providerId}/GET/Resource"
+   }
+  },
+  "HealthcareApiprovidersproviderIdPUTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90PUTprovidersproviderIdBDC29F0A": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ProviderDiscoveryFunction29AB086F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/PUT/providers/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/{providerId}/PUT/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.PUT..providers.{providerId}"
+   }
+  },
+  "HealthcareApiprovidersproviderIdPUTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90PUTprovidersproviderIdF8536033": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ProviderDiscoveryFunction29AB086F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/PUT/providers/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/{providerId}/PUT/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.PUT..providers.{providerId}"
+   }
+  },
+  "HealthcareApiprovidersproviderIdPUTC86C33A5": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "PUT",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ProviderDiscoveryFunction29AB086F",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApiprovidersproviderIdEDED55C4"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/providers/{providerId}/PUT/Resource"
+   }
+  },
+  "HealthcareApicare8A502699": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "HealthcareApi12A101EA",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "care",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/care/Resource"
+   }
+  },
+  "HealthcareApicareOPTIONSB59E7442": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApicare8A502699"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/care/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApicarePOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTcare68F3237A": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "CareCoordinatorFunctionA4EEB982",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/POST/care"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/care/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..care"
+   }
+  },
+  "HealthcareApicarePOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTcare6A76097D": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "CareCoordinatorFunctionA4EEB982",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/POST/care"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/care/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..care"
+   }
+  },
+  "HealthcareApicarePOSTB49CAB72": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "CareCoordinatorFunctionA4EEB982",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApicare8A502699"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/care/POST/Resource"
+   }
+  },
+  "HealthcareApireferralsAA08F7E9": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "HealthcareApi12A101EA",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "referrals",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/referrals/Resource"
+   }
+  },
+  "HealthcareApireferralsOPTIONS4546505F": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApireferralsAA08F7E9"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/referrals/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApireferralsPOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTreferrals26B71150": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ReferralManagerFunction10B5BC7C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/POST/referrals"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/referrals/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..referrals"
+   }
+  },
+  "HealthcareApireferralsPOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTreferralsF1207996": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ReferralManagerFunction10B5BC7C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/POST/referrals"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/referrals/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..referrals"
+   }
+  },
+  "HealthcareApireferralsPOSTABA23A19": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ReferralManagerFunction10B5BC7C",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApireferralsAA08F7E9"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/referrals/POST/Resource"
+   }
+  },
+  "HealthcareApireferralsGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETreferralsC0FAA870": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ReferralManagerFunction10B5BC7C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/GET/referrals"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/referrals/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..referrals"
+   }
+  },
+  "HealthcareApireferralsGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETreferralsE7257474": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ReferralManagerFunction10B5BC7C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/GET/referrals"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/referrals/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..referrals"
+   }
+  },
+  "HealthcareApireferralsGETFF7AC71E": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "ReferralManagerFunction10B5BC7C",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApireferralsAA08F7E9"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/referrals/GET/Resource"
+   }
+  },
+  "HealthcareApiepisodes2DB8A090": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "HealthcareApi12A101EA",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "episodes",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/episodes/Resource"
+   }
+  },
+  "HealthcareApiepisodesOPTIONSC17DD524": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApiepisodes2DB8A090"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/episodes/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApiepisodesGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETepisodesD98A6A51": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "EpisodeTrackerFunction4D3E9467",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/GET/episodes"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/episodes/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..episodes"
+   }
+  },
+  "HealthcareApiepisodesGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETepisodes117A50F8": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "EpisodeTrackerFunction4D3E9467",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/GET/episodes"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/episodes/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..episodes"
+   }
+  },
+  "HealthcareApiepisodesGETE9150A23": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "EpisodeTrackerFunction4D3E9467",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApiepisodes2DB8A090"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/episodes/GET/Resource"
+   }
+  },
+  "HealthcareApiepisodesepisodeIdCC9ADF1F": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "HealthcareApiepisodes2DB8A090"
+    },
+    "PathPart": "{episodeId}",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/episodes/{episodeId}/Resource"
+   }
+  },
+  "HealthcareApiepisodesepisodeIdOPTIONS2B2D24B9": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApiepisodesepisodeIdCC9ADF1F"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/episodes/{episodeId}/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApiepisodesepisodeIdGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETepisodesepisodeId04887D75": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "EpisodeTrackerFunction4D3E9467",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/",
+       {
+        "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+       },
+       "/GET/episodes/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/episodes/{episodeId}/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..episodes.{episodeId}"
+   }
+  },
+  "HealthcareApiepisodesepisodeIdGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETepisodesepisodeId2DC40182": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "EpisodeTrackerFunction4D3E9467",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:289892867722:",
+       {
+        "Ref": "HealthcareApi12A101EA"
+       },
+       "/test-invoke-stage/GET/episodes/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/episodes/{episodeId}/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..episodes.{episodeId}"
+   }
+  },
+  "HealthcareApiepisodesepisodeIdGET5DD33C68": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "COGNITO_USER_POOLS",
+    "AuthorizerId": {
+     "Ref": "HealthcareAuthorizerFDB06FC9"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "EpisodeTrackerFunction4D3E9467",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "HealthcareApiepisodesepisodeIdCC9ADF1F"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/episodes/{episodeId}/GET/Resource"
+   }
+  },
+  "HealthcareApihealth324AAF91": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "HealthcareApi12A101EA",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "health",
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/health/Resource"
+   }
+  },
+  "HealthcareApihealthOPTIONS4A08A92D": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApihealth324AAF91"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/health/OPTIONS/Resource"
+   }
+  },
+  "HealthcareApihealthGETBDF82521": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseTemplates": {
+        "application/json": "{\"status\":\"healthy\",\"timestamp\":\"2026-02-01T10:09:21.237Z\",\"service\":\"healthcare-orchestration-api\"}"
+       },
+       "StatusCode": "200"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{\"statusCode\": 200}"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseModels": {
+       "application/json": "Empty"
+      },
+      "StatusCode": "200"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "HealthcareApihealth324AAF91"
+    },
+    "RestApiId": {
+     "Ref": "HealthcareApi12A101EA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HealthcareApi/Default/health/GET/Resource"
+   }
+  },
+  "SymptomIntakeFunctionServiceRole0826DE33": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/SymptomIntakeFunction/ServiceRole/Resource"
+   }
+  },
+  "SymptomIntakeFunctionServiceRoleDefaultPolicy4C7797C5": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "transcribe:GetTranscriptionJob",
+        "transcribe:ListTranscriptionJobs",
+        "transcribe:StartTranscriptionJob",
+        "xray:PutTelemetryRecords",
+        "xray:PutTraceSegments"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "EpisodeTable0271EE8C",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "PatientTable7407942F",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "EpisodeTable0271EE8C",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "PatientTable7407942F",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "AudioUploadBucket6CED280A",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "AudioUploadBucket6CED280A",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "SymptomIntakeFunctionServiceRoleDefaultPolicy4C7797C5",
+    "Roles": [
+     {
+      "Ref": "SymptomIntakeFunctionServiceRole0826DE33"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/SymptomIntakeFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "SymptomIntakeFunction27396F6B": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-289892867722-us-east-1",
+     "S3Key": "274eb5328af22174f4b33c550bc3fff6316ff2ecd2517058ffb66557cc04120b.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "PATIENT_TABLE_NAME": {
+       "Ref": "PatientTable7407942F"
+      },
+      "EPISODE_TABLE_NAME": {
+       "Ref": "EpisodeTable0271EE8C"
+      },
+      "AUDIO_UPLOAD_BUCKET": {
+       "Ref": "AudioUploadBucket6CED280A"
+      },
+      "NODE_OPTIONS": "--enable-source-maps"
+     }
+    },
+    "FunctionName": "healthcare-symptom-intake",
+    "Handler": "index.handler",
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "SymptomIntakeFunctionServiceRole0826DE33",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 60,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "SymptomIntakeFunctionServiceRoleDefaultPolicy4C7797C5",
+    "SymptomIntakeFunctionServiceRole0826DE33"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/SymptomIntakeFunction/Resource",
+    "aws:asset:path": "asset.274eb5328af22174f4b33c550bc3fff6316ff2ecd2517058ffb66557cc04120b",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "TriageEngineFunctionServiceRole0E01BDAE": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/TriageEngineFunction/ServiceRole/Resource"
+   }
+  },
+  "TriageEngineFunctionServiceRoleDefaultPolicy6440DB11": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "bedrock:InvokeModel",
+        "bedrock:InvokeModelWithResponseStream",
+        "xray:PutTelemetryRecords",
+        "xray:PutTraceSegments"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "EpisodeTable0271EE8C",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "EpisodeTable0271EE8C",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "TriageEngineFunctionServiceRoleDefaultPolicy6440DB11",
+    "Roles": [
+     {
+      "Ref": "TriageEngineFunctionServiceRole0E01BDAE"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/TriageEngineFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "TriageEngineFunction708F6525": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-289892867722-us-east-1",
+     "S3Key": "310ade83d8f6002536525aeae0869a2bfbf84fa649b939e97933c7bd81e90e82.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "EPISODE_TABLE_NAME": {
+       "Ref": "EpisodeTable0271EE8C"
+      },
+      "NODE_OPTIONS": "--enable-source-maps"
+     }
+    },
+    "FunctionName": "healthcare-triage-engine",
+    "Handler": "index.handler",
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "TriageEngineFunctionServiceRole0E01BDAE",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 60,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "TriageEngineFunctionServiceRoleDefaultPolicy6440DB11",
+    "TriageEngineFunctionServiceRole0E01BDAE"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/TriageEngineFunction/Resource",
+    "aws:asset:path": "asset.310ade83d8f6002536525aeae0869a2bfbf84fa649b939e97933c7bd81e90e82",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "HumanValidationFunctionServiceRoleB5D92B22": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HumanValidationFunction/ServiceRole/Resource"
+   }
+  },
+  "HumanValidationFunctionServiceRoleDefaultPolicy9AC35F7B": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTelemetryRecords",
+        "xray:PutTraceSegments"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "EpisodeTable0271EE8C",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "EpisodeTable0271EE8C",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "sns:Publish",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Ref": "EmergencyAlertTopicF26533EF"
+        },
+        {
+         "Ref": "NotificationTopicEB7A0DF1"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "HumanValidationFunctionServiceRoleDefaultPolicy9AC35F7B",
+    "Roles": [
+     {
+      "Ref": "HumanValidationFunctionServiceRoleB5D92B22"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HumanValidationFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "HumanValidationFunction9E900253": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-289892867722-us-east-1",
+     "S3Key": "15025225a25b8e38da6772832e2ac2d3f62b40822840a9af6b003bbcc85ff79d.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "EPISODE_TABLE_NAME": {
+       "Ref": "EpisodeTable0271EE8C"
+      },
+      "NOTIFICATION_TOPIC_ARN": {
+       "Ref": "NotificationTopicEB7A0DF1"
+      },
+      "EMERGENCY_ALERT_TOPIC_ARN": {
+       "Ref": "EmergencyAlertTopicF26533EF"
+      },
+      "NODE_OPTIONS": "--enable-source-maps"
+     }
+    },
+    "FunctionName": "healthcare-human-validation",
+    "Handler": "index.handler",
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "HumanValidationFunctionServiceRoleB5D92B22",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 60,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "HumanValidationFunctionServiceRoleDefaultPolicy9AC35F7B",
+    "HumanValidationFunctionServiceRoleB5D92B22"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/HumanValidationFunction/Resource",
+    "aws:asset:path": "asset.15025225a25b8e38da6772832e2ac2d3f62b40822840a9af6b003bbcc85ff79d",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "EmergencyAlertFunctionServiceRoleAA1D305B": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/EmergencyAlertFunction/ServiceRole/Resource"
+   }
+  },
+  "EmergencyAlertFunctionServiceRoleDefaultPolicyE11CBCD6": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTelemetryRecords",
+        "xray:PutTraceSegments"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "EpisodeTable0271EE8C",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "EpisodeTable0271EE8C",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "sns:Publish",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Ref": "EmergencyAlertTopicF26533EF"
+        },
+        {
+         "Ref": "NotificationTopicEB7A0DF1"
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:CreateTable",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "EpisodeTable0271EE8C",
+             "Arn"
+            ]
+           },
+           "-alerts"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "EpisodeTable0271EE8C",
+             "Arn"
+            ]
+           },
+           "-alerts/*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "EpisodeTable0271EE8C",
+             "Arn"
+            ]
+           },
+           "-escalations"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "EpisodeTable0271EE8C",
+             "Arn"
+            ]
+           },
+           "-escalations/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "EmergencyAlertFunctionServiceRoleDefaultPolicyE11CBCD6",
+    "Roles": [
+     {
+      "Ref": "EmergencyAlertFunctionServiceRoleAA1D305B"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/EmergencyAlertFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "EmergencyAlertFunctionB0710E7F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-289892867722-us-east-1",
+     "S3Key": "2cbc53701f6f588fbf834e9eca40aafc059b16828445e3fe38833ca8cf6f1cbe.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "EPISODE_TABLE_NAME": {
+       "Ref": "EpisodeTable0271EE8C"
+      },
+      "EMERGENCY_ALERT_TOPIC_ARN": {
+       "Ref": "EmergencyAlertTopicF26533EF"
+      },
+      "NOTIFICATION_TOPIC_ARN": {
+       "Ref": "NotificationTopicEB7A0DF1"
+      },
+      "NODE_OPTIONS": "--enable-source-maps"
+     }
+    },
+    "FunctionName": "healthcare-emergency-alert",
+    "Handler": "index.handler",
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "EmergencyAlertFunctionServiceRoleAA1D305B",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 90,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "EmergencyAlertFunctionServiceRoleDefaultPolicyE11CBCD6",
+    "EmergencyAlertFunctionServiceRoleAA1D305B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/EmergencyAlertFunction/Resource",
+    "aws:asset:path": "asset.2cbc53701f6f588fbf834e9eca40aafc059b16828445e3fe38833ca8cf6f1cbe",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ProviderDiscoveryFunctionServiceRole8BD4AE1E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/ProviderDiscoveryFunction/ServiceRole/Resource"
+   }
+  },
+  "ProviderDiscoveryFunctionServiceRoleDefaultPolicyEA78C0A6": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTelemetryRecords",
+        "xray:PutTraceSegments"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ProviderTableEC5D0597",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ProviderTableEC5D0597",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ProviderDiscoveryFunctionServiceRoleDefaultPolicyEA78C0A6",
+    "Roles": [
+     {
+      "Ref": "ProviderDiscoveryFunctionServiceRole8BD4AE1E"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/ProviderDiscoveryFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ProviderDiscoveryFunction29AB086F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-289892867722-us-east-1",
+     "S3Key": "ba3779fdb7a1796b85b3c6bfaf42dffb0a0ccfbda1610355cd02559d803398a9.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "PROVIDER_TABLE_NAME": {
+       "Ref": "ProviderTableEC5D0597"
+      },
+      "NODE_OPTIONS": "--enable-source-maps"
+     }
+    },
+    "FunctionName": "healthcare-provider-discovery",
+    "Handler": "index.handler",
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "ProviderDiscoveryFunctionServiceRole8BD4AE1E",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 60,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "ProviderDiscoveryFunctionServiceRoleDefaultPolicyEA78C0A6",
+    "ProviderDiscoveryFunctionServiceRole8BD4AE1E"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/ProviderDiscoveryFunction/Resource",
+    "aws:asset:path": "asset.ba3779fdb7a1796b85b3c6bfaf42dffb0a0ccfbda1610355cd02559d803398a9",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "CareCoordinatorFunctionServiceRole1DB058A1": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/CareCoordinatorFunction/ServiceRole/Resource"
+   }
+  },
+  "CareCoordinatorFunctionServiceRoleDefaultPolicy5BC56C21": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTelemetryRecords",
+        "xray:PutTraceSegments"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "EpisodeTable0271EE8C",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "EpisodeTable0271EE8C",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:Scan"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ProviderTableEC5D0597",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ProviderTableEC5D0597",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "sns:Publish",
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "NotificationTopicEB7A0DF1"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CareCoordinatorFunctionServiceRoleDefaultPolicy5BC56C21",
+    "Roles": [
+     {
+      "Ref": "CareCoordinatorFunctionServiceRole1DB058A1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/CareCoordinatorFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CareCoordinatorFunctionA4EEB982": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "ZipFile": "\n        exports.handler = async (event) => {\n          console.log('Care coordinator function called', JSON.stringify(event, null, 2));\n          return {\n            statusCode: 200,\n            headers: {\n              'Content-Type': 'application/json',\n              'Access-Control-Allow-Origin': '*',\n            },\n            body: JSON.stringify({\n              message: 'Care coordinator function - placeholder implementation',\n              carePathway: 'routine'\n            }),\n          };\n        };\n      "
+    },
+    "Environment": {
+     "Variables": {
+      "EPISODE_TABLE_NAME": {
+       "Ref": "EpisodeTable0271EE8C"
+      },
+      "PROVIDER_TABLE_NAME": {
+       "Ref": "ProviderTableEC5D0597"
+      },
+      "NOTIFICATION_TOPIC_ARN": {
+       "Ref": "NotificationTopicEB7A0DF1"
+      },
+      "NODE_OPTIONS": "--enable-source-maps"
+     }
+    },
+    "FunctionName": "healthcare-care-coordinator",
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "CareCoordinatorFunctionServiceRole1DB058A1",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 30,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "CareCoordinatorFunctionServiceRoleDefaultPolicy5BC56C21",
+    "CareCoordinatorFunctionServiceRole1DB058A1"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/CareCoordinatorFunction/Resource"
+   }
+  },
+  "ReferralManagerFunctionServiceRole5C581CB6": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/ReferralManagerFunction/ServiceRole/Resource"
+   }
+  },
+  "ReferralManagerFunctionServiceRoleDefaultPolicyEF81CDC9": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTelemetryRecords",
+        "xray:PutTraceSegments"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "EpisodeTable0271EE8C",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "ReferralTableA1C513C2",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "EpisodeTable0271EE8C",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ReferralTableA1C513C2",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "sns:Publish",
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "NotificationTopicEB7A0DF1"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ReferralManagerFunctionServiceRoleDefaultPolicyEF81CDC9",
+    "Roles": [
+     {
+      "Ref": "ReferralManagerFunctionServiceRole5C581CB6"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/ReferralManagerFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ReferralManagerFunction10B5BC7C": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "ZipFile": "\n        exports.handler = async (event) => {\n          console.log('Referral manager function called', JSON.stringify(event, null, 2));\n          return {\n            statusCode: 200,\n            headers: {\n              'Content-Type': 'application/json',\n              'Access-Control-Allow-Origin': '*',\n            },\n            body: JSON.stringify({\n              message: 'Referral manager function - placeholder implementation',\n              referralId: 'placeholder-referral-id'\n            }),\n          };\n        };\n      "
+    },
+    "Environment": {
+     "Variables": {
+      "REFERRAL_TABLE_NAME": {
+       "Ref": "ReferralTableA1C513C2"
+      },
+      "EPISODE_TABLE_NAME": {
+       "Ref": "EpisodeTable0271EE8C"
+      },
+      "NOTIFICATION_TOPIC_ARN": {
+       "Ref": "NotificationTopicEB7A0DF1"
+      },
+      "NODE_OPTIONS": "--enable-source-maps"
+     }
+    },
+    "FunctionName": "healthcare-referral-manager",
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "ReferralManagerFunctionServiceRole5C581CB6",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 30,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "ReferralManagerFunctionServiceRoleDefaultPolicyEF81CDC9",
+    "ReferralManagerFunctionServiceRole5C581CB6"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/ReferralManagerFunction/Resource"
+   }
+  },
+  "EpisodeTrackerFunctionServiceRoleA36DF913": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/EpisodeTrackerFunction/ServiceRole/Resource"
+   }
+  },
+  "EpisodeTrackerFunctionServiceRoleDefaultPolicy0F15080F": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "xray:PutTelemetryRecords",
+        "xray:PutTraceSegments"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "EpisodeTable0271EE8C",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "EpisodeTable0271EE8C",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "EpisodeTrackerFunctionServiceRoleDefaultPolicy0F15080F",
+    "Roles": [
+     {
+      "Ref": "EpisodeTrackerFunctionServiceRoleA36DF913"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/EpisodeTrackerFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "EpisodeTrackerFunction4D3E9467": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "ZipFile": "\n        exports.handler = async (event) => {\n          console.log('Episode tracker function called', JSON.stringify(event, null, 2));\n          return {\n            statusCode: 200,\n            headers: {\n              'Content-Type': 'application/json',\n              'Access-Control-Allow-Origin': '*',\n            },\n            body: JSON.stringify({\n              message: 'Episode tracker function - placeholder implementation',\n              episodes: []\n            }),\n          };\n        };\n      "
+    },
+    "Environment": {
+     "Variables": {
+      "EPISODE_TABLE_NAME": {
+       "Ref": "EpisodeTable0271EE8C"
+      },
+      "NODE_OPTIONS": "--enable-source-maps"
+     }
+    },
+    "FunctionName": "healthcare-episode-tracker",
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "EpisodeTrackerFunctionServiceRoleA36DF913",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 30,
+    "TracingConfig": {
+     "Mode": "Active"
+    }
+   },
+   "DependsOn": [
+    "EpisodeTrackerFunctionServiceRoleDefaultPolicy0F15080F",
+    "EpisodeTrackerFunctionServiceRoleA36DF913"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/EpisodeTrackerFunction/Resource"
+   }
+  },
+  "ApiGateway4xxAlarm7286C098": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": "API Gateway 4xx errors",
+    "AlarmName": "healthcare-api-4xx-errors",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "ApiName",
+      "Value": "Healthcare Orchestration API"
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "4XXError",
+    "Namespace": "AWS/ApiGateway",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 10,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/ApiGateway4xxAlarm/Resource"
+   }
+  },
+  "ApiGateway5xxAlarm4F808175": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": "API Gateway 5xx errors",
+    "AlarmName": "healthcare-api-5xx-errors",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "ApiName",
+      "Value": "Healthcare Orchestration API"
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "5XXError",
+    "Namespace": "AWS/ApiGateway",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 5,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/ApiGateway5xxAlarm/Resource"
+   }
+  },
+  "ApiGatewayLatencyAlarm5559E5F5": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": "API Gateway high latency",
+    "AlarmName": "healthcare-api-high-latency",
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "ApiName",
+      "Value": "Healthcare Orchestration API"
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "Latency",
+    "Namespace": "AWS/ApiGateway",
+    "Period": 300,
+    "Statistic": "Average",
+    "Threshold": 3000,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/ApiGatewayLatencyAlarm/Resource"
+   }
+  },
+  "Lambda0ErrorAlarm04835B74": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "SymptomIntakeFunction27396F6B"
+       },
+       " errors"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "SymptomIntakeFunction27396F6B"
+       },
+       "-errors"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "SymptomIntakeFunction27396F6B"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "Errors",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 5,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda0ErrorAlarm/Resource"
+   }
+  },
+  "Lambda0DurationAlarm1FA49862": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "SymptomIntakeFunction27396F6B"
+       },
+       " duration"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "SymptomIntakeFunction27396F6B"
+       },
+       "-duration"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "SymptomIntakeFunction27396F6B"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "Duration",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Average",
+    "Threshold": 60000,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda0DurationAlarm/Resource"
+   }
+  },
+  "Lambda0ThrottleAlarmA084A6E3": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "SymptomIntakeFunction27396F6B"
+       },
+       " throttles"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "SymptomIntakeFunction27396F6B"
+       },
+       "-throttles"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "SymptomIntakeFunction27396F6B"
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "Throttles",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 1,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda0ThrottleAlarm/Resource"
+   }
+  },
+  "Lambda1ErrorAlarm3D430303": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "TriageEngineFunction708F6525"
+       },
+       " errors"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "TriageEngineFunction708F6525"
+       },
+       "-errors"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "TriageEngineFunction708F6525"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "Errors",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 5,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda1ErrorAlarm/Resource"
+   }
+  },
+  "Lambda1DurationAlarmA644D490": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "TriageEngineFunction708F6525"
+       },
+       " duration"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "TriageEngineFunction708F6525"
+       },
+       "-duration"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "TriageEngineFunction708F6525"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "Duration",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Average",
+    "Threshold": 60000,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda1DurationAlarm/Resource"
+   }
+  },
+  "Lambda1ThrottleAlarm28E8455E": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "TriageEngineFunction708F6525"
+       },
+       " throttles"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "TriageEngineFunction708F6525"
+       },
+       "-throttles"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "TriageEngineFunction708F6525"
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "Throttles",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 1,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda1ThrottleAlarm/Resource"
+   }
+  },
+  "Lambda2ErrorAlarmD53BD066": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "HumanValidationFunction9E900253"
+       },
+       " errors"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "HumanValidationFunction9E900253"
+       },
+       "-errors"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "HumanValidationFunction9E900253"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "Errors",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 5,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda2ErrorAlarm/Resource"
+   }
+  },
+  "Lambda2DurationAlarm6C5E46E7": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "HumanValidationFunction9E900253"
+       },
+       " duration"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "HumanValidationFunction9E900253"
+       },
+       "-duration"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "HumanValidationFunction9E900253"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "Duration",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Average",
+    "Threshold": 60000,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda2DurationAlarm/Resource"
+   }
+  },
+  "Lambda2ThrottleAlarmC5400C03": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "HumanValidationFunction9E900253"
+       },
+       " throttles"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "HumanValidationFunction9E900253"
+       },
+       "-throttles"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "HumanValidationFunction9E900253"
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "Throttles",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 1,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda2ThrottleAlarm/Resource"
+   }
+  },
+  "Lambda3ErrorAlarmBEFF5195": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "EmergencyAlertFunctionB0710E7F"
+       },
+       " errors"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "EmergencyAlertFunctionB0710E7F"
+       },
+       "-errors"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "EmergencyAlertFunctionB0710E7F"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "Errors",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 5,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda3ErrorAlarm/Resource"
+   }
+  },
+  "Lambda3DurationAlarm30D00449": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "EmergencyAlertFunctionB0710E7F"
+       },
+       " duration"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "EmergencyAlertFunctionB0710E7F"
+       },
+       "-duration"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "EmergencyAlertFunctionB0710E7F"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "Duration",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Average",
+    "Threshold": 90000,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda3DurationAlarm/Resource"
+   }
+  },
+  "Lambda3ThrottleAlarm429F22BF": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "EmergencyAlertFunctionB0710E7F"
+       },
+       " throttles"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "EmergencyAlertFunctionB0710E7F"
+       },
+       "-throttles"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "EmergencyAlertFunctionB0710E7F"
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "Throttles",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 1,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda3ThrottleAlarm/Resource"
+   }
+  },
+  "Lambda4ErrorAlarm1FF4F617": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "ProviderDiscoveryFunction29AB086F"
+       },
+       " errors"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "ProviderDiscoveryFunction29AB086F"
+       },
+       "-errors"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "ProviderDiscoveryFunction29AB086F"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "Errors",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 5,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda4ErrorAlarm/Resource"
+   }
+  },
+  "Lambda4DurationAlarm2CB70651": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "ProviderDiscoveryFunction29AB086F"
+       },
+       " duration"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "ProviderDiscoveryFunction29AB086F"
+       },
+       "-duration"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "ProviderDiscoveryFunction29AB086F"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "Duration",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Average",
+    "Threshold": 60000,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda4DurationAlarm/Resource"
+   }
+  },
+  "Lambda4ThrottleAlarm3F8D75AF": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "ProviderDiscoveryFunction29AB086F"
+       },
+       " throttles"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "ProviderDiscoveryFunction29AB086F"
+       },
+       "-throttles"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "ProviderDiscoveryFunction29AB086F"
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "Throttles",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 1,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda4ThrottleAlarm/Resource"
+   }
+  },
+  "Lambda5ErrorAlarm8CB1CF1A": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "CareCoordinatorFunctionA4EEB982"
+       },
+       " errors"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "CareCoordinatorFunctionA4EEB982"
+       },
+       "-errors"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "CareCoordinatorFunctionA4EEB982"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "Errors",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 5,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda5ErrorAlarm/Resource"
+   }
+  },
+  "Lambda5DurationAlarm4FCB5DFC": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "CareCoordinatorFunctionA4EEB982"
+       },
+       " duration"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "CareCoordinatorFunctionA4EEB982"
+       },
+       "-duration"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "CareCoordinatorFunctionA4EEB982"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "Duration",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Average",
+    "Threshold": 30000,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda5DurationAlarm/Resource"
+   }
+  },
+  "Lambda5ThrottleAlarm6C3304FD": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "CareCoordinatorFunctionA4EEB982"
+       },
+       " throttles"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "CareCoordinatorFunctionA4EEB982"
+       },
+       "-throttles"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "CareCoordinatorFunctionA4EEB982"
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "Throttles",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 1,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda5ThrottleAlarm/Resource"
+   }
+  },
+  "Lambda6ErrorAlarm1E87C2F5": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "ReferralManagerFunction10B5BC7C"
+       },
+       " errors"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "ReferralManagerFunction10B5BC7C"
+       },
+       "-errors"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "ReferralManagerFunction10B5BC7C"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "Errors",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 5,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda6ErrorAlarm/Resource"
+   }
+  },
+  "Lambda6DurationAlarm6FBF645F": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "ReferralManagerFunction10B5BC7C"
+       },
+       " duration"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "ReferralManagerFunction10B5BC7C"
+       },
+       "-duration"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "ReferralManagerFunction10B5BC7C"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "Duration",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Average",
+    "Threshold": 30000,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda6DurationAlarm/Resource"
+   }
+  },
+  "Lambda6ThrottleAlarm0BC405C6": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "ReferralManagerFunction10B5BC7C"
+       },
+       " throttles"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "ReferralManagerFunction10B5BC7C"
+       },
+       "-throttles"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "ReferralManagerFunction10B5BC7C"
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "Throttles",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 1,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda6ThrottleAlarm/Resource"
+   }
+  },
+  "Lambda7ErrorAlarmAED6BE32": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "EpisodeTrackerFunction4D3E9467"
+       },
+       " errors"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "EpisodeTrackerFunction4D3E9467"
+       },
+       "-errors"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "EpisodeTrackerFunction4D3E9467"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "Errors",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 5,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda7ErrorAlarm/Resource"
+   }
+  },
+  "Lambda7DurationAlarm889F0967": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "EpisodeTrackerFunction4D3E9467"
+       },
+       " duration"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "EpisodeTrackerFunction4D3E9467"
+       },
+       "-duration"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "EpisodeTrackerFunction4D3E9467"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "Duration",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Average",
+    "Threshold": 30000,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda7DurationAlarm/Resource"
+   }
+  },
+  "Lambda7ThrottleAlarm9A9FDC0A": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmDescription": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function ",
+       {
+        "Ref": "EpisodeTrackerFunction4D3E9467"
+       },
+       " throttles"
+      ]
+     ]
+    },
+    "AlarmName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "EpisodeTrackerFunction4D3E9467"
+       },
+       "-throttles"
+      ]
+     ]
+    },
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "FunctionName",
+      "Value": {
+       "Ref": "EpisodeTrackerFunction4D3E9467"
+      }
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "Throttles",
+    "Namespace": "AWS/Lambda",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Threshold": 1,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/Lambda7ThrottleAlarm/Resource"
+   }
+  },
+  "ApiGatewayLogGroupA9770429": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": "/aws/apigateway/healthcare-orchestration",
+    "RetentionInDays": 30
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/ApiGatewayLogGroup/Resource"
+   }
+  },
+  "LambdaLogGroup2CA1C11F": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": "/aws/lambda/healthcare-orchestration",
+    "RetentionInDays": 30
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/LambdaLogGroup/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WQwW7DIBBEvyV3sk0dqXfHVXtp1chJzxHGxCHBrOWFWi7i3yuw3aanecuIWYYMsu0TbFZ8oLWob2utKvAHy8WN8YFOvh4Nb7GuwB95pSUrziZBYAIboyyC/yTZ7xF19H55gUIraey9NZ0EpngLvsQpM+ketRJjHCcKjHeq4VYOfARfTPuWGMqdvWCvvmUfb9xNpSSbdyrF/mEuBDpj2bPsNI7t/Ki76WB5k94yQSkJXS/kjpNk79JesI7mTIs7L0kcGBkCf8ROifRPEQKjLfidEzeZFs40ScwOTPO2qjn42Fv2rSJSaNiLM8JGKM5m4Rh24kTSEuRRmNDo6oFbcQGfa963qWqEwDQ2BP4Nm9ceXReNhUP4V+DD2c5ZlhJjeWWawAzWEq708JVlkD3CZnUlpda9M1a1EspJfwAMMhNMPgIAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "HealthcareOrchestrationStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "HealthcareApiEndpointB9DEFC4A": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "HealthcareApi12A101EA"
+      },
+      ".execute-api.us-east-1.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "ApiGatewayUrl": {
+   "Description": "API Gateway URL for the healthcare orchestration system",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "HealthcareApi12A101EA"
+      },
+      ".execute-api.us-east-1.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "HealthcareApiDeploymentStagev1F71232D0"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "UserPoolId": {
+   "Description": "Cognito User Pool ID",
+   "Value": {
+    "Ref": "HealthcareUserPoolB0B82BD7"
+   }
+  },
+  "UserPoolClientId": {
+   "Description": "Cognito User Pool Client ID",
+   "Value": {
+    "Ref": "HealthcareUserPoolClient222FAC30"
+   }
+  },
+  "NotificationTopicArn": {
+   "Description": "SNS Topic ARN for notifications",
+   "Value": {
+    "Ref": "NotificationTopicEB7A0DF1"
+   }
+  },
+  "EmergencyAlertTopicArn": {
+   "Description": "SNS Topic ARN for emergency alerts",
+   "Value": {
+    "Ref": "EmergencyAlertTopicF26533EF"
+   }
+  },
+  "AudioUploadBucketName": {
+   "Description": "S3 Bucket name for audio file uploads",
+   "Value": {
+    "Ref": "AudioUploadBucket6CED280A"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,533 @@
+// Property-based tests for Human Validation Lambda Function
+// Tests universal properties across all valid inputs
+
+import * as fc from 'fast-check';
+import { handler } from '../index';
+import { APIGatewayProxyEvent } from 'aws-lambda';
+import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
+import { SNSClient } from '@aws-sdk/client-sns';
+import { Episode, UrgencyLevel, EpisodeStatus, InputMethod, HumanValidation } from '../../../types';
+
+// Mock AWS SDK clients
+jest.mock('@aws-sdk/lib-dynamodb');
+jest.mock('@aws-sdk/client-sns');
+
+const mockDocClient = {
+  send: jest.fn()
+} as unknown as DynamoDBDocumentClient;
+
+const mockSNSClient = {
+  send: jest.fn()
+} as unknown as SNSClient;
+
+// Mock environment variables
+process.env.EPISODE_TABLE_NAME = 'test-episodes';
+process.env.NOTIFICATION_TOPIC_ARN = 'arn:aws:sns:us-east-1:123456789012:test-notifications';
+process.env.EMERGENCY_ALERT_TOPIC_ARN = 'arn:aws:sns:us-east-1:123456789012:test-emergency-alerts';
+
+describe('Human Validation Lambda - Property-Based Tests', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  // Generators for test data
+  const urgencyLevelArb = fc.constantFrom(...Object.values(UrgencyLevel));
+  const episodeStatusArb = fc.constantFrom(...Object.values(EpisodeStatus));
+  const inputMethodArb = fc.constantFrom(...Object.values(InputMethod));
+
+  const uuidArb = fc.string({ minLength: 36, maxLength: 36 }).map(s => 
+    s.replace(/[^a-f0-9-]/g, 'a').substring(0, 36)
+  );
+
+  const episodeArb = fc.record({
+    episodeId: uuidArb,
+    patientId: uuidArb,
+    status: episodeStatusArb,
+    symptoms: fc.record({
+      primaryComplaint: fc.string({ minLength: 1, maxLength: 100 }),
+      duration: fc.string({ minLength: 1, maxLength: 50 }),
+      severity: fc.integer({ min: 1, max: 10 }),
+      associatedSymptoms: fc.array(fc.string({ minLength: 1, maxLength: 50 }), { maxLength: 5 }),
+      inputMethod: inputMethodArb
+    }),
+    triage: fc.record({
+      urgencyLevel: urgencyLevelArb,
+      ruleBasedScore: fc.integer({ min: 0, max: 100 }),
+      aiAssessment: fc.record({
+        used: fc.boolean(),
+        confidence: fc.option(fc.float({ min: 0, max: 1 })),
+        reasoning: fc.option(fc.string({ maxLength: 200 }))
+      }),
+      finalScore: fc.integer({ min: 0, max: 100 })
+    }),
+    interactions: fc.array(fc.record({
+      timestamp: fc.date(),
+      type: fc.string({ minLength: 1, maxLength: 20 }),
+      actor: fc.string({ minLength: 1, maxLength: 50 }),
+      details: fc.object()
+    }), { maxLength: 3 }),
+    createdAt: fc.date(),
+    updatedAt: fc.date()
+  });
+
+  const humanValidationArb = fc.record({
+    supervisorId: uuidArb,
+    approved: fc.boolean(),
+    overrideReason: fc.option(fc.string({ minLength: 1, maxLength: 100 })),
+    timestamp: fc.date(),
+    notes: fc.option(fc.string({ minLength: 1, maxLength: 200 }))
+  });
+
+  const createMockEvent = (
+    httpMethod: string,
+    body?: any,
+    pathParameters?: any,
+    queryStringParameters?: any
+  ): APIGatewayProxyEvent => ({
+    httpMethod,
+    body: body ? JSON.stringify(body) : null,
+    pathParameters: pathParameters || null,
+    queryStringParameters: queryStringParameters || null,
+    headers: {},
+    multiValueHeaders: {},
+    isBase64Encoded: false,
+    path: '/validation',
+    resource: '/validation',
+    requestContext: {} as any,
+    stageVariables: null,
+    multiValueQueryStringParameters: null
+  });
+
+  /**
+   * Property 4: Human Validation Requirement
+   * For any AI-generated assessment, the Care_Orchestrator should require and wait for 
+   * Human_Supervisor validation before proceeding with patient routing.
+   * Validates: Requirements 2.4, 7.1, 7.4
+   */
+  describe('Property 4: Human Validation Requirement', () => {
+    it('should require human validation for all episodes with AI assessments', async () => {
+      await fc.assert(fc.asyncProperty(
+        episodeArb.filter(episode => episode.triage.aiAssessment.used),
+        uuidArb,
+        async (episode, supervisorId) => {
+          // Mock DynamoDB get episode
+          (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+            Item: episode
+          });
+
+          // Mock DynamoDB update operations
+          (mockDocClient.send as jest.Mock).mockResolvedValue({});
+
+          // Mock SNS publish
+          (mockSNSClient.send as jest.Mock).mockResolvedValue({
+            MessageId: 'test-msg-123'
+          });
+
+          const event = createMockEvent('POST', {
+            episodeId: episode.episodeId,
+            supervisorId
+          });
+
+          const result = await handler(event);
+
+          // Should successfully submit validation request
+          expect(result.statusCode).toBe(200);
+          
+          const body = JSON.parse(result.body);
+          expect(body.message).toBe('Validation request submitted successfully');
+          expect(body.episodeId).toBe(episode.episodeId);
+          expect(body.supervisorId).toBe(supervisorId);
+
+          // Should update episode validation status
+          expect(mockDocClient.send).toHaveBeenCalledWith(
+            expect.objectContaining({
+              UpdateExpression: expect.stringContaining('validationStatus = :status')
+            })
+          );
+
+          // Should send supervisor notification
+          expect(mockSNSClient.send).toHaveBeenCalled();
+        }
+      ), { numRuns: 50 });
+    });
+
+    it('should handle validation requests for episodes without AI assessment', async () => {
+      await fc.assert(fc.asyncProperty(
+        episodeArb.filter(episode => !episode.triage.aiAssessment.used),
+        uuidArb,
+        async (episode, supervisorId) => {
+          // Mock DynamoDB get episode
+          (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+            Item: episode
+          });
+
+          // Mock DynamoDB update operations
+          (mockDocClient.send as jest.Mock).mockResolvedValue({});
+
+          // Mock SNS publish
+          (mockSNSClient.send as jest.Mock).mockResolvedValue({
+            MessageId: 'test-msg-123'
+          });
+
+          const event = createMockEvent('POST', {
+            episodeId: episode.episodeId,
+            supervisorId
+          });
+
+          const result = await handler(event);
+
+          // Should still require validation even without AI assessment
+          expect(result.statusCode).toBe(200);
+          
+          const body = JSON.parse(result.body);
+          expect(body.message).toBe('Validation request submitted successfully');
+        }
+      ), { numRuns: 30 });
+    });
+  });
+
+  /**
+   * Property 14: Human Override Authority
+   * For any disagreement between Human_Supervisor and AI assessment, the system should 
+   * use human judgment as the final decision.
+   * Validates: Requirements 7.3
+   */
+  describe('Property 14: Human Override Authority', () => {
+    it('should accept human supervisor decisions regardless of AI assessment', async () => {
+      await fc.assert(fc.asyncProperty(
+        episodeArb,
+        humanValidationArb,
+        async (episode, validation) => {
+          // Mock DynamoDB get episode
+          (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+            Item: episode
+          });
+
+          // Mock DynamoDB update operations
+          (mockDocClient.send as jest.Mock).mockResolvedValue({});
+
+          // Mock SNS publish
+          (mockSNSClient.send as jest.Mock).mockResolvedValue({
+            MessageId: 'validation-msg-123'
+          });
+
+          const event = createMockEvent('PUT', {
+            episodeId: episode.episodeId,
+            supervisorId: validation.supervisorId,
+            approved: validation.approved,
+            overrideReason: validation.overrideReason,
+            notes: validation.notes
+          });
+
+          const result = await handler(event);
+
+          // Should accept supervisor decision
+          expect(result.statusCode).toBe(200);
+          
+          const body = JSON.parse(result.body);
+          expect(body.message).toBe('Validation decision recorded successfully');
+          expect(body.approved).toBe(validation.approved);
+
+          // Should update episode with human validation
+          expect(mockDocClient.send).toHaveBeenCalledWith(
+            expect.objectContaining({
+              UpdateExpression: expect.stringContaining('triage.humanValidation = :validation')
+            })
+          );
+
+          // Should update episode status based on approval
+          const expectedStatus = validation.approved ? EpisodeStatus.ACTIVE : EpisodeStatus.ESCALATED;
+          expect(body.newStatus).toBe(expectedStatus);
+        }
+      ), { numRuns: 50 });
+    });
+
+    it('should handle override decisions with proper escalation', async () => {
+      await fc.assert(fc.asyncProperty(
+        episodeArb,
+        humanValidationArb.filter(v => !v.approved && !!v.overrideReason),
+        async (episode, validation) => {
+          // Mock DynamoDB operations
+          (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+            Item: episode
+          });
+          (mockDocClient.send as jest.Mock).mockResolvedValue({});
+
+          // Mock SNS operations
+          (mockSNSClient.send as jest.Mock).mockResolvedValue({
+            MessageId: 'override-msg-123'
+          });
+
+          const event = createMockEvent('PUT', {
+            episodeId: episode.episodeId,
+            supervisorId: validation.supervisorId,
+            approved: validation.approved,
+            overrideReason: validation.overrideReason,
+            notes: validation.notes
+          });
+
+          const result = await handler(event);
+
+          // Should handle override with escalation
+          expect(result.statusCode).toBe(200);
+          expect(JSON.parse(result.body).newStatus).toBe(EpisodeStatus.ESCALATED);
+
+          // Should trigger escalation process
+          expect(mockSNSClient.send).toHaveBeenCalled();
+        }
+      ), { numRuns: 30 });
+    });
+  });
+
+  /**
+   * Property 5: Emergency Response Protocol
+   * For any emergency situation detected, the system should immediately alert 
+   * Human_Supervisor and provide hospital routing with complete contact details.
+   * Validates: Requirements 3.2, 7.2
+   */
+  describe('Property 5: Emergency Response Protocol', () => {
+    it('should immediately alert supervisors for emergency episodes', async () => {
+      await fc.assert(fc.asyncProperty(
+        episodeArb.filter(episode => episode.triage.urgencyLevel === UrgencyLevel.EMERGENCY),
+        uuidArb,
+        async (episode, supervisorId) => {
+          // Mock DynamoDB operations
+          (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+            Item: episode
+          });
+          (mockDocClient.send as jest.Mock).mockResolvedValue({});
+
+          // Mock SNS publish
+          (mockSNSClient.send as jest.Mock).mockResolvedValue({
+            MessageId: 'emergency-msg-123'
+          });
+
+          const event = createMockEvent('POST', {
+            episodeId: episode.episodeId,
+            supervisorId
+          });
+
+          const result = await handler(event);
+
+          // Should successfully handle emergency episode
+          expect(result.statusCode).toBe(200);
+          
+          const body = JSON.parse(result.body);
+          expect(body.urgencyLevel).toBe(UrgencyLevel.EMERGENCY);
+
+          // Should send emergency notification
+          expect(mockSNSClient.send).toHaveBeenCalled();
+          
+          // Verify emergency alert was sent to correct topic
+          const snsCall = (mockSNSClient.send as jest.Mock).mock.calls[0][0];
+          expect(snsCall.TopicArn).toBe(process.env.EMERGENCY_ALERT_TOPIC_ARN);
+        }
+      ), { numRuns: 30 });
+    });
+
+    it('should use regular notifications for non-emergency episodes', async () => {
+      await fc.assert(fc.asyncProperty(
+        episodeArb.filter(episode => episode.triage.urgencyLevel !== UrgencyLevel.EMERGENCY),
+        uuidArb,
+        async (episode, supervisorId) => {
+          // Mock DynamoDB operations
+          (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+            Item: episode
+          });
+          (mockDocClient.send as jest.Mock).mockResolvedValue({});
+
+          // Mock SNS publish
+          (mockSNSClient.send as jest.Mock).mockResolvedValue({
+            MessageId: 'regular-msg-123'
+          });
+
+          const event = createMockEvent('POST', {
+            episodeId: episode.episodeId,
+            supervisorId
+          });
+
+          const result = await handler(event);
+
+          // Should successfully handle non-emergency episode
+          expect(result.statusCode).toBe(200);
+
+          // Should send regular notification
+          expect(mockSNSClient.send).toHaveBeenCalled();
+          
+          // Verify regular notification was sent to correct topic
+          const snsCall = (mockSNSClient.send as jest.Mock).mock.calls[0][0];
+          expect(snsCall.TopicArn).toBe(process.env.NOTIFICATION_TOPIC_ARN);
+        }
+      ), { numRuns: 30 });
+    });
+  });
+
+  describe('Input Validation Properties', () => {
+    it('should reject requests with missing required fields', async () => {
+      await fc.assert(fc.asyncProperty(
+        fc.record({
+          episodeId: fc.option(uuidArb),
+          supervisorId: fc.option(uuidArb)
+        }),
+        async (requestBody) => {
+          // Only test cases where required fields are missing
+          if (requestBody.episodeId) return;
+
+          const event = createMockEvent('POST', requestBody);
+          const result = await handler(event);
+
+          // Should return 400 for missing required fields
+          expect(result.statusCode).toBe(400);
+          
+          const body = JSON.parse(result.body);
+          expect(body.error).toContain('Missing required field');
+        }
+      ), { numRuns: 20 });
+    });
+
+    it('should handle malformed request bodies gracefully', async () => {
+      await fc.assert(fc.asyncProperty(
+        fc.string(),
+        async (malformedBody) => {
+          const event = {
+            ...createMockEvent('POST'),
+            body: malformedBody
+          };
+
+          const result = await handler(event);
+
+          // Should handle malformed JSON gracefully
+          expect([200, 400, 500]).toContain(result.statusCode);
+          expect(result.body).toBeDefined();
+          
+          // Should return valid JSON response
+          expect(() => JSON.parse(result.body)).not.toThrow();
+        }
+      ), { numRuns: 20 });
+    });
+  });
+
+  describe('Queue Management Properties', () => {
+    it('should maintain queue ordering based on urgency and time', async () => {
+      await fc.assert(fc.asyncProperty(
+        fc.array(episodeArb, { minLength: 2, maxLength: 5 }),
+        async (episodes) => {
+          // Mock DynamoDB query for queue
+          (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+            Items: episodes
+          });
+
+          const event = createMockEvent('GET', null, null, {
+            limit: '10'
+          });
+
+          const result = await handler(event);
+
+          // Should return queue successfully
+          expect(result.statusCode).toBe(200);
+          
+          const body = JSON.parse(result.body);
+          expect(body.queue).toBeDefined();
+          expect(Array.isArray(body.queue)).toBe(true);
+
+          // Queue should be properly formatted
+          body.queue.forEach((item: any) => {
+            expect(item.episodeId).toBeDefined();
+            expect(item.urgencyLevel).toBeDefined();
+            expect(item.queuedAt).toBeDefined();
+          });
+        }
+      ), { numRuns: 20 });
+    });
+  });
+
+  describe('Error Handling Properties', () => {
+    it('should return appropriate HTTP status codes for all operations', async () => {
+      await fc.assert(fc.asyncProperty(
+        fc.constantFrom('GET', 'POST', 'PUT', 'DELETE', 'PATCH'),
+        fc.option(fc.object()),
+        async (httpMethod, body) => {
+          const event = createMockEvent(httpMethod, body);
+          const result = await handler(event);
+
+          // Should always return a valid HTTP status code
+          expect(result.statusCode).toBeGreaterThanOrEqual(200);
+          expect(result.statusCode).toBeLessThan(600);
+
+          // Should always return valid JSON
+          expect(() => JSON.parse(result.body)).not.toThrow();
+
+          // Should include CORS headers
+          expect(result.headers).toHaveProperty('Access-Control-Allow-Origin');
+          expect(result.headers).toHaveProperty('Content-Type');
+        }
+      ), { numRuns: 30 });
+    });
+
+    it('should handle database errors gracefully', async () => {
+      await fc.assert(fc.asyncProperty(
+        episodeArb,
+        async (episode) => {
+          // Mock DynamoDB error
+          (mockDocClient.send as jest.Mock).mockRejectedValueOnce(
+            new Error('Database connection failed')
+          );
+
+          const event = createMockEvent('POST', {
+            episodeId: episode.episodeId
+          });
+
+          const result = await handler(event);
+
+          // Should handle database errors gracefully
+          expect(result.statusCode).toBe(500);
+          
+          const body = JSON.parse(result.body);
+          expect(body.error).toBe('Internal server error during validation workflow');
+        }
+      ), { numRuns: 20 });
+    });
+  });
+
+  describe('Data Consistency Properties', () => {
+    it('should maintain data consistency across validation operations', async () => {
+      await fc.assert(fc.asyncProperty(
+        episodeArb,
+        humanValidationArb,
+        async (episode, validation) => {
+          // Mock successful DynamoDB operations
+          (mockDocClient.send as jest.Mock)
+            .mockResolvedValueOnce({ Item: episode }) // Get episode
+            .mockResolvedValue({}); // Update operations
+
+          // Mock SNS operations
+          (mockSNSClient.send as jest.Mock).mockResolvedValue({
+            MessageId: 'consistency-test-msg'
+          });
+
+          const event = createMockEvent('PUT', {
+            episodeId: episode.episodeId,
+            supervisorId: validation.supervisorId,
+            approved: validation.approved,
+            overrideReason: validation.overrideReason,
+            notes: validation.notes
+          });
+
+          const result = await handler(event);
+
+          if (result.statusCode === 200) {
+            const body = JSON.parse(result.body);
+            
+            // Response should be consistent with input
+            expect(body.episodeId).toBe(episode.episodeId);
+            expect(body.approved).toBe(validation.approved);
+            
+            // Status should be consistent with approval
+            const expectedStatus = validation.approved ? EpisodeStatus.ACTIVE : EpisodeStatus.ESCALATED;
+            expect(body.newStatus).toBe(expectedStatus);
+          }
+        }
+      ), { numRuns: 30 });
+    });
+  });
+});

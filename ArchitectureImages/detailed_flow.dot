@@ -1,0 +1,102 @@
+digraph DetailedFlow {
+    rankdir=LR;
+    bgcolor=white;
+    node [fontname="Arial", fontsize=9];
+    edge [fontname="Arial", fontsize=8];
+    
+    // Patient Journey Flow
+    subgraph cluster_patient_flow {
+        label="Patient Care Journey Flow";
+        style=filled;
+        fillcolor="#E8F6FF";
+        fontsize=14;
+        fontname="Arial Bold";
+        
+        // Step 1: Input
+        patient_input [label="Patient\nSymptom Input", shape=ellipse, style=filled, fillcolor="#4A90E2", fontcolor=white];
+        
+        // Step 2: Intake
+        symptom_intake [label="Symptom Intake\n(Lambda)", shape=box, style="rounded,filled", fillcolor="#FF9500", fontcolor=white];
+        
+        // Step 3: Rule Check
+        rule_check [label="Rule-Based\nTriage Check", shape=diamond, style=filled, fillcolor="#F5A623", fontcolor=white];
+        
+        // Step 4: AI Decision
+        ai_needed [label="AI Assessment\nNeeded?", shape=diamond, style=filled, fillcolor="#8B5CF6", fontcolor=white];
+        
+        // Step 5: AI Processing
+        ai_process [label="Bedrock AI\n(Claude 3 Haiku)", shape=box, style="rounded,filled", fillcolor="#8B5CF6", fontcolor=white];
+        
+        // Step 6: Human Validation
+        human_validation [label="Human Supervisor\nValidation", shape=box, style="rounded,filled", fillcolor="#7ED321", fontcolor=white];
+        
+        // Step 7: Care Routing
+        care_routing [label="Care Pathway\nRecommendation", shape=box, style="rounded,filled", fillcolor="#FF6B35", fontcolor=white];
+        
+        // Step 8: Provider Discovery
+        provider_search [label="Provider\nDiscovery", shape=box, style="rounded,filled", fillcolor="#D946EF", fontcolor=white];
+        
+        // Step 9: Final Assignment
+        final_assignment [label="Patient\nAssignment", shape=ellipse, style=filled, fillcolor="#059669", fontcolor=white];
+    }
+    
+    // Data Storage
+    subgraph cluster_storage {
+        label="Data Storage Layer";
+        style=filled;
+        fillcolor="#FFF8E1";
+        fontsize=12;
+        fontname="Arial Bold";
+        
+        patient_db [label="Patient Data\n(DynamoDB)", shape=cylinder, style=filled, fillcolor="#3F48CC", fontcolor=white];
+        provider_db [label="Provider Registry\n(DynamoDB)", shape=cylinder, style=filled, fillcolor="#3F48CC", fontcolor=white];
+        episode_db [label="Episode Tracking\n(DynamoDB)", shape=cylinder, style=filled, fillcolor="#3F48CC", fontcolor=white];
+    }
+    
+    // Monitoring & Alerts
+    subgraph cluster_monitoring {
+        label="Monitoring & Communication";
+        style=filled;
+        fillcolor="#F3E5F5";
+        fontsize=12;
+        fontname="Arial Bold";
+        
+        cloudwatch_monitor [label="CloudWatch\nMonitoring", shape=box, style="rounded,filled", fillcolor="#059669", fontcolor=white];
+        sns_alerts [label="SNS Alerts\n& Notifications", shape=box, style="rounded,filled", fillcolor="#D946EF", fontcolor=white];
+    }
+    
+    // Main Flow
+    patient_input -> symptom_intake [label="1", color="#4A90E2", penwidth=3];
+    symptom_intake -> rule_check [label="2", color="#333333", penwidth=2];
+    
+    rule_check -> ai_needed [label="Complex Case", color="#F5A623", penwidth=2];
+    rule_check -> human_validation [label="Simple Case", color="#7ED321", penwidth=2];
+    
+    ai_needed -> ai_process [label="Yes", color="#8B5CF6", penwidth=2];
+    ai_needed -> human_validation [label="No", color="#7ED321", penwidth=2];
+    
+    ai_process -> human_validation [label="3", color="#8B5CF6", penwidth=2];
+    human_validation -> care_routing [label="4", color="#7ED321", penwidth=2];
+    care_routing -> provider_search [label="5", color="#FF6B35", penwidth=2];
+    provider_search -> final_assignment [label="6", color="#D946EF", penwidth=2];
+    
+    // Data Connections
+    symptom_intake -> patient_db [style=dashed, color="#3F48CC"];
+    provider_search -> provider_db [style=dashed, color="#3F48CC"];
+    care_routing -> episode_db [style=dashed, color="#3F48CC"];
+    
+    // Monitoring Connections
+    symptom_intake -> cloudwatch_monitor [style=dotted, color="#059669"];
+    ai_process -> cloudwatch_monitor [style=dotted, color="#059669"];
+    human_validation -> cloudwatch_monitor [style=dotted, color="#059669"];
+    
+    // Alert Connections
+    human_validation -> sns_alerts [color="#D946EF", style=dashed];
+    final_assignment -> sns_alerts [color="#D946EF", style=dashed];
+    
+    // Cost Control Annotation
+    cost_control [label="Cost Control:\n• Max 1 AI call per episode\n• AWS Free Tier optimization\n• Human validation required", 
+                 shape=note, style=filled, fillcolor="#FFFACD", fontcolor="#8B4513"];
+    
+    ai_process -> cost_control [style=dotted, color="#8B4513"];
+}

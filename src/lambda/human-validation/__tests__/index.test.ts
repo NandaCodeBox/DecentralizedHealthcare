@@ -1,0 +1,471 @@
+// Unit tests for Human Validation Lambda Function
+// Tests specific examples and integration points
+
+import { handler } from '../index';
+import { APIGatewayProxyEvent } from 'aws-lambda';
+import { TestHelpers } from '../../../utils/test-helpers';
+import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
+import { SNSClient } from '@aws-sdk/client-sns';
+import { Episode, UrgencyLevel, EpisodeStatus, InputMethod } from '../../../types';
+
+// Mock AWS SDK clients
+jest.mock('@aws-sdk/lib-dynamodb');
+jest.mock('@aws-sdk/client-sns');
+
+const mockDocClient = {
+  send: jest.fn()
+} as unknown as DynamoDBDocumentClient;
+
+const mockSNSClient = {
+  send: jest.fn()
+} as unknown as SNSClient;
+
+// Mock environment variables
+process.env.EPISODE_TABLE_NAME = 'test-episodes';
+process.env.NOTIFICATION_TOPIC_ARN = 'arn:aws:sns:us-east-1:123456789012:test-notifications';
+process.env.EMERGENCY_ALERT_TOPIC_ARN = 'arn:aws:sns:us-east-1:123456789012:test-emergency-alerts';
+
+describe('Human Validation Lambda Handler', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  const createMockEvent = (
+    httpMethod: string,
+    body?: any,
+    pathParameters?: any,
+    queryStringParameters?: any
+  ): APIGatewayProxyEvent => ({
+    httpMethod,
+    body: body ? JSON.stringify(body) : null,
+    pathParameters: pathParameters || null,
+    queryStringParameters: queryStringParameters || null,
+    headers: {},
+    multiValueHeaders: {},
+    isBase64Encoded: false,
+    path: '/validation',
+    resource: '/validation',
+    requestContext: {} as any,
+    stageVariables: null,
+    multiValueQueryStringParameters: null
+  });
+
+  const createMockEpisode = (urgencyLevel: UrgencyLevel = UrgencyLevel.URGENT): Episode => ({
+    episodeId: 'episode-123',
+    patientId: 'patient-456',
+    status: EpisodeStatus.ACTIVE,
+    symptoms: {
+      primaryComplaint: 'Chest pain',
+      duration: '2 hours',
+      severity: 8,
+      associatedSymptoms: ['shortness of breath', 'nausea'],
+      inputMethod: InputMethod.TEXT
+    },
+    triage: {
+      urgencyLevel,
+      ruleBasedScore: 85,
+      aiAssessment: {
+        used: true,
+        confidence: 0.9,
+        reasoning: 'High severity chest pain with associated symptoms'
+      },
+      finalScore: 88
+    },
+    interactions: [],
+    createdAt: new Date(),
+    updatedAt: new Date()
+  });
+
+  describe('POST /validation - Handle Validation Request', () => {
+    it('should successfully submit validation request for episode with triage', async () => {
+      const mockEpisode = createMockEpisode();
+      
+      // Mock DynamoDB get episode
+      (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+        Item: mockEpisode
+      });
+
+      // Mock DynamoDB update operations
+      (mockDocClient.send as jest.Mock).mockResolvedValue({});
+
+      // Mock SNS publish
+      (mockSNSClient.send as jest.Mock).mockResolvedValue({
+        MessageId: 'msg-123'
+      });
+
+      const event = createMockEvent('POST', {
+        episodeId: 'episode-123',
+        supervisorId: 'supervisor-789'
+      });
+
+      const result = await handler(event);
+
+      expect(result.statusCode).toBe(200);
+      const body = TestHelpers.getLegacyResponseBody(result);
+      expect(body.message).toBe('Validation request submitted successfully');
+      expect(body.episodeId).toBe('episode-123');
+      expect(body.supervisorId).toBe('supervisor-789');
+      expect(body.urgencyLevel).toBe(UrgencyLevel.URGENT);
+    });
+
+    it('should return 400 for missing episodeId', async () => {
+      const event = createMockEvent('POST', {
+        supervisorId: 'supervisor-789'
+      });
+
+      const result = await handler(event);
+
+      expect(result.statusCode).toBe(400);
+      const body = TestHelpers.getLegacyResponseBody(result);
+      expect(body.error).toBe('Missing required field: episodeId');
+    });
+
+    it('should return 404 for non-existent episode', async () => {
+      // Mock DynamoDB get episode - not found
+      (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+        Item: null
+      });
+
+      const event = createMockEvent('POST', {
+        episodeId: 'non-existent-episode'
+      });
+
+      const result = await handler(event);
+
+      expect(result.statusCode).toBe(404);
+      const body = TestHelpers.getLegacyResponseBody(result);
+      expect(body.error).toBe('Episode not found');
+    });
+
+    it('should return 400 for episode without triage assessment', async () => {
+      const mockEpisode = createMockEpisode();
+      delete mockEpisode.triage;
+
+      // Mock DynamoDB get episode
+      (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+        Item: mockEpisode
+      });
+
+      const event = createMockEvent('POST', {
+        episodeId: 'episode-123'
+      });
+
+      const result = await handler(event);
+
+      expect(result.statusCode).toBe(400);
+      const body = TestHelpers.getLegacyResponseBody(result);
+      expect(body.error).toBe('Episode does not have triage assessment');
+    });
+
+    it('should handle emergency episodes with immediate notification', async () => {
+      const mockEpisode = createMockEpisode(UrgencyLevel.EMERGENCY);
+      
+      // Mock DynamoDB get episode
+      (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+        Item: mockEpisode
+      });
+
+      // Mock DynamoDB update operations
+      (mockDocClient.send as jest.Mock).mockResolvedValue({});
+
+      // Mock SNS publish
+      (mockSNSClient.send as jest.Mock).mockResolvedValue({
+        MessageId: 'emergency-msg-123'
+      });
+
+      const event = createMockEvent('POST', {
+        episodeId: 'episode-123',
+        supervisorId: 'emergency-supervisor'
+      });
+
+      const result = await handler(event);
+
+      expect(result.statusCode).toBe(200);
+      const body = TestHelpers.getLegacyResponseBody(result);
+      expect(body.urgencyLevel).toBe(UrgencyLevel.EMERGENCY);
+      
+      // Verify emergency notification was sent
+      expect(mockSNSClient.send).toHaveBeenCalled();
+    });
+  });
+
+  describe('GET /validation/{episodeId} - Get Validation Status', () => {
+    it('should return validation status for existing episode', async () => {
+      const mockEpisode = createMockEpisode();
+      mockEpisode.triage!.humanValidation = {
+        supervisorId: 'supervisor-789',
+        approved: true,
+        timestamp: new Date(),
+        notes: 'Approved after review'
+      };
+
+      // Mock DynamoDB get episode
+      (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+        Item: mockEpisode
+      });
+
+      const event = createMockEvent('GET', null, { episodeId: 'episode-123' });
+
+      const result = await handler(event);
+
+      expect(result.statusCode).toBe(200);
+      const body = TestHelpers.getLegacyResponseBody(result);
+      expect(body.episodeId).toBe('episode-123');
+      expect(body.validationStatus).toBe('completed');
+      expect(body.validation).toBeDefined();
+      expect(body.validation.approved).toBe(true);
+    });
+
+    it('should return pending status for episode without validation', async () => {
+      const mockEpisode = createMockEpisode();
+
+      // Mock DynamoDB get episode
+      (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+        Item: mockEpisode
+      });
+
+      const event = createMockEvent('GET', null, { episodeId: 'episode-123' });
+
+      const result = await handler(event);
+
+      expect(result.statusCode).toBe(200);
+      const body = TestHelpers.getLegacyResponseBody(result);
+      expect(body.validationStatus).toBe('pending');
+      expect(body.validation).toBeUndefined();
+    });
+  });
+
+  describe('GET /validation - Get Validation Queue', () => {
+    it('should return validation queue for supervisor', async () => {
+      const mockEpisodes = [
+        createMockEpisode(UrgencyLevel.EMERGENCY),
+        createMockEpisode(UrgencyLevel.URGENT)
+      ];
+
+      // Mock DynamoDB query for queue
+      (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+        Items: mockEpisodes
+      });
+
+      const event = createMockEvent('GET', null, null, {
+        supervisorId: 'supervisor-789',
+        limit: '10'
+      });
+
+      const result = await handler(event);
+
+      expect(result.statusCode).toBe(200);
+      const body = TestHelpers.getLegacyResponseBody(result);
+      expect(body.queue).toBeDefined();
+      expect(body.supervisorId).toBe('supervisor-789');
+      expect(Array.isArray(body.queue)).toBe(true);
+    });
+
+    it('should filter queue by urgency level', async () => {
+      const mockEpisodes = [createMockEpisode(UrgencyLevel.EMERGENCY)];
+
+      // Mock DynamoDB query for queue
+      (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+        Items: mockEpisodes
+      });
+
+      const event = createMockEvent('GET', null, null, {
+        urgency: UrgencyLevel.EMERGENCY,
+        limit: '5'
+      });
+
+      const result = await handler(event);
+
+      expect(result.statusCode).toBe(200);
+      const body = TestHelpers.getLegacyResponseBody(result);
+      expect(body.queue).toBeDefined();
+    });
+  });
+
+  describe('PUT /validation - Handle Validation Decision', () => {
+    it('should successfully record approval decision', async () => {
+      const mockEpisode = createMockEpisode();
+
+      // Mock DynamoDB get episode
+      (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+        Item: mockEpisode
+      });
+
+      // Mock DynamoDB update operations
+      (mockDocClient.send as jest.Mock).mockResolvedValue({});
+
+      // Mock SNS publish for care coordinator notification
+      (mockSNSClient.send as jest.Mock).mockResolvedValue({
+        MessageId: 'approval-msg-123'
+      });
+
+      const event = createMockEvent('PUT', {
+        episodeId: 'episode-123',
+        supervisorId: 'supervisor-789',
+        approved: true,
+        notes: 'Assessment looks correct, approved for care coordination'
+      });
+
+      const result = await handler(event);
+
+      expect(result.statusCode).toBe(200);
+      const body = TestHelpers.getLegacyResponseBody(result);
+      expect(body.message).toBe('Validation decision recorded successfully');
+      expect(body.approved).toBe(true);
+      expect(body.newStatus).toBe(EpisodeStatus.ACTIVE);
+    });
+
+    it('should handle override decision with escalation', async () => {
+      const mockEpisode = createMockEpisode();
+
+      // Mock DynamoDB get episode
+      (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+        Item: mockEpisode
+      });
+
+      // Mock DynamoDB update operations
+      (mockDocClient.send as jest.Mock).mockResolvedValue({});
+
+      // Mock SNS publish for escalation notification
+      (mockSNSClient.send as jest.Mock).mockResolvedValue({
+        MessageId: 'override-msg-123'
+      });
+
+      const event = createMockEvent('PUT', {
+        episodeId: 'episode-123',
+        supervisorId: 'supervisor-789',
+        approved: false,
+        overrideReason: 'AI assessment appears incorrect, symptoms suggest lower urgency',
+        notes: 'Recommend routine care instead of urgent'
+      });
+
+      const result = await handler(event);
+
+      expect(result.statusCode).toBe(200);
+      const body = TestHelpers.getLegacyResponseBody(result);
+      expect(body.approved).toBe(false);
+      expect(body.newStatus).toBe(EpisodeStatus.ESCALATED);
+    });
+
+    it('should return 400 for missing required fields', async () => {
+      const event = createMockEvent('PUT', {
+        episodeId: 'episode-123',
+        supervisorId: 'supervisor-789'
+        // Missing 'approved' field
+      });
+
+      const result = await handler(event);
+
+      expect(result.statusCode).toBe(400);
+      const body = TestHelpers.getLegacyResponseBody(result);
+      expect(body.error).toBe('Missing required fields: episodeId, supervisorId, approved');
+    });
+
+    it('should validate human validation data', async () => {
+      const mockEpisode = createMockEpisode();
+
+      // Mock DynamoDB get episode
+      (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+        Item: mockEpisode
+      });
+
+      const event = createMockEvent('PUT', {
+        episodeId: 'episode-123',
+        supervisorId: 'invalid-supervisor-id', // Invalid UUID format
+        approved: true
+      });
+
+      const result = await handler(event);
+
+      expect(result.statusCode).toBe(400);
+      const body = TestHelpers.getLegacyResponseBody(result);
+      expect(body.error).toContain('Invalid validation data');
+    });
+  });
+
+  describe('Error Handling', () => {
+    it('should return 405 for unsupported HTTP methods', async () => {
+      const event = createMockEvent('DELETE');
+
+      const result = await handler(event);
+
+      expect(result.statusCode).toBe(405);
+      const body = TestHelpers.getLegacyResponseBody(result);
+      expect(body.error).toBe('Method not allowed');
+    });
+
+    it('should handle DynamoDB errors gracefully', async () => {
+      // Mock DynamoDB error
+      (mockDocClient.send as jest.Mock).mockRejectedValueOnce(
+        new Error('DynamoDB connection failed')
+      );
+
+      const event = createMockEvent('POST', {
+        episodeId: 'episode-123'
+      });
+
+      const result = await handler(event);
+
+      expect(result.statusCode).toBe(500);
+      const body = TestHelpers.getLegacyResponseBody(result);
+      expect(body.error).toBe('Internal server error during validation workflow');
+    });
+
+    it('should handle SNS notification failures gracefully', async () => {
+      const mockEpisode = createMockEpisode();
+
+      // Mock DynamoDB get episode
+      (mockDocClient.send as jest.Mock).mockResolvedValueOnce({
+        Item: mockEpisode
+      });
+
+      // Mock DynamoDB update operations
+      (mockDocClient.send as jest.Mock).mockResolvedValue({});
+
+      // Mock SNS error
+      (mockSNSClient.send as jest.Mock).mockRejectedValueOnce(
+        new Error('SNS publish failed')
+      );
+
+      const event = createMockEvent('POST', {
+        episodeId: 'episode-123',
+        supervisorId: 'supervisor-789'
+      });
+
+      const result = await handler(event);
+
+      expect(result.statusCode).toBe(500);
+      const body = TestHelpers.getLegacyResponseBody(result);
+      expect(body.error).toBe('Internal server error during validation workflow');
+    });
+  });
+
+  describe('Integration with Services', () => {
+    it('should properly integrate with ValidationQueueManager', async () => {
+      const mockEpisode = createMockEpisode();
+
+      // Mock DynamoDB operations for queue management
+      (mockDocClient.send as jest.Mock)
+        .mockResolvedValueOnce({ Item: mockEpisode }) // Get episode
+        .mockResolvedValueOnce({}) // Add to queue
+        .mockResolvedValueOnce({}) // Update validation status
+        .mockResolvedValueOnce({ Items: [] }); // Get queue position
+
+      // Mock SNS publish
+      (mockSNSClient.send as jest.Mock).mockResolvedValue({
+        MessageId: 'integration-msg-123'
+      });
+
+      const event = createMockEvent('POST', {
+        episodeId: 'episode-123',
+        supervisorId: 'supervisor-789'
+      });
+
+      const result = await handler(event);
+
+      expect(result.statusCode).toBe(200);
+      expect(mockDocClient.send).toHaveBeenCalledTimes(4);
+      expect(mockSNSClient.send).toHaveBeenCalledTimes(1);
+    });
+  });
+});

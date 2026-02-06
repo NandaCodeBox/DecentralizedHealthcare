@@ -1,0 +1,81 @@
+"use strict";
+// Validation utility functions
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ValidationError = void 0;
+exports.validateData = validateData;
+exports.validateAndThrow = validateAndThrow;
+exports.createValidationMiddleware = createValidationMiddleware;
+exports.validateOrThrow = validateOrThrow;
+/**
+ * Validate data against a Joi schema
+ * @param schema - Joi schema to validate against
+ * @param data - Data to validate
+ * @returns Validation result with typed data or errors
+ */
+function validateData(schema, data) {
+    const { error, value } = schema.validate(data, {
+        abortEarly: false,
+        stripUnknown: true,
+        convert: true
+    });
+    if (error) {
+        return {
+            isValid: false,
+            errors: error.details.map(detail => detail.message)
+        };
+    }
+    return {
+        isValid: true,
+        data: value
+    };
+}
+/**
+ * Validate data and throw error if invalid
+ * @param schema - Joi schema to validate against
+ * @param data - Data to validate
+ * @returns Validated and typed data
+ * @throws Error if validation fails
+ */
+function validateAndThrow(schema, data) {
+    const result = validateData(schema, data);
+    if (!result.isValid) {
+        throw new Error(`Validation failed: ${result.errors?.join(', ')}`);
+    }
+    return result.data;
+}
+/**
+ * Create a validation middleware for Lambda functions
+ * @param schema - Joi schema to validate against
+ * @returns Validation function that can be used in Lambda handlers
+ */
+function createValidationMiddleware(schema) {
+    return (data) => {
+        return validateAndThrow(schema, data);
+    };
+}
+/**
+ * Validation error class for better error handling
+ */
+class ValidationError extends Error {
+    constructor(errors) {
+        super(`Validation failed: ${errors.join(', ')}`);
+        this.name = 'ValidationError';
+        this.errors = errors;
+    }
+}
+exports.ValidationError = ValidationError;
+/**
+ * Validate data and throw ValidationError if invalid
+ * @param schema - Joi schema to validate against
+ * @param data - Data to validate
+ * @returns Validated and typed data
+ * @throws ValidationError if validation fails
+ */
+function validateOrThrow(schema, data) {
+    const result = validateData(schema, data);
+    if (!result.isValid) {
+        throw new ValidationError(result.errors);
+    }
+    return result.data;
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidmFsaWRhdGlvbi11dGlscy5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy92YWxpZGF0aW9uL3ZhbGlkYXRpb24tdXRpbHMudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IjtBQUFBLCtCQUErQjs7O0FBbUIvQixvQ0FrQkM7QUFTRCw0Q0FRQztBQU9ELGdFQUlDO0FBc0JELDBDQVFDO0FBbEZEOzs7OztHQUtHO0FBQ0gsU0FBZ0IsWUFBWSxDQUFJLE1BQWtCLEVBQUUsSUFBUztJQUMzRCxNQUFNLEVBQUUsS0FBSyxFQUFFLEtBQUssRUFBRSxHQUFHLE1BQU0sQ0FBQyxRQUFRLENBQUMsSUFBSSxFQUFFO1FBQzdDLFVBQVUsRUFBRSxLQUFLO1FBQ2pCLFlBQVksRUFBRSxJQUFJO1FBQ2xCLE9BQU8sRUFBRSxJQUFJO0tBQ2QsQ0FBQyxDQUFDO0lBRUgsSUFBSSxLQUFLLEVBQUUsQ0FBQztRQUNWLE9BQU87WUFDTCxPQUFPLEVBQUUsS0FBSztZQUNkLE1BQU0sRUFBRSxLQUFLLENBQUMsT0FBTyxDQUFDLEdBQUcsQ0FBQyxNQUFNLENBQUMsRUFBRSxDQUFDLE1BQU0sQ0FBQyxPQUFPLENBQUM7U0FDcEQsQ0FBQztJQUNKLENBQUM7SUFFRCxPQUFPO1FBQ0wsT0FBTyxFQUFFLElBQUk7UUFDYixJQUFJLEVBQUUsS0FBVTtLQUNqQixDQUFDO0FBQ0osQ0FBQztBQUVEOzs7Ozs7R0FNRztBQUNILFNBQWdCLGdCQUFnQixDQUFJLE1BQWtCLEVBQUUsSUFBUztJQUMvRCxNQUFNLE1BQU0sR0FBRyxZQUFZLENBQUksTUFBTSxFQUFFLElBQUksQ0FBQyxDQUFDO0lBRTdDLElBQUksQ0FBQyxNQUFNLENBQUMsT0FBTyxFQUFFLENBQUM7UUFDcEIsTUFBTSxJQUFJLEtBQUssQ0FBQyxzQkFBc0IsTUFBTSxDQUFDLE1BQU0sRUFBRSxJQUFJLENBQUMsSUFBSSxDQUFDLEVBQUUsQ0FBQyxDQUFDO0lBQ3JFLENBQUM7SUFFRCxPQUFPLE1BQU0sQ0FBQyxJQUFLLENBQUM7QUFDdEIsQ0FBQztBQUVEOzs7O0dBSUc7QUFDSCxTQUFnQiwwQkFBMEIsQ0FBSSxNQUFrQjtJQUM5RCxPQUFPLENBQUMsSUFBUyxFQUFLLEVBQUU7UUFDdEIsT0FBTyxnQkFBZ0IsQ0FBSSxNQUFNLEVBQUUsSUFBSSxDQUFDLENBQUM7SUFDM0MsQ0FBQyxDQUFDO0FBQ0osQ0FBQztBQUVEOztHQUVHO0FBQ0gsTUFBYSxlQUFnQixTQUFRLEtBQUs7SUFHeEMsWUFBWSxNQUFnQjtRQUMxQixLQUFLLENBQUMsc0JBQXNCLE1BQU0sQ0FBQyxJQUFJLENBQUMsSUFBSSxDQUFDLEVBQUUsQ0FBQyxDQUFDO1FBQ2pELElBQUksQ0FBQyxJQUFJLEdBQUcsaUJBQWlCLENBQUM7UUFDOUIsSUFBSSxDQUFDLE1BQU0sR0FBRyxNQUFNLENBQUM7SUFDdkIsQ0FBQztDQUNGO0FBUkQsMENBUUM7QUFFRDs7Ozs7O0dBTUc7QUFDSCxTQUFnQixlQUFlLENBQUksTUFBa0IsRUFBRSxJQUFTO0lBQzlELE1BQU0sTUFBTSxHQUFHLFlBQVksQ0FBSSxNQUFNLEVBQUUsSUFBSSxDQUFDLENBQUM7SUFFN0MsSUFBSSxDQUFDLE1BQU0sQ0FBQyxPQUFPLEVBQUUsQ0FBQztRQUNwQixNQUFNLElBQUksZUFBZSxDQUFDLE1BQU0sQ0FBQyxNQUFPLENBQUMsQ0FBQztJQUM1QyxDQUFDO0lBRUQsT0FBTyxNQUFNLENBQUMsSUFBSyxDQUFDO0FBQ3RCLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIvLyBWYWxpZGF0aW9uIHV0aWxpdHkgZnVuY3Rpb25zXHJcblxyXG5pbXBvcnQgSm9pIGZyb20gJ2pvaSc7XHJcblxyXG4vKipcclxuICogVmFsaWRhdGlvbiByZXN1bHQgaW50ZXJmYWNlXHJcbiAqL1xyXG5leHBvcnQgaW50ZXJmYWNlIFZhbGlkYXRpb25SZXN1bHQ8VD4ge1xyXG4gIGlzVmFsaWQ6IGJvb2xlYW47XHJcbiAgZGF0YT86IFQ7XHJcbiAgZXJyb3JzPzogc3RyaW5nW107XHJcbn1cclxuXHJcbi8qKlxyXG4gKiBWYWxpZGF0ZSBkYXRhIGFnYWluc3QgYSBKb2kgc2NoZW1hXHJcbiAqIEBwYXJhbSBzY2hlbWEgLSBKb2kgc2NoZW1hIHRvIHZhbGlkYXRlIGFnYWluc3RcclxuICogQHBhcmFtIGRhdGEgLSBEYXRhIHRvIHZhbGlkYXRlXHJcbiAqIEByZXR1cm5zIFZhbGlkYXRpb24gcmVzdWx0IHdpdGggdHlwZWQgZGF0YSBvciBlcnJvcnNcclxuICovXHJcbmV4cG9ydCBmdW5jdGlvbiB2YWxpZGF0ZURhdGE8VD4oc2NoZW1hOiBKb2kuU2NoZW1hLCBkYXRhOiBhbnkpOiBWYWxpZGF0aW9uUmVzdWx0PFQ+IHtcclxuICBjb25zdCB7IGVycm9yLCB2YWx1ZSB9ID0gc2NoZW1hLnZhbGlkYXRlKGRhdGEsIHtcclxuICAgIGFib3J0RWFybHk6IGZhbHNlLFxyXG4gICAgc3RyaXBVbmtub3duOiB0cnVlLFxyXG4gICAgY29udmVydDogdHJ1ZVxyXG4gIH0pO1xyXG5cclxuICBpZiAoZXJyb3IpIHtcclxuICAgIHJldHVybiB7XHJcbiAgICAgIGlzVmFsaWQ6IGZhbHNlLFxyXG4gICAgICBlcnJvcnM6IGVycm9yLmRldGFpbHMubWFwKGRldGFpbCA9PiBkZXRhaWwubWVzc2FnZSlcclxuICAgIH07XHJcbiAgfVxyXG5cclxuICByZXR1cm4ge1xyXG4gICAgaXNWYWxpZDogdHJ1ZSxcclxuICAgIGRhdGE6IHZhbHVlIGFzIFRcclxuICB9O1xyXG59XHJcblxyXG4vKipcclxuICogVmFsaWRhdGUgZGF0YSBhbmQgdGhyb3cgZXJyb3IgaWYgaW52YWxpZFxyXG4gKiBAcGFyYW0gc2NoZW1hIC0gSm9pIHNjaGVtYSB0byB2YWxpZGF0ZSBhZ2FpbnN0XHJcbiAqIEBwYXJhbSBkYXRhIC0gRGF0YSB0byB2YWxpZGF0ZVxyXG4gKiBAcmV0dXJucyBWYWxpZGF0ZWQgYW5kIHR5cGVkIGRhdGFcclxuICogQHRocm93cyBFcnJvciBpZiB2YWxpZGF0aW9uIGZhaWxzXHJcbiAqL1xyXG5leHBvcnQgZnVuY3Rpb24gdmFsaWRhdGVBbmRUaHJvdzxUPihzY2hlbWE6IEpvaS5TY2hlbWEsIGRhdGE6IGFueSk6IFQge1xyXG4gIGNvbnN0IHJlc3VsdCA9IHZhbGlkYXRlRGF0YTxUPihzY2hlbWEsIGRhdGEpO1xyXG4gIFxyXG4gIGlmICghcmVzdWx0LmlzVmFsaWQpIHtcclxuICAgIHRocm93IG5ldyBFcnJvcihgVmFsaWRhdGlvbiBmYWlsZWQ6ICR7cmVzdWx0LmVycm9ycz8uam9pbignLCAnKX1gKTtcclxuICB9XHJcbiAgXHJcbiAgcmV0dXJuIHJlc3VsdC5kYXRhITtcclxufVxyXG5cclxuLyoqXHJcbiAqIENyZWF0ZSBhIHZhbGlkYXRpb24gbWlkZGxld2FyZSBmb3IgTGFtYmRhIGZ1bmN0aW9uc1xyXG4gKiBAcGFyYW0gc2NoZW1hIC0gSm9pIHNjaGVtYSB0byB2YWxpZGF0ZSBhZ2FpbnN0XHJcbiAqIEByZXR1cm5zIFZhbGlkYXRpb24gZnVuY3Rpb24gdGhhdCBjYW4gYmUgdXNlZCBpbiBMYW1iZGEgaGFuZGxlcnNcclxuICovXHJcbmV4cG9ydCBmdW5jdGlvbiBjcmVhdGVWYWxpZGF0aW9uTWlkZGxld2FyZTxUPihzY2hlbWE6IEpvaS5TY2hlbWEpIHtcclxuICByZXR1cm4gKGRhdGE6IGFueSk6IFQgPT4ge1xyXG4gICAgcmV0dXJuIHZhbGlkYXRlQW5kVGhyb3c8VD4oc2NoZW1hLCBkYXRhKTtcclxuICB9O1xyXG59XHJcblxyXG4vKipcclxuICogVmFsaWRhdGlvbiBlcnJvciBjbGFzcyBmb3IgYmV0dGVyIGVycm9yIGhhbmRsaW5nXHJcbiAqL1xyXG5leHBvcnQgY2xhc3MgVmFsaWRhdGlvbkVycm9yIGV4dGVuZHMgRXJyb3Ige1xyXG4gIHB1YmxpYyByZWFkb25seSBlcnJvcnM6IHN0cmluZ1tdO1xyXG5cclxuICBjb25zdHJ1Y3RvcihlcnJvcnM6IHN0cmluZ1tdKSB7XHJcbiAgICBzdXBlcihgVmFsaWRhdGlvbiBmYWlsZWQ6ICR7ZXJyb3JzLmpvaW4oJywgJyl9YCk7XHJcbiAgICB0aGlzLm5hbWUgPSAnVmFsaWRhdGlvbkVycm9yJztcclxuICAgIHRoaXMuZXJyb3JzID0gZXJyb3JzO1xyXG4gIH1cclxufVxyXG5cclxuLyoqXHJcbiAqIFZhbGlkYXRlIGRhdGEgYW5kIHRocm93IFZhbGlkYXRpb25FcnJvciBpZiBpbnZhbGlkXHJcbiAqIEBwYXJhbSBzY2hlbWEgLSBKb2kgc2NoZW1hIHRvIHZhbGlkYXRlIGFnYWluc3RcclxuICogQHBhcmFtIGRhdGEgLSBEYXRhIHRvIHZhbGlkYXRlXHJcbiAqIEByZXR1cm5zIFZhbGlkYXRlZCBhbmQgdHlwZWQgZGF0YVxyXG4gKiBAdGhyb3dzIFZhbGlkYXRpb25FcnJvciBpZiB2YWxpZGF0aW9uIGZhaWxzXHJcbiAqL1xyXG5leHBvcnQgZnVuY3Rpb24gdmFsaWRhdGVPclRocm93PFQ+KHNjaGVtYTogSm9pLlNjaGVtYSwgZGF0YTogYW55KTogVCB7XHJcbiAgY29uc3QgcmVzdWx0ID0gdmFsaWRhdGVEYXRhPFQ+KHNjaGVtYSwgZGF0YSk7XHJcbiAgXHJcbiAgaWYgKCFyZXN1bHQuaXNWYWxpZCkge1xyXG4gICAgdGhyb3cgbmV3IFZhbGlkYXRpb25FcnJvcihyZXN1bHQuZXJyb3JzISk7XHJcbiAgfVxyXG4gIFxyXG4gIHJldHVybiByZXN1bHQuZGF0YSE7XHJcbn0iXX0=

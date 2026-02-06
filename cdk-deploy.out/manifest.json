@@ -1,0 +1,1730 @@
+{
+  "version": "48.0.0",
+  "artifacts": {
+    "HealthcareOrchestrationStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "HealthcareOrchestrationStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "HealthcareOrchestrationStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://289892867722/us-east-1",
+      "properties": {
+        "templateFile": "HealthcareOrchestrationStack.template.json",
+        "terminationProtection": false,
+        "tags": {
+          "Environment": "development",
+          "Owner": "HealthcareTeam",
+          "Project": "HealthcareOrchestration"
+        },
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::289892867722:role/cdk-hnb659fds-deploy-role-289892867722-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::289892867722:role/cdk-hnb659fds-cfn-exec-role-289892867722-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-289892867722-us-east-1/e80d70e015e0cf48d6ca379ae2014be2c3e64b02f3310464d296abf37311ae5e.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "HealthcareOrchestrationStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::289892867722:role/cdk-hnb659fds-lookup-role-289892867722-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "HealthcareOrchestrationStack.assets"
+      ],
+      "metadata": {
+        "/HealthcareOrchestrationStack": [
+          {
+            "type": "aws:cdk:stack-tags",
+            "data": [
+              {
+                "Key": "Environment",
+                "Value": "development"
+              },
+              {
+                "Key": "Owner",
+                "Value": "HealthcareTeam"
+              },
+              {
+                "Key": "Project",
+                "Value": "HealthcareOrchestration"
+              }
+            ]
+          }
+        ],
+        "/HealthcareOrchestrationStack/PatientTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "PatientTable7407942F"
+            }
+          }
+        ],
+        "/HealthcareOrchestrationStack/PatientTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PatientTable7407942F"
+          }
+        ],
+        "/HealthcareOrchestrationStack/EpisodeTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "EpisodeTable0271EE8C"
+            }
+          }
+        ],
+        "/HealthcareOrchestrationStack/EpisodeTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EpisodeTable0271EE8C"
+          }
+        ],
+        "/HealthcareOrchestrationStack/ProviderTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "ProviderTableEC5D0597"
+            }
+          }
+        ],
+        "/HealthcareOrchestrationStack/ProviderTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProviderTableEC5D0597"
+          }
+        ],
+        "/HealthcareOrchestrationStack/ReferralTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "ReferralTableA1C513C2"
+            }
+          }
+        ],
+        "/HealthcareOrchestrationStack/ReferralTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ReferralTableA1C513C2"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareUserPool/smsRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareUserPoolsmsRole93A93D84"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareUserPool/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareUserPoolB0B82BD7"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareUserPoolClient/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareUserPoolClient222FAC30"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareAuthorizer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareAuthorizerFDB06FC9"
+          }
+        ],
+        "/HealthcareOrchestrationStack/NotificationTopic/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NotificationTopicEB7A0DF1"
+          }
+        ],
+        "/HealthcareOrchestrationStack/EmergencyAlertTopic/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmergencyAlertTopicF26533EF"
+          }
+        ],
+        "/HealthcareOrchestrationStack/AudioUploadBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AudioUploadBucket6CED280A"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApi12A101EA"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/CloudWatchRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiCloudWatchRoleEB46F72C"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Account": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiAccountFA288AEF"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiDeployment5DC2E09905f475e63a3564b2c329b1c8b424add8"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/DeploymentStage.v1/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiDeploymentStagev1F71232D0"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiEndpointB9DEFC4A"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiOPTIONS55DBC759"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApisymptomsE870E576"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApisymptomsOPTIONS4FB7DD3E"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..symptoms": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApisymptomsPOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTsymptoms9EFA9253"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..symptoms": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApisymptomsPOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTsymptomsAD65AE84"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApisymptomsPOST593DC731"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/voice-input/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApisymptomsvoiceinput70B72A20"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/voice-input/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApisymptomsvoiceinputOPTIONSF065422F"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/voice-input/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..symptoms.voice-input": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApisymptomsvoiceinputPOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTsymptomsvoiceinput3B77D9C6"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/voice-input/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..symptoms.voice-input": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApisymptomsvoiceinputPOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTsymptomsvoiceinput36BC4514"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/voice-input/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApisymptomsvoiceinputPOST562B31AC"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/presigned-url/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApisymptomspresignedurl38ECD5BF"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/presigned-url/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApisymptomspresignedurlOPTIONS3E5DBE64"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/presigned-url/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..symptoms.presigned-url": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApisymptomspresignedurlPOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTsymptomspresignedurlD723B054"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/presigned-url/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..symptoms.presigned-url": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApisymptomspresignedurlPOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTsymptomspresignedurlBFBC11AC"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/symptoms/presigned-url/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApisymptomspresignedurlPOST0760122C"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/triage/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApitriageD01EEB7A"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/triage/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApitriageOPTIONSC479487D"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/triage/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..triage": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApitriagePOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTtriage8B9FC378"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/triage/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..triage": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApitriagePOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTtriage22F0AAC8"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/triage/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApitriagePOSTB20AA714"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/validation/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApivalidation4A7CCB30"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/validation/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApivalidationOPTIONS783EF9F5"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/validation/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..validation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApivalidationPOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTvalidation737A7DF7"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/validation/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..validation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApivalidationPOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTvalidation6F7B1264"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/validation/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApivalidationPOSTB4F50A59"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/validation/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..validation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApivalidationGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETvalidationBA7CB3AC"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/validation/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..validation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApivalidationGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETvalidation4A56FB56"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/validation/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApivalidationGET02B9C5C7"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/validation/PUT/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.PUT..validation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApivalidationPUTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90PUTvalidationB33CE158"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/validation/PUT/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.PUT..validation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApivalidationPUTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90PUTvalidation442B6ED3"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/validation/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApivalidationPUT9DD8C459"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergency4A34C8F6"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyOPTIONSDE682A44"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..emergency": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyPOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTemergencyF7B9A6BF"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..emergency": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyPOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTemergencyFCBDE897"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyPOST2142BFE8"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..emergency": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETemergency36ACFE82"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..emergency": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETemergencyB31AEF91"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyGET85405F00"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/PUT/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.PUT..emergency": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyPUTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90PUTemergency9A05E90F"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/PUT/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.PUT..emergency": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyPUTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90PUTemergency06F4C08C"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyPUTAD663BC1"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/alert/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyalertFBC8FDFF"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/alert/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyalertOPTIONSA35E9A9C"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/alert/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..emergency.alert": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyalertPOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTemergencyalert47E3A5E2"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/alert/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..emergency.alert": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyalertPOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTemergencyalertAE5170F0"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/alert/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyalertPOST4EB1E888"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/escalate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyescalateE1F4EC45"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/escalate/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyescalateOPTIONS5607B854"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/escalate/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..emergency.escalate": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyescalatePOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTemergencyescalate5431813A"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/escalate/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..emergency.escalate": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyescalatePOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTemergencyescalate1AF028F4"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/escalate/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyescalatePOSTA7A4A254"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/{episodeId}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyepisodeIdE39064C6"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/{episodeId}/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyepisodeIdOPTIONS625905CE"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/{episodeId}/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..emergency.{episodeId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyepisodeIdGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETemergencyepisodeId26AF374C"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/{episodeId}/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..emergency.{episodeId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyepisodeIdGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETemergencyepisodeIdF3869E4A"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/emergency/{episodeId}/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiemergencyepisodeIdGET8E6CC47A"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiprovidersABC7AB52"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiprovidersOPTIONSB12B758C"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..providers": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiprovidersGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETproviders3EEF5DF1"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..providers": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiprovidersGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETprovidersFC796FD2"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiprovidersGET60233DD0"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/search/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiproviderssearch67117171"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/search/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiproviderssearchOPTIONSB2AC87C6"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/search/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..providers.search": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiproviderssearchGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETproviderssearchFB3C8CE9"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/search/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..providers.search": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiproviderssearchGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETproviderssearchC048174C"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/search/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiproviderssearchGETE4FDD5EF"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/register/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiprovidersregister4DA8481B"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/register/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiprovidersregisterOPTIONSB16D661E"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/register/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..providers.register": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiprovidersregisterPOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTprovidersregister167EA2C8"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/register/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..providers.register": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiprovidersregisterPOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTprovidersregisterB9A0E622"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/register/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiprovidersregisterPOSTDD05205B"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiproviderscapacityB90307E4"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiproviderscapacityOPTIONS0D6C085F"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..providers.capacity": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiproviderscapacityGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETproviderscapacityC5A5339E"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..providers.capacity": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiproviderscapacityGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETproviderscapacity975E8E71"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiproviderscapacityGET79FC7CEC"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/update/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiproviderscapacityupdate2C1A957A"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/update/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiproviderscapacityupdateOPTIONS12C866E0"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/update/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..providers.capacity.update": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiproviderscapacityupdatePOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTproviderscapacityupdate8E2F9EC9"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/update/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..providers.capacity.update": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiproviderscapacityupdatePOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTproviderscapacityupdateDC8CD66B"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/capacity/update/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiproviderscapacityupdatePOST38DF7B6A"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/{providerId}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiprovidersproviderIdEDED55C4"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/{providerId}/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiprovidersproviderIdOPTIONS526BDDBA"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/{providerId}/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..providers.{providerId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiprovidersproviderIdGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETprovidersproviderIdB3DDA6EB"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/{providerId}/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..providers.{providerId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiprovidersproviderIdGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETprovidersproviderIdA3ED420F"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/{providerId}/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiprovidersproviderIdGET8487BEBA"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/{providerId}/PUT/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.PUT..providers.{providerId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiprovidersproviderIdPUTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90PUTprovidersproviderIdBDC29F0A"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/{providerId}/PUT/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.PUT..providers.{providerId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiprovidersproviderIdPUTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90PUTprovidersproviderIdF8536033"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/providers/{providerId}/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiprovidersproviderIdPUTC86C33A5"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/care/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApicare8A502699"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/care/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApicareOPTIONSB59E7442"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/care/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..care": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApicarePOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTcare68F3237A"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/care/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..care": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApicarePOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTcare6A76097D"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/care/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApicarePOSTB49CAB72"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/referrals/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApireferralsAA08F7E9"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/referrals/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApireferralsOPTIONS4546505F"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/referrals/POST/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..referrals": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApireferralsPOSTApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTreferrals26B71150"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/referrals/POST/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.POST..referrals": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApireferralsPOSTApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90POSTreferralsF1207996"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/referrals/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApireferralsPOSTABA23A19"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/referrals/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..referrals": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApireferralsGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETreferralsC0FAA870"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/referrals/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..referrals": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApireferralsGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETreferralsE7257474"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/referrals/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApireferralsGETFF7AC71E"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/episodes/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiepisodes2DB8A090"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/episodes/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiepisodesOPTIONSC17DD524"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/episodes/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..episodes": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiepisodesGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETepisodesD98A6A51"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/episodes/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..episodes": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiepisodesGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETepisodes117A50F8"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/episodes/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiepisodesGETE9150A23"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/episodes/{episodeId}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiepisodesepisodeIdCC9ADF1F"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/episodes/{episodeId}/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiepisodesepisodeIdOPTIONS2B2D24B9"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/episodes/{episodeId}/GET/ApiPermission.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..episodes.{episodeId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiepisodesepisodeIdGETApiPermissionHealthcareOrchestrationStackHealthcareApi6AE8BD90GETepisodesepisodeId04887D75"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/episodes/{episodeId}/GET/ApiPermission.Test.HealthcareOrchestrationStackHealthcareApi6AE8BD90.GET..episodes.{episodeId}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiepisodesepisodeIdGETApiPermissionTestHealthcareOrchestrationStackHealthcareApi6AE8BD90GETepisodesepisodeId2DC40182"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/episodes/{episodeId}/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApiepisodesepisodeIdGET5DD33C68"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/health/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApihealth324AAF91"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/health/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApihealthOPTIONS4A08A92D"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HealthcareApi/Default/health/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthcareApihealthGETBDF82521"
+          }
+        ],
+        "/HealthcareOrchestrationStack/SymptomIntakeFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SymptomIntakeFunctionServiceRole0826DE33"
+          }
+        ],
+        "/HealthcareOrchestrationStack/SymptomIntakeFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SymptomIntakeFunctionServiceRoleDefaultPolicy4C7797C5"
+          }
+        ],
+        "/HealthcareOrchestrationStack/SymptomIntakeFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SymptomIntakeFunction27396F6B"
+          }
+        ],
+        "/HealthcareOrchestrationStack/TriageEngineFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TriageEngineFunctionServiceRole0E01BDAE"
+          }
+        ],
+        "/HealthcareOrchestrationStack/TriageEngineFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TriageEngineFunctionServiceRoleDefaultPolicy6440DB11"
+          }
+        ],
+        "/HealthcareOrchestrationStack/TriageEngineFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TriageEngineFunction708F6525"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HumanValidationFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HumanValidationFunctionServiceRoleB5D92B22"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HumanValidationFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HumanValidationFunctionServiceRoleDefaultPolicy9AC35F7B"
+          }
+        ],
+        "/HealthcareOrchestrationStack/HumanValidationFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HumanValidationFunction9E900253"
+          }
+        ],
+        "/HealthcareOrchestrationStack/EmergencyAlertFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmergencyAlertFunctionServiceRoleAA1D305B"
+          }
+        ],
+        "/HealthcareOrchestrationStack/EmergencyAlertFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmergencyAlertFunctionServiceRoleDefaultPolicyE11CBCD6"
+          }
+        ],
+        "/HealthcareOrchestrationStack/EmergencyAlertFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmergencyAlertFunctionB0710E7F"
+          }
+        ],
+        "/HealthcareOrchestrationStack/ProviderDiscoveryFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProviderDiscoveryFunctionServiceRole8BD4AE1E"
+          }
+        ],
+        "/HealthcareOrchestrationStack/ProviderDiscoveryFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProviderDiscoveryFunctionServiceRoleDefaultPolicyEA78C0A6"
+          }
+        ],
+        "/HealthcareOrchestrationStack/ProviderDiscoveryFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProviderDiscoveryFunction29AB086F"
+          }
+        ],
+        "/HealthcareOrchestrationStack/CareCoordinatorFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CareCoordinatorFunctionServiceRole1DB058A1"
+          }
+        ],
+        "/HealthcareOrchestrationStack/CareCoordinatorFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CareCoordinatorFunctionServiceRoleDefaultPolicy5BC56C21"
+          }
+        ],
+        "/HealthcareOrchestrationStack/CareCoordinatorFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CareCoordinatorFunctionA4EEB982"
+          }
+        ],
+        "/HealthcareOrchestrationStack/ReferralManagerFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ReferralManagerFunctionServiceRole5C581CB6"
+          }
+        ],
+        "/HealthcareOrchestrationStack/ReferralManagerFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ReferralManagerFunctionServiceRoleDefaultPolicyEF81CDC9"
+          }
+        ],
+        "/HealthcareOrchestrationStack/ReferralManagerFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ReferralManagerFunction10B5BC7C"
+          }
+        ],
+        "/HealthcareOrchestrationStack/EpisodeTrackerFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EpisodeTrackerFunctionServiceRoleA36DF913"
+          }
+        ],
+        "/HealthcareOrchestrationStack/EpisodeTrackerFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EpisodeTrackerFunctionServiceRoleDefaultPolicy0F15080F"
+          }
+        ],
+        "/HealthcareOrchestrationStack/EpisodeTrackerFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EpisodeTrackerFunction4D3E9467"
+          }
+        ],
+        "/HealthcareOrchestrationStack/ApiGateway4xxAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiGateway4xxAlarm7286C098"
+          }
+        ],
+        "/HealthcareOrchestrationStack/ApiGateway5xxAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiGateway5xxAlarm4F808175"
+          }
+        ],
+        "/HealthcareOrchestrationStack/ApiGatewayLatencyAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiGatewayLatencyAlarm5559E5F5"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda0ErrorAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda0ErrorAlarm04835B74"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda0DurationAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda0DurationAlarm1FA49862"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda0ThrottleAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda0ThrottleAlarmA084A6E3"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda1ErrorAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda1ErrorAlarm3D430303"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda1DurationAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda1DurationAlarmA644D490"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda1ThrottleAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda1ThrottleAlarm28E8455E"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda2ErrorAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda2ErrorAlarmD53BD066"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda2DurationAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda2DurationAlarm6C5E46E7"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda2ThrottleAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda2ThrottleAlarmC5400C03"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda3ErrorAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda3ErrorAlarmBEFF5195"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda3DurationAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda3DurationAlarm30D00449"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda3ThrottleAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda3ThrottleAlarm429F22BF"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda4ErrorAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda4ErrorAlarm1FF4F617"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda4DurationAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda4DurationAlarm2CB70651"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda4ThrottleAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda4ThrottleAlarm3F8D75AF"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda5ErrorAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda5ErrorAlarm8CB1CF1A"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda5DurationAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda5DurationAlarm4FCB5DFC"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda5ThrottleAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda5ThrottleAlarm6C3304FD"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda6ErrorAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda6ErrorAlarm1E87C2F5"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda6DurationAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda6DurationAlarm6FBF645F"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda6ThrottleAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda6ThrottleAlarm0BC405C6"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda7ErrorAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda7ErrorAlarmAED6BE32"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda7DurationAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda7DurationAlarm889F0967"
+          }
+        ],
+        "/HealthcareOrchestrationStack/Lambda7ThrottleAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Lambda7ThrottleAlarm9A9FDC0A"
+          }
+        ],
+        "/HealthcareOrchestrationStack/ApiGatewayLogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiGatewayLogGroupA9770429"
+          }
+        ],
+        "/HealthcareOrchestrationStack/LambdaLogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaLogGroup2CA1C11F"
+          }
+        ],
+        "/HealthcareOrchestrationStack/ApiGatewayUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiGatewayUrl"
+          }
+        ],
+        "/HealthcareOrchestrationStack/UserPoolId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPoolId"
+          }
+        ],
+        "/HealthcareOrchestrationStack/UserPoolClientId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPoolClientId"
+          }
+        ],
+        "/HealthcareOrchestrationStack/NotificationTopicArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NotificationTopicArn"
+          }
+        ],
+        "/HealthcareOrchestrationStack/EmergencyAlertTopicArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmergencyAlertTopicArn"
+          }
+        ],
+        "/HealthcareOrchestrationStack/AudioUploadBucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AudioUploadBucketName"
+          }
+        ],
+        "/HealthcareOrchestrationStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/HealthcareOrchestrationStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/HealthcareOrchestrationStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "HealthcareOrchestrationStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "aws-cdk-lib/feature-flag-report": {
+      "type": "cdk:feature-flag-report",
+      "properties": {
+        "module": "aws-cdk-lib",
+        "flags": {
+          "@aws-cdk/aws-signer:signingProfileNamePassedToCfn": {
+            "recommendedValue": true,
+            "explanation": "Pass signingProfileName to CfnSigningProfile"
+          },
+          "@aws-cdk/core:newStyleStackSynthesis": {
+            "recommendedValue": true,
+            "explanation": "Switch to new stack synthesis method which enables CI/CD",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/core:stackRelativeExports": {
+            "recommendedValue": true,
+            "explanation": "Name exports based on the construct paths relative to the stack, rather than the global construct path",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-ecs-patterns:secGroupsDisablesImplicitOpenListener": {
+            "recommendedValue": true,
+            "explanation": "Disable implicit openListener when custom security groups are provided"
+          },
+          "@aws-cdk/aws-rds:lowercaseDbIdentifier": {
+            "recommendedValue": true,
+            "explanation": "Force lowercasing of RDS Cluster names in CDK",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId": {
+            "recommendedValue": true,
+            "explanation": "Allow adding/removing multiple UsagePlanKeys independently",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-lambda:recognizeVersionProps": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to opt in to the updated logical id calculation for Lambda Version created using the  `fn.currentVersion`.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-lambda:recognizeLayerVersion": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to opt in to the updated logical id calculation for Lambda Version created using the `fn.currentVersion`."
+          },
+          "@aws-cdk/aws-cloudfront:defaultSecurityPolicyTLSv1.2_2021": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to have cloudfront distributions use the security policy TLSv1.2_2021 by default.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/core:checkSecretUsage": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enable this flag to make it impossible to accidentally use SecretValues in unsafe locations"
+          },
+          "@aws-cdk/core:target-partitions": {
+            "userValue": [
+              "aws",
+              "aws-cn"
+            ],
+            "recommendedValue": [
+              "aws",
+              "aws-cn"
+            ],
+            "explanation": "What regions to include in lookup tables of environment agnostic stacks"
+          },
+          "@aws-cdk-containers/ecs-service-extensions:enableDefaultLogDriver": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "ECS extensions will automatically add an `awslogs` driver if no logging is specified"
+          },
+          "@aws-cdk/aws-ec2:uniqueImdsv2TemplateName": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to have Launch Templates generated by the `InstanceRequireImdsv2Aspect` use unique names."
+          },
+          "@aws-cdk/aws-ecs:arnFormatIncludesClusterName": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "ARN format used by ECS. In the new ARN format, the cluster name is part of the resource ID."
+          },
+          "@aws-cdk/aws-iam:minimizePolicies": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Minimize IAM policies by combining Statements"
+          },
+          "@aws-cdk/core:validateSnapshotRemovalPolicy": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Error on snapshot removal policies on resources that do not support it."
+          },
+          "@aws-cdk/aws-codepipeline:crossAccountKeyAliasStackSafeResourceName": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Generate key aliases that include the stack name"
+          },
+          "@aws-cdk/aws-s3:createDefaultLoggingPolicy": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to create an S3 bucket policy by default in cases where an AWS service would automatically create the Policy if one does not exist."
+          },
+          "@aws-cdk/aws-sns-subscriptions:restrictSqsDescryption": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Restrict KMS key policy for encrypted Queues a bit more"
+          },
+          "@aws-cdk/aws-apigateway:disableCloudWatchRole": {
+            "userValue": false,
+            "recommendedValue": true,
+            "explanation": "Make default CloudWatch Role behavior safe for multiple API Gateways in one environment"
+          },
+          "@aws-cdk/core:enablePartitionLiterals": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Make ARNs concrete if AWS partition is known"
+          },
+          "@aws-cdk/aws-events:eventsTargetQueueSameAccount": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Event Rules may only push to encrypted SQS queues in the same account"
+          },
+          "@aws-cdk/aws-ecs:disableExplicitDeploymentControllerForCircuitBreaker": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Avoid setting the \"ECS\" deployment controller when adding a circuit breaker"
+          },
+          "@aws-cdk/aws-iam:importedRoleStackSafeDefaultPolicyName": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enable this feature to create default policy names for imported roles that depend on the stack the role is in."
+          },
+          "@aws-cdk/aws-s3:serverAccessLogsUseBucketPolicy": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Use S3 Bucket Policy instead of ACLs for Server Access Logging"
+          },
+          "@aws-cdk/aws-route53-patters:useCertificate": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Use the official `Certificate` resource instead of `DnsValidatedCertificate`"
+          },
+          "@aws-cdk/customresources:installLatestAwsSdkDefault": {
+            "userValue": false,
+            "recommendedValue": false,
+            "explanation": "Whether to install the latest SDK by default in AwsCustomResource"
+          },
+          "@aws-cdk/aws-rds:databaseProxyUniqueResourceName": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Use unique resource name for Database Proxy"
+          },
+          "@aws-cdk/aws-codedeploy:removeAlarmsFromDeploymentGroup": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Remove CloudWatch alarms from deployment group"
+          },
+          "@aws-cdk/aws-apigateway:authorizerChangeDeploymentLogicalId": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Include authorizer configuration in the calculation of the API deployment logical ID."
+          },
+          "@aws-cdk/aws-ec2:launchTemplateDefaultUserData": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Define user data for a launch template by default when a machine image is provided."
+          },
+          "@aws-cdk/aws-secretsmanager:useAttachedSecretResourcePolicyForSecretTargetAttachments": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "SecretTargetAttachments uses the ResourcePolicy of the attached Secret."
+          },
+          "@aws-cdk/aws-redshift:columnId": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Whether to use an ID to track Redshift column changes"
+          },
+          "@aws-cdk/aws-stepfunctions-tasks:enableEmrServicePolicyV2": {
+            "recommendedValue": true,
+            "explanation": "Enable AmazonEMRServicePolicy_v2 managed policies"
+          },
+          "@aws-cdk/aws-ec2:restrictDefaultSecurityGroup": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Restrict access to the VPC default security group"
+          },
+          "@aws-cdk/aws-apigateway:requestValidatorUniqueId": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Generate a unique id for each RequestValidator added to a method"
+          },
+          "@aws-cdk/aws-kms:aliasNameRef": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "KMS Alias name and keyArn will have implicit reference to KMS Key"
+          },
+          "@aws-cdk/aws-kms:applyImportedAliasPermissionsToPrincipal": {
+            "recommendedValue": true,
+            "explanation": "Enable grant methods on Aliases imported by name to use kms:ResourceAliases condition"
+          },
+          "@aws-cdk/aws-autoscaling:generateLaunchTemplateInsteadOfLaunchConfig": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Generate a launch template when creating an AutoScalingGroup"
+          },
+          "@aws-cdk/core:includePrefixInUniqueNameGeneration": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Include the stack prefix in the stack name generation process"
+          },
+          "@aws-cdk/aws-efs:denyAnonymousAccess": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "EFS denies anonymous clients accesses"
+          },
+          "@aws-cdk/aws-opensearchservice:enableOpensearchMultiAzWithStandby": {
+            "recommendedValue": true,
+            "explanation": "Enables support for Multi-AZ with Standby deployment for opensearch domains"
+          },
+          "@aws-cdk/aws-lambda-nodejs:useLatestRuntimeVersion": {
+            "recommendedValue": true,
+            "explanation": "Enables aws-lambda-nodejs.Function to use the latest available NodeJs runtime as the default"
+          },
+          "@aws-cdk/aws-efs:mountTargetOrderInsensitiveLogicalId": {
+            "recommendedValue": true,
+            "explanation": "When enabled, mount targets will have a stable logicalId that is linked to the associated subnet."
+          },
+          "@aws-cdk/aws-rds:auroraClusterChangeScopeOfInstanceParameterGroupWithEachParameters": {
+            "recommendedValue": true,
+            "explanation": "When enabled, a scope of InstanceParameterGroup for AuroraClusterInstance with each parameters will change."
+          },
+          "@aws-cdk/aws-appsync:useArnForSourceApiAssociationIdentifier": {
+            "recommendedValue": true,
+            "explanation": "When enabled, will always use the arn for identifiers for CfnSourceApiAssociation in the GraphqlApi construct rather than id."
+          },
+          "@aws-cdk/aws-rds:preventRenderingDeprecatedCredentials": {
+            "recommendedValue": true,
+            "explanation": "When enabled, creating an RDS database cluster from a snapshot will only render credentials for snapshot credentials."
+          },
+          "@aws-cdk/aws-codepipeline-actions:useNewDefaultBranchForCodeCommitSource": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the CodeCommit source action is using the default branch name 'main'."
+          },
+          "@aws-cdk/aws-cloudwatch-actions:changeLambdaPermissionLogicalIdForLambdaAction": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the logical ID of a Lambda permission for a Lambda action includes an alarm ID."
+          },
+          "@aws-cdk/aws-codepipeline:crossAccountKeysDefaultValueToFalse": {
+            "recommendedValue": true,
+            "explanation": "Enables Pipeline to set the default value for crossAccountKeys to false."
+          },
+          "@aws-cdk/aws-codepipeline:defaultPipelineTypeToV2": {
+            "recommendedValue": true,
+            "explanation": "Enables Pipeline to set the default pipeline type to V2."
+          },
+          "@aws-cdk/aws-kms:reduceCrossAccountRegionPolicyScope": {
+            "recommendedValue": true,
+            "explanation": "When enabled, IAM Policy created from KMS key grant will reduce the resource scope to this key only."
+          },
+          "@aws-cdk/pipelines:reduceAssetRoleTrustScope": {
+            "recommendedValue": true,
+            "explanation": "Remove the root account principal from PipelineAssetsFileRole trust policy",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-eks:nodegroupNameAttribute": {
+            "recommendedValue": true,
+            "explanation": "When enabled, nodegroupName attribute of the provisioned EKS NodeGroup will not have the cluster name prefix."
+          },
+          "@aws-cdk/aws-ec2:ebsDefaultGp3Volume": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the default volume type of the EBS volume will be GP3"
+          },
+          "@aws-cdk/aws-ecs:removeDefaultDeploymentAlarm": {
+            "userValue": false,
+            "recommendedValue": true,
+            "explanation": "When enabled, remove default deployment alarm settings"
+          },
+          "@aws-cdk/custom-resources:logApiResponseDataPropertyTrueDefault": {
+            "recommendedValue": false,
+            "explanation": "When enabled, the custom resource used for `AwsCustomResource` will configure the `logApiResponseData` property as true by default"
+          },
+          "@aws-cdk/aws-s3:keepNotificationInImportedBucket": {
+            "recommendedValue": false,
+            "explanation": "When enabled, Adding notifications to a bucket in the current stack will not remove notification from imported stack."
+          },
+          "@aws-cdk/aws-stepfunctions-tasks:useNewS3UriParametersForBedrockInvokeModelTask": {
+            "recommendedValue": true,
+            "explanation": "When enabled, use new props for S3 URI field in task definition of state machine for bedrock invoke model.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/core:explicitStackTags": {
+            "recommendedValue": true,
+            "explanation": "When enabled, stack tags need to be assigned explicitly on a Stack."
+          },
+          "@aws-cdk/aws-ecs:reduceEc2FargateCloudWatchPermissions": {
+            "recommendedValue": true,
+            "explanation": "When enabled, we will only grant the necessary permissions when users specify cloudwatch log group through logConfiguration"
+          },
+          "@aws-cdk/aws-dynamodb:resourcePolicyPerReplica": {
+            "recommendedValue": true,
+            "explanation": "When enabled will allow you to specify a resource policy per replica, and not copy the source table policy to all replicas"
+          },
+          "@aws-cdk/aws-ec2:ec2SumTImeoutEnabled": {
+            "recommendedValue": true,
+            "explanation": "When enabled, initOptions.timeout and resourceSignalTimeout values will be summed together."
+          },
+          "@aws-cdk/aws-appsync:appSyncGraphQLAPIScopeLambdaPermission": {
+            "recommendedValue": true,
+            "explanation": "When enabled, a Lambda authorizer Permission created when using GraphqlApi will be properly scoped with a SourceArn."
+          },
+          "@aws-cdk/aws-rds:setCorrectValueForDatabaseInstanceReadReplicaInstanceResourceId": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the value of property `instanceResourceId` in construct `DatabaseInstanceReadReplica` will be set to the correct value which is `DbiResourceId` instead of currently `DbInstanceArn`"
+          },
+          "@aws-cdk/core:cfnIncludeRejectComplexResourceUpdateCreatePolicyIntrinsics": {
+            "recommendedValue": true,
+            "explanation": "When enabled, CFN templates added with `cfn-include` will error if the template contains Resource Update or Create policies with CFN Intrinsics that include non-primitive values."
+          },
+          "@aws-cdk/aws-lambda-nodejs:sdkV3ExcludeSmithyPackages": {
+            "recommendedValue": true,
+            "explanation": "When enabled, both `@aws-sdk` and `@smithy` packages will be excluded from the Lambda Node.js 18.x runtime to prevent version mismatches in bundled applications."
+          },
+          "@aws-cdk/aws-stepfunctions-tasks:fixRunEcsTaskPolicy": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the resource of IAM Run Ecs policy generated by SFN EcsRunTask will reference the definition, instead of constructing ARN."
+          },
+          "@aws-cdk/aws-ec2:bastionHostUseAmazonLinux2023ByDefault": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the BastionHost construct will use the latest Amazon Linux 2023 AMI, instead of Amazon Linux 2."
+          },
+          "@aws-cdk/core:aspectStabilization": {
+            "recommendedValue": true,
+            "explanation": "When enabled, a stabilization loop will be run when invoking Aspects during synthesis.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-route53-targets:userPoolDomainNameMethodWithoutCustomResource": {
+            "recommendedValue": true,
+            "explanation": "When enabled, use a new method for DNS Name of user pool domain target without creating a custom resource."
+          },
+          "@aws-cdk/aws-elasticloadbalancingV2:albDualstackWithoutPublicIpv4SecurityGroupRulesDefault": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the default security group ingress rules will allow IPv6 ingress from anywhere"
+          },
+          "@aws-cdk/aws-iam:oidcRejectUnauthorizedConnections": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the default behaviour of OIDC provider will reject unauthorized connections"
+          },
+          "@aws-cdk/core:enableAdditionalMetadataCollection": {
+            "recommendedValue": true,
+            "explanation": "When enabled, CDK will expand the scope of usage data collected to better inform CDK development and improve communication for security concerns and emerging issues."
+          },
+          "@aws-cdk/aws-lambda:createNewPoliciesWithAddToRolePolicy": {
+            "recommendedValue": false,
+            "explanation": "[Deprecated] When enabled, Lambda will create new inline policies with AddToRolePolicy instead of adding to the Default Policy Statement"
+          },
+          "@aws-cdk/aws-s3:setUniqueReplicationRoleName": {
+            "recommendedValue": true,
+            "explanation": "When enabled, CDK will automatically generate a unique role name that is used for s3 object replication."
+          },
+          "@aws-cdk/pipelines:reduceStageRoleTrustScope": {
+            "recommendedValue": true,
+            "explanation": "Remove the root account principal from Stage addActions trust policy",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-events:requireEventBusPolicySid": {
+            "recommendedValue": true,
+            "explanation": "When enabled, grantPutEventsTo() will use resource policies with Statement IDs for service principals."
+          },
+          "@aws-cdk/core:aspectPrioritiesMutating": {
+            "recommendedValue": true,
+            "explanation": "When set to true, Aspects added by the construct library on your behalf will be given a priority of MUTATING."
+          },
+          "@aws-cdk/aws-dynamodb:retainTableReplica": {
+            "recommendedValue": true,
+            "explanation": "When enabled, table replica will be default to the removal policy of source table unless specified otherwise."
+          },
+          "@aws-cdk/cognito:logUserPoolClientSecretValue": {
+            "recommendedValue": false,
+            "explanation": "When disabled, the value of the user pool client secret will not be logged in the custom resource lambda function logs."
+          },
+          "@aws-cdk/pipelines:reduceCrossAccountActionRoleTrustScope": {
+            "recommendedValue": true,
+            "explanation": "When enabled, scopes down the trust policy for the cross-account action role",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-stepfunctions:useDistributedMapResultWriterV2": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the resultWriterV2 property of DistributedMap will be used insted of resultWriter"
+          },
+          "@aws-cdk/s3-notifications:addS3TrustKeyPolicyForSnsSubscriptions": {
+            "recommendedValue": true,
+            "explanation": "Add an S3 trust policy to a KMS key resource policy for SNS subscriptions."
+          },
+          "@aws-cdk/aws-ec2:requirePrivateSubnetsForEgressOnlyInternetGateway": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the EgressOnlyGateway resource is only created if private subnets are defined in the dual-stack VPC."
+          },
+          "@aws-cdk/aws-ec2-alpha:useResourceIdForVpcV2Migration": {
+            "recommendedValue": false,
+            "explanation": "When enabled, use resource IDs for VPC V2 migration"
+          },
+          "@aws-cdk/aws-s3:publicAccessBlockedByDefault": {
+            "recommendedValue": true,
+            "explanation": "When enabled, setting any combination of options for BlockPublicAccess will automatically set true for any options not defined."
+          },
+          "@aws-cdk/aws-lambda:useCdkManagedLogGroup": {
+            "recommendedValue": true,
+            "explanation": "When enabled, CDK creates and manages loggroup for the lambda function"
+          },
+          "@aws-cdk/aws-elasticloadbalancingv2:networkLoadBalancerWithSecurityGroupByDefault": {
+            "recommendedValue": true,
+            "explanation": "When enabled, Network Load Balancer will be created with a security group by default."
+          },
+          "@aws-cdk/aws-stepfunctions-tasks:httpInvokeDynamicJsonPathEndpoint": {
+            "recommendedValue": true,
+            "explanation": "When enabled, allows using a dynamic apiEndpoint with JSONPath format in HttpInvoke tasks.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-ecs-patterns:uniqueTargetGroupId": {
+            "recommendedValue": true,
+            "explanation": "When enabled, ECS patterns will generate unique target group IDs to prevent conflicts during load balancer replacement"
+          },
+          "@aws-cdk/aws-route53-patterns:useDistribution": {
+            "recommendedValue": true,
+            "explanation": "Use the `Distribution` resource instead of `CloudFrontWebDistribution`"
+          }
+        }
+      }
+    }
+  },
+  "minimumCliVersion": "2.1033.0"
+}

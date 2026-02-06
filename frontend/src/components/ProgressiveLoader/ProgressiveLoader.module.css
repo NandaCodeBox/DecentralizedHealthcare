@@ -1,0 +1,211 @@
+/* Progressive Loader Styles */
+.progressiveLoader {
+  position: relative;
+  min-height: 100px;
+}
+
+.progressiveLoader.loading {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.progressiveLoader.loaded {
+  background-color: transparent;
+}
+
+.progressiveLoader.error {
+  background-color: #fee;
+  border: 1px solid #fcc;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Loading Placeholder */
+.loadingPlaceholder {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.loadingSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeletonLine {
+  height: 16px;
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeletonLine.short {
+  width: 60%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.loadingIndicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #e2e8f0;
+  border-top: 2px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.networkNotice {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background-color: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #92400e;
+}
+
+/* Error States */
+.errorMessage {
+  color: #dc2626;
+}
+
+.retryButton {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.retryButton:hover {
+  background-color: #2563eb;
+}
+
+/* Progressive Image Styles */
+.progressiveImage {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.progressiveImage.loading .imagePlaceholder {
+  display: block;
+}
+
+.progressiveImage.loaded .imagePlaceholder {
+  display: none;
+}
+
+.imagePlaceholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imagePlaceholderContent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageSkeleton {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+.imageErrorPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fee;
+  color: #dc2626;
+  font-size: 14px;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .loadingPlaceholder {
+    padding: 16px;
+  }
+  
+  .loadingIndicator {
+    font-size: 12px;
+  }
+  
+  .networkNotice {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .skeletonLine {
+    background: linear-gradient(90deg, #000 25%, #666 50%, #000 75%);
+  }
+  
+  .imageSkeleton {
+    background: linear-gradient(90deg, #000 25%, #666 50%, #000 75%);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .shimmer,
+  .spin {
+    animation: none;
+  }
+  
+  .skeletonLine,
+  .imageSkeleton {
+    background: #e2e8f0;
+  }
+  
+  .spinner {
+    border-top-color: #3b82f6;
+  }
+}

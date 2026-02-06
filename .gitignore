@@ -64,3 +64,6 @@ yarn.lock
 
 # TypeScript
 *.tsbuildinfo
+
+# Scripts (deployment/build scripts - not needed in public repo)
+scripts/

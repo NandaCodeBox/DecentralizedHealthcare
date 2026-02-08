@@ -264,7 +264,7 @@ const ProviderSearch: React.FC = () => {
           <div className="space-y-4">
             {providers.map((provider) => (
               <div key={provider.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex gap-4">
                   {/* Provider Avatar */}
                   <div className="flex-shrink-0">
                     <div className="w-16 h-16 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center text-white font-bold text-xl">
@@ -273,23 +273,24 @@ const ProviderSearch: React.FC = () => {
                   </div>
 
                   {/* Provider Info */}
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between mb-2">
-                      <div>
-                        <h3 className="font-bold text-gray-900 text-lg">{provider.name}</h3>
-                        <p className="text-sm text-gray-600">{provider.specialty}</p>
+                  <div className="flex-1 flex flex-col">
+                    {/* Name on first line */}
+                    <h3 className="font-bold text-gray-900 text-lg leading-tight">{provider.name}</h3>
+                    
+                    {/* Specialty on second line */}
+                    <p className="text-sm text-gray-600 mt-1">{provider.specialty}</p>
+                    
+                    {/* Badges on third line */}
+                    <div className="flex items-center gap-2 mt-2 mb-3">
+                      <div className="flex items-center gap-1 px-2 py-1 bg-purple-100 rounded">
+                        <SparklesIcon className="h-3 w-3 text-purple-600" />
+                        <span className="text-xs font-bold text-purple-900">{provider.aiMatch}% Match</span>
                       </div>
-                      <div className="flex flex-col items-end gap-1">
-                        {provider.acceptingNew && (
-                          <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded">
-                            Accepting New
-                          </span>
-                        )}
-                        <div className="flex items-center gap-1 px-2 py-1 bg-purple-100 rounded">
-                          <SparklesIcon className="h-3 w-3 text-purple-600" />
-                          <span className="text-xs font-bold text-purple-900">{provider.aiMatch}% Match</span>
-                        </div>
-                      </div>
+                      {provider.acceptingNew && (
+                        <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded">
+                          Accepting New
+                        </span>
+                      )}
                     </div>
 
                     {/* AI Reasoning */}

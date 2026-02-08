@@ -38,12 +38,12 @@ A serverless healthcare orchestration system built on AWS that intelligently rou
 *Multilingual symptom reporting with AI-powered assessment*
 
 ### AI Triage Assessment
-<img src="screenshots/triage-dashboard.png" alt="Triage Dashboard" width="600"/>
+<img src="screenshots/triage-dashboard.png" alt="Triage Dashboard" width="300"/>
 
 *Human-validated AI recommendations with confidence scores*
 
 ### Provider Discovery
-<img src="screenshots/provider-search.png" alt="Provider Search" width="600"/>
+<img src="screenshots/provider-search.png" alt="Provider Search" width="300"/>
 
 *Real-time provider matching based on location and availability*
 

@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fix Next.js Link text-decoration */
+a {
+  text-decoration: none !important;
+}
+
 /* Base styles */
 @layer base {
   html {

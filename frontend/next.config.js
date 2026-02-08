@@ -3,7 +3,7 @@ const withPWA = require('next-pwa')({
   dest: 'public',
   register: true,
   skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development',
+  disable: process.env.NODE_ENV === 'development', // Disable PWA in development to prevent reloading
   // Use our custom service worker
   sw: 'sw-custom.js',
   runtimeCaching: [
@@ -162,8 +162,8 @@ const nextConfig = {
     forceSwcTransforms: true
   },
   
-  // Enable static export for Azure Static Web Apps
-  output: process.env.NODE_ENV === 'production' ? 'export' : undefined,
+  // Enable static export for Azure Static Web Apps (only in production export)
+  output: undefined, // Use server mode for npm start
   trailingSlash: true,
   
   // Bandwidth optimization settings

@@ -8,6 +8,7 @@ yarn-error.log*
 lib/
 dist/
 build/
+out/
 *.tsbuildinfo
 
 # CDK

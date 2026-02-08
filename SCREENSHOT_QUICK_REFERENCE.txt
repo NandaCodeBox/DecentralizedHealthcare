@@ -1,0 +1,119 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    SCREENSHOT CAPTURE QUICK REFERENCE                      ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+✅ SERVER STATUS: RUNNING on http://localhost:3000
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📸 SCREENSHOT 1: MOBILE HOME PAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Size:     375x812px (iPhone 12 Pro)
+URL:      http://localhost:3000
+File:     screenshots/01-home-page-mobile.png
+
+Quick Steps:
+  1. F12 (open DevTools)
+  2. Ctrl+Shift+M (device mode)
+  3. Select iPhone 12 Pro
+  4. Win+Shift+S (screenshot)
+  5. Save file
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📸 SCREENSHOT 2: MOBILE SYMPTOM INTAKE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Size:     375x812px (iPhone 12 Pro)
+URL:      http://localhost:3000/symptom-intake
+File:     screenshots/02-symptom-intake-mobile.png
+
+Quick Steps:
+  1. Keep DevTools open (mobile view)
+  2. Navigate to /symptom-intake
+  3. Wait for form to load
+  4. Win+Shift+S (screenshot)
+  5. Save file
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📸 SCREENSHOT 3: DESKTOP EPISODES DASHBOARD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Size:     1200x800px
+URL:      http://localhost:3000/episodes
+File:     screenshots/03-episodes-desktop.png
+
+Quick Steps:
+  1. F12 (close DevTools)
+  2. Resize browser to 1200px width
+  3. Navigate to /episodes
+  4. Win+Shift+S (screenshot)
+  5. Save file
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📸 SCREENSHOT 4: DESKTOP PROFILE PAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Size:     1200x800px
+URL:      http://localhost:3000/profile
+File:     screenshots/04-profile-desktop.png
+
+Quick Steps:
+  1. Keep browser at 1200px width
+  2. Navigate to /profile
+  3. Win+Shift+S (screenshot)
+  4. Save file
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎨 OPTIMIZATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Visit: https://tinypng.com
+2. Upload each PNG
+3. Download optimized version
+4. Replace original files
+Target: <500KB per image
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 GIT WORKFLOW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+git add screenshots/
+git commit -m "Add application screenshots"
+git push origin main
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ CHECKLIST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[ ] Screenshot 1: Home page mobile (375x812)
+[ ] Screenshot 2: Symptom intake mobile (375x812)
+[ ] Screenshot 3: Episodes desktop (1200x800)
+[ ] Screenshot 4: Profile desktop (1200x800)
+[ ] All images optimized (<500KB)
+[ ] Files saved in screenshots/ folder
+[ ] Added to git
+[ ] Committed with message
+[ ] Pushed to GitHub
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔗 USEFUL LINKS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+App:           http://localhost:3000
+Optimization:  https://tinypng.com
+Mockups:       https://screely.com
+Frames:        https://mockuphone.com
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 TIPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Use Win+Shift+S for native screenshot tool
+• Or use Snagit/ShareX for better quality
+• Ensure browser zoom is at 100%
+• Close unnecessary tabs for cleaner screenshots
+• Use real data, not placeholder text
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+For detailed instructions, see: SCREENSHOT_CAPTURE_INSTRUCTIONS.md

@@ -30,9 +30,12 @@ A serverless healthcare orchestration system built on AWS that intelligently rou
 *AI-powered healthcare dashboard with quick actions and real-time status*
 
 ### Symptom Intake Form
-<img src="screenshots/symptom-intake.png" alt="Symptom Intake" width="300"/>
+<p align="center">
+  <img src="screenshots/symptom-intake1.png" alt="Symptom Intake - Part 1" width="300"/>
+  <img src="screenshots/symptom-intake2.png" alt="Symptom Intake - Part 2" width="300"/>
+</p>
 
-*Multilingual symptom reporting with voice input support*
+*Multilingual symptom reporting with AI-powered assessment*
 
 ### AI Triage Assessment
 <img src="screenshots/triage-dashboard.png" alt="Triage Dashboard" width="600"/>
@@ -48,6 +51,42 @@ A serverless healthcare orchestration system built on AWS that intelligently rou
 <img src="ArchitectureImages/aws_styled_icons.png" alt="System Architecture" width="800"/>
 
 *AWS serverless architecture with AI and human-in-the-loop design*
+
+---
+
+## 🔄 User Flow
+
+The application provides a seamless patient journey from symptom reporting to provider booking:
+
+```
+HOMEPAGE
+   ↓
+   ├─→ "Tell Us Your Symptoms" → SYMPTOM INTAKE
+   │                                    ↓
+   │                          "Get AI Triage Assessment"
+   │                                    ↓
+   ├─→ "AI Triage" tile ────────→ TRIAGE DASHBOARD
+   │                                    ↓
+   │                              "Find Provider"
+   │                                    ↓
+   └─→ "Find Provider" ─────────→ PROVIDER SEARCH
+                                        ↓
+                                 "Book Appointment"
+```
+
+### Two Main Patient Paths
+
+**Path A - Full AI-Assisted Journey:**
+1. Homepage → Symptom Intake (report symptoms, severity, duration)
+2. AI Triage Dashboard (view assessment, severity, recommendations)
+3. Provider Search (AI-powered semantic search with match scores)
+4. Book Appointment
+
+**Path B - Direct Provider Search:**
+1. Homepage → Provider Search (direct access to AI provider matching)
+2. Book Appointment
+
+All screens include a home icon for easy navigation back to the dashboard.
 
 ---
 

@@ -50,24 +50,53 @@ const HomePage: React.FC = () => {
         {/* Hero Card - Main CTA */}
         <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-5">
           <div className="max-w-7xl mx-auto">
-            <div className="relative bg-gradient-to-r from-teal-600 to-teal-700 rounded-2xl overflow-hidden shadow-lg">
-              <div className="absolute inset-0 opacity-10">
-                <div className="absolute top-0 right-0 w-40 h-40 bg-white rounded-full -mr-20 -mt-20"></div>
-              </div>
-              <div className="relative px-4 sm:px-6 py-4 sm:py-5 flex flex-row items-center justify-center gap-3">
-                <div className="flex-1 flex flex-col items-center text-center">
-                  <h2 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3">
-                    Get the Right Care, Right Now
-                  </h2>
-                  <Link
-                    href="/symptom-intake"
-                    className="inline-flex items-center px-4 py-2 bg-white text-teal-600 font-bold rounded-full hover:bg-gray-50 transition-all text-xs sm:text-sm"
-                  >
-                    Tell Us Your Symptoms
-                  </Link>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {/* Symptom Intake Card */}
+              <div className="relative bg-gradient-to-r from-teal-600 to-teal-700 rounded-2xl overflow-hidden shadow-lg">
+                <div className="absolute inset-0 opacity-10">
+                  <div className="absolute top-0 right-0 w-40 h-40 bg-white rounded-full -mr-20 -mt-20"></div>
                 </div>
-                <div className="text-3xl sm:text-4xl">⚕️</div>
+                <div className="relative px-4 sm:px-6 py-4 sm:py-5 flex flex-row items-center justify-center gap-3">
+                  <div className="flex-1 flex flex-col items-center text-center">
+                    <h2 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3">
+                      Get the Right Care, Right Now
+                    </h2>
+                    <Link
+                      href="/symptom-intake"
+                      className="inline-flex items-center px-4 py-2 bg-white text-teal-600 font-bold rounded-full hover:bg-gray-50 transition-all text-xs sm:text-sm"
+                    >
+                      Tell Us Your Symptoms
+                    </Link>
+                  </div>
+                  <div className="text-3xl sm:text-4xl">⚕️</div>
+                </div>
               </div>
+
+              {/* Find Provider Card */}
+              <Link href="/provider-search" className="no-underline">
+                <div className="relative bg-gradient-to-r from-purple-600 to-purple-700 rounded-2xl overflow-hidden shadow-lg h-full hover:shadow-xl transition-shadow cursor-pointer">
+                  <div className="absolute inset-0 opacity-10">
+                    <div className="absolute top-0 right-0 w-40 h-40 bg-white rounded-full -mr-20 -mt-20"></div>
+                  </div>
+                  <div className="relative px-4 sm:px-6 py-4 sm:py-5 flex flex-row items-center justify-center gap-3 h-full">
+                    <div className="flex-1 flex flex-col items-center text-center">
+                      <div className="flex items-center gap-2 mb-2">
+                        <h2 className="text-lg sm:text-xl font-bold text-white">
+                          AI Provider Search
+                        </h2>
+                        <span className="text-2xl">✨</span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-purple-100 mb-2">
+                        Semantic search powered by AI
+                      </p>
+                      <div className="inline-flex items-center px-4 py-2 bg-white text-purple-600 font-bold rounded-full hover:bg-gray-50 transition-all text-xs sm:text-sm">
+                        Find Provider
+                      </div>
+                    </div>
+                    <div className="text-3xl sm:text-4xl">🧭</div>
+                  </div>
+                </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -195,7 +224,7 @@ const HomePage: React.FC = () => {
                 </Link>
 
                 {/* AI Triage */}
-                <Link href="/symptom-intake">
+                <Link href="/triage-dashboard">
                   <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-2 sm:p-3 border border-blue-200 h-full relative">
                     <div className="absolute top-1 right-1 bg-blue-600 text-white text-xs font-bold px-1.5 py-0.5 rounded">AI</div>
                     <div className="text-2xl sm:text-3xl mb-1">🤖</div>
@@ -204,11 +233,11 @@ const HomePage: React.FC = () => {
                 </Link>
 
                 {/* Smart Routing */}
-                <Link href="/provider-portal">
+                <Link href="/provider-search">
                   <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-2 sm:p-3 border border-purple-200 h-full relative">
                     <div className="absolute top-1 right-1 bg-purple-600 text-white text-xs font-bold px-1.5 py-0.5 rounded">AI</div>
                     <div className="text-2xl sm:text-3xl mb-1">🧭</div>
-                    <h4 className="font-bold text-xs sm:text-sm text-purple-900">Routing</h4>
+                    <h4 className="font-bold text-xs sm:text-sm text-purple-900">Find Provider</h4>
                   </div>
                 </Link>
 

@@ -25,7 +25,7 @@ A serverless healthcare orchestration system built on AWS that intelligently rou
 ## 📸 Screenshots
 
 ### Mobile Home Page
-<img src="screenshots/home-page.png" alt="Mobile Home Page" width="300"/>
+<img src="screenshots/Home-page.png" alt="Mobile Home Page" width="300"/>
 
 *AI-powered healthcare dashboard with quick actions and real-time status*
 

@@ -4,7 +4,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Hackathon](https://img.shields.io/badge/Hackathon-AI%20for%20Bharat%202024-purple)](https://github.com/NandaCodeBox/DecentralizedHealthcare)
+[![Hackathon](https://img.shields.io/badge/Hackathon-AI%20for%20Bharat%202026-purple)](https://github.com/NandaCodeBox/DecentralizedHealthcare)
 
 > AI-powered healthcare orchestration system for India 🇮🇳
 

@@ -8,9 +8,9 @@
 
 > AI-powered healthcare orchestration system for India 🇮🇳
 
-## 🏆 AI for Bharat Hackathon 2024
+## 🏆 AI for Bharat Hackathon 2026
 
-This project is a submission for the **AI for Bharat Hackathon 2024** (Professional Track - Healthcare & Life Sciences).
+This project is a submission for the **AI for Bharat Hackathon 2026** (Professional Track - Healthcare & Life Sciences).
 
 **Problem:** India's healthcare system is overloaded - 1.4 billion people, limited doctors, hospitals overwhelmed with routine cases.
 

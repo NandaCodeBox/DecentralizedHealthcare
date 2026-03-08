@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { ApiResponse, SymptomData, CareEpisode, Provider, Patient } from '@/types';
 import { bandwidthService } from './bandwidth';
+import { authService } from './authService';
 
 class ApiService {
   private api: AxiosInstance;
@@ -22,9 +23,9 @@ class ApiService {
 
     // Request interceptor for auth and compression
     this.api.interceptors.request.use(
-      (config) => {
+      async (config) => {
         // Add auth token if available
-        const token = this.getAuthToken();
+        const token = await this.getAuthToken();
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }
@@ -84,18 +85,35 @@ class ApiService {
     );
   }
 
-  private getAuthToken(): string | null {
+  private async getAuthToken(): Promise<string | null> {
+    // Try to get token from auth service (Cognito)
+    const cognitoToken = await authService.getIdToken();
+    if (cognitoToken) {
+      return cognitoToken;
+    }
+
+    // Fallback to localStorage for backward compatibility
     if (typeof window !== 'undefined') {
       return localStorage.getItem('authToken');
     }
+    
     return null;
   }
 
   private handleUnauthorized(): void {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('authToken');
+      // Sign out from auth service
+      authService.signOut();
+      
       // Redirect to login or show auth modal
-      window.location.href = '/login';
+      // For demo mode, we'll just show a message
+      console.warn('⚠️ Unauthorized access. Please sign in.');
+      
+      // Only redirect if not in demo mode
+      const useDemo = process.env.NEXT_PUBLIC_USE_DEMO_API === 'true';
+      if (!useDemo) {
+        window.location.href = '/login';
+      }
     }
   }
 

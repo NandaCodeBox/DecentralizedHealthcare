@@ -53,6 +53,7 @@ export class HealthcareOrchestrationStack extends cdk.Stack {
     const careCoordinatorFunction = this.createCareCoordinatorFunction(episodeTable, providerTable, notificationTopic);
     const referralManagerFunction = this.createReferralManagerFunction(referralTable, episodeTable, notificationTopic);
     const episodeTrackerFunction = this.createEpisodeTrackerFunction(episodeTable);
+    const translationFunction = this.createTranslationFunction();
 
     // API Gateway Routes (basic structure)
     this.createApiRoutes(api, {
@@ -64,6 +65,7 @@ export class HealthcareOrchestrationStack extends cdk.Stack {
       coordinator: careCoordinatorFunction,
       referrals: referralManagerFunction,
       episodes: episodeTrackerFunction,
+      translation: translationFunction,
     });
 
     // CloudWatch Monitoring and Alarms
@@ -76,6 +78,7 @@ export class HealthcareOrchestrationStack extends cdk.Stack {
       careCoordinatorFunction,
       referralManagerFunction,
       episodeTrackerFunction,
+      translationFunction,
     ]);
 
     // CloudWatch Log Groups
@@ -676,6 +679,32 @@ export class HealthcareOrchestrationStack extends cdk.Stack {
     return func;
   }
 
+  private createTranslationFunction(): lambda.Function {
+    const func = new lambda.Function(this, 'TranslationFunction', {
+      functionName: 'healthcare-translation',
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: 'index.handler',
+      code: lambda.Code.fromAsset('src/lambda/translation'),
+      timeout: cdk.Duration.seconds(30),
+      memorySize: 512,
+      environment: {
+        NODE_OPTIONS: '--enable-source-maps',
+      },
+      tracing: lambda.Tracing.ACTIVE,
+    });
+
+    // Grant AWS Translate permissions
+    func.addToRolePolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'translate:TranslateText',
+      ],
+      resources: ['*'],
+    }));
+
+    return func;
+  }
+
   private createApiRoutes(api: apigateway.RestApi, functions: Record<string, lambda.Function>) {
     // Health check endpoint - no authentication required
     const healthResource = api.root.addResource('health');
@@ -949,6 +978,20 @@ export class HealthcareOrchestrationStack extends cdk.Stack {
     });
     const episodeResource = episodesResource.addResource('{episodeId}');
     episodeResource.addMethod('GET', new apigateway.LambdaIntegration(functions.episodes), {
+      authorizer: this.authorizer,
+      authorizationType: apigateway.AuthorizationType.COGNITO,
+    });
+
+    // Translation endpoint - requires authentication
+    const translateResource = api.root.addResource('translate');
+    translateResource.addMethod('POST', new apigateway.LambdaIntegration(functions.translation), {
+      authorizer: this.authorizer,
+      authorizationType: apigateway.AuthorizationType.COGNITO,
+    });
+    
+    // Batch translation endpoint
+    const translateBatchResource = translateResource.addResource('batch');
+    translateBatchResource.addMethod('POST', new apigateway.LambdaIntegration(functions.translation), {
       authorizer: this.authorizer,
       authorizationType: apigateway.AuthorizationType.COGNITO,
     });

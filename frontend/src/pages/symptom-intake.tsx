@@ -80,6 +80,7 @@ const SymptomIntakePage: React.FC = () => {
                   <button
                     key={symptom}
                     type="button"
+                    data-testid={`symptom-${symptom.toLowerCase().replace(/ /g, '-')}`}
                     onClick={() => addSymptom(symptom)}
                     disabled={symptoms.includes(symptom)}
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${

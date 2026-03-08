@@ -162,8 +162,8 @@ const nextConfig = {
     forceSwcTransforms: true
   },
   
-  // Enable static export for Azure Static Web Apps (only in production export)
-  output: undefined, // Use server mode for npm start
+  // Enable static export for S3/Azure Static Web Apps
+  output: 'export',
   trailingSlash: true,
   
   // Bandwidth optimization settings

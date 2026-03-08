@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { authService, AuthUser } from '@/services/authService';
+import LanguageSelector from '@/components/LanguageSelector';
 import {
   MagnifyingGlassIcon,
   BellIcon,
@@ -10,9 +13,111 @@ import {
   BuildingLibraryIcon,
   ChatBubbleLeftIcon,
   EllipsisHorizontalIcon,
+  ArrowRightOnRectangleIcon,
 } from '@heroicons/react/24/outline';
 
 const HomePage: React.FC = () => {
+  const router = useRouter();
+  const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    checkAuthAndLoadUser();
+  }, []);
+
+  const checkAuthAndLoadUser = async () => {
+    try {
+      // Check if demo mode
+      const useDemo = process.env.NEXT_PUBLIC_USE_DEMO_API === 'true';
+      const demoParam = router.query.demo === 'true';
+      
+      if (useDemo || demoParam) {
+        // Demo mode - use guest user
+        setCurrentUser({
+          username: 'Demo User',
+          email: 'demo@arogya.ai',
+          isGuest: true,
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      // Check authentication
+      if (!authService.isAuthAvailable()) {
+        // Auth not available - use guest
+        setCurrentUser({
+          username: 'Guest',
+          email: 'guest@demo.local',
+          isGuest: true,
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      const authenticated = await authService.isAuthenticated();
+      
+      if (!authenticated) {
+        // Not authenticated - redirect to login
+        router.push('/login');
+        return;
+      }
+
+      // Get current user
+      const user = await authService.getCurrentUser();
+      setCurrentUser(user);
+    } catch (error) {
+      console.error('Auth error:', error);
+      // Fallback to guest
+      setCurrentUser({
+        username: 'Guest',
+        email: 'guest@demo.local',
+        isGuest: true,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSignOut = async () => {
+    await authService.signOut();
+    router.push('/login');
+  };
+
+  const getUserInitial = () => {
+    if (!currentUser) return 'U';
+    const name = currentUser.username || currentUser.email || 'User';
+    return name.charAt(0).toUpperCase();
+  };
+
+  const getUserDisplayName = () => {
+    if (!currentUser) return 'User';
+    
+    // Always use email prefix for display (not the GUID username)
+    if (currentUser.email) {
+      const emailPrefix = currentUser.email.split('@')[0];
+      // Capitalize first letter
+      return emailPrefix.charAt(0).toUpperCase() + emailPrefix.slice(1);
+    }
+    
+    // Fallback to username only if no email
+    if (currentUser.username && currentUser.username !== 'guest') {
+      return currentUser.username;
+    }
+    
+    return 'User';
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <Head>
@@ -27,21 +132,38 @@ const HomePage: React.FC = () => {
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center text-white font-bold text-sm sm:text-lg">
-                  N
+                <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center text-white font-bold text-sm sm:text-lg">
+                  {getUserInitial()}
                 </div>
                 <div>
-                  <p className="text-xs sm:text-sm text-gray-500">Welcome Back</p>
-                  <p className="text-sm sm:text-base font-bold text-gray-900">Nanda</p>
+                  <p className="text-xs sm:text-sm text-gray-500">
+                    {currentUser?.isGuest ? 'Demo Mode' : 'Welcome Back'}
+                  </p>
+                  <p className="text-sm sm:text-base font-bold text-gray-900">
+                    {getUserDisplayName()}
+                  </p>
+                  {!currentUser?.isGuest && (
+                    <p className="text-xs text-gray-500">{currentUser?.email}</p>
+                  )}
                 </div>
               </div>
               <div className="flex items-center gap-2 sm:gap-3">
+                <LanguageSelector />
                 <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                   <MagnifyingGlassIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600" />
                 </button>
                 <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                   <BellIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-600" />
                 </button>
+                {!currentUser?.isGuest && (
+                  <button
+                    onClick={handleSignOut}
+                    className="p-2 hover:bg-red-50 rounded-full transition-colors"
+                    title="Sign Out"
+                  >
+                    <ArrowRightOnRectangleIcon className="h-5 w-5 sm:h-6 sm:w-6 text-red-600" />
+                  </button>
+                )}
               </div>
             </div>
           </div>

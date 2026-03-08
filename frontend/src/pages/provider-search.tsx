@@ -146,12 +146,15 @@ const ProviderSearch: React.FC = () => {
               <div className="relative">
                 <SparklesIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-purple-500 animate-pulse" />
                 <input
+                  id="provider-search-input"
+                  data-testid="provider-search-input"
                   type="text"
                   placeholder="Describe your symptoms or what you need... (e.g., 'fever and headache for 3 days')"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleAiSearch()}
                   className="w-full pl-10 pr-24 py-3 border-2 border-purple-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  aria-label="Provider search input"
                 />
                 <button
                   onClick={handleAiSearch}

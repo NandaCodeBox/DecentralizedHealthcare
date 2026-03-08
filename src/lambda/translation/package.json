@@ -1,0 +1,13 @@
+{
+  "name": "translation-lambda",
+  "version": "1.0.0",
+  "description": "AWS Translate Lambda Function for multi-language support",
+  "main": "index.ts",
+  "dependencies": {
+    "@aws-sdk/client-translate": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.0",
+    "@types/node": "^20.0.0"
+  }
+}

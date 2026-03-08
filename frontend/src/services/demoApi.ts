@@ -249,20 +249,10 @@ class DemoApiService {
     }
   }
 
-  // Test connection
+  // Test connection - Demo API always returns true (no real backend needed)
   async testConnection(): Promise<boolean> {
-    try {
-      const response = await fetch(`${this.baseURL}/test`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        signal: AbortSignal.timeout(5000)
-      });
-      return response.ok;
-    } catch {
-      return false;
-    }
+    // Demo API uses mock data, so we're always "connected"
+    return Promise.resolve(true);
   }
 }
 

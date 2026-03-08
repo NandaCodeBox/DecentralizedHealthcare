@@ -108,11 +108,11 @@ const TriageDashboard: React.FC = () => {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          {/* AI Processing Banner */}
-          <div className="mb-6 bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200 rounded-lg p-4 animate-pulse">
+          {/* AI Processing Banner with Prominent Confidence Score */}
+          <div className="mb-6 bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200 rounded-lg p-4">
             <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center animate-spin">
+                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
                   <span className="text-2xl">🤖</span>
                 </div>
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
@@ -120,10 +120,18 @@ const TriageDashboard: React.FC = () => {
               <div className="flex-1">
                 <p className="font-bold text-blue-900">AI Assessment Complete</p>
                 <p className="text-sm text-blue-700">Powered by Amazon Bedrock (Claude 3 Haiku)</p>
-              </div>
-              <div className="text-right">
-                <div className="text-2xl font-bold text-blue-600">{triageResult.aiConfidence}%</div>
-                <div className="text-xs text-blue-700">Confidence</div>
+                <div className="mt-2 flex items-center gap-2">
+                  <span className="text-sm font-semibold text-blue-800">AI Confidence Score:</span>
+                  <div className="flex items-center gap-2 px-3 py-1 bg-blue-600 rounded-full">
+                    <span className="text-xl font-bold text-white">{triageResult.aiConfidence}%</span>
+                  </div>
+                  <div className="flex-1 bg-gray-200 rounded-full h-2 max-w-xs">
+                    <div
+                      className="bg-blue-600 h-2 rounded-full transition-all"
+                      style={{ width: `${triageResult.aiConfidence}%` }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -438,6 +438,7 @@ const SupervisorDashboard: React.FC = () => {
                         {validation.status === 'pending' && (
                           <div className="space-y-2">
                             <button
+                              data-testid="approve-button"
                               onClick={() => handleApprove(validation.id)}
                               className="w-full px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
                             >
@@ -446,6 +447,7 @@ const SupervisorDashboard: React.FC = () => {
                             </button>
                             
                             <button
+                              data-testid="override-button"
                               onClick={() => handleOverride(validation.id)}
                               disabled={!overrideReason.trim() || !newUrgencyLevel}
                               className="w-full px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
@@ -455,6 +457,7 @@ const SupervisorDashboard: React.FC = () => {
                             </button>
 
                             <button
+                              data-testid="escalate-button"
                               onClick={() => handleEscalate(validation.id)}
                               disabled={!supervisorNotes.trim()}
                               className="w-full px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
@@ -463,6 +466,7 @@ const SupervisorDashboard: React.FC = () => {
                             </button>
 
                             <button
+                              data-testid="reject-button"
                               onClick={() => handleReject(validation.id)}
                               disabled={!supervisorNotes.trim()}
                               className="w-full px-4 py-2 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"

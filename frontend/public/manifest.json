@@ -1,8 +1,8 @@
 {
-  "name": "Healthcare Orchestration System",
-  "short_name": "HealthcareOS",
-  "description": "AI-enabled decentralized care orchestration system for India's healthcare network",
-  "theme_color": "#2563eb",
+  "name": "Arogya.ai - AI Healthcare Platform",
+  "short_name": "Arogya.ai",
+  "description": "AI-powered healthcare platform breaking language barriers for rural India",
+  "theme_color": "#14b8a6",
   "background_color": "#ffffff",
   "display": "standalone",
   "orientation": "portrait",

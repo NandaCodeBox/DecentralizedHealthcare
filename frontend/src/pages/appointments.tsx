@@ -40,7 +40,7 @@ const AppointmentsPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Appointments - Healthcare OS</title>
+        <title>Appointments - Arogya.ai</title>
         <meta name="description" content="Manage your appointments" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>

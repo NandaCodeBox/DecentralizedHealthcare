@@ -8,8 +8,13 @@ import {
   ArrowRightIcon,
   HomeIcon
 } from '@heroicons/react/24/outline';
+import { useStaticTranslation } from '@/hooks/useStaticTranslation';
 
 const TriageDashboard: React.FC = () => {
+  const { t } = useStaticTranslation();
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [selectedFacility, setSelectedFacility] = useState<any>(null);
   const [triageResult] = useState({
     severity: 'moderate',
     urgency: 'within_24_hours',
@@ -80,7 +85,7 @@ const TriageDashboard: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Triage Dashboard - Healthcare OS</title>
+        <title>Triage Dashboard - Arogya.ai</title>
         <meta name="description" content="AI-powered triage results and recommendations" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </Head>
@@ -205,11 +210,25 @@ const TriageDashboard: React.FC = () => {
                   </div>
                   
                   <div className="flex gap-2">
-                    <button className="flex-1 px-4 py-2 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 transition-colors text-sm">
-                      Book Appointment
+                    <button 
+                      onClick={() => {
+                        setSelectedFacility(facility);
+                        setShowBookingModal(true);
+                      }}
+                      data-testid={`book-appointment-${facility.id}`}
+                      className="flex-1 px-4 py-2 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 transition-colors text-sm"
+                    >
+                      {t('book_appointment')}
                     </button>
-                    <button className="px-4 py-2 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors text-sm">
-                      View Details
+                    <button 
+                      onClick={() => {
+                        setSelectedFacility(facility);
+                        setShowDetailsModal(true);
+                      }}
+                      data-testid={`view-details-${facility.id}`}
+                      className="px-4 py-2 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors text-sm"
+                    >
+                      {t('view_details')}
                     </button>
                   </div>
                 </div>
@@ -274,6 +293,212 @@ const TriageDashboard: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Booking Modal */}
+        {showBookingModal && selectedFacility && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-gray-900">Book Appointment</h3>
+                <button 
+                  onClick={() => setShowBookingModal(false)}
+                  className="p-2 hover:bg-gray-100 rounded-full"
+                >
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="mb-4 p-3 bg-teal-50 rounded-lg">
+                <p className="font-semibold text-teal-900">{selectedFacility.name}</p>
+                <p className="text-sm text-teal-700">{selectedFacility.type} • {selectedFacility.distance}</p>
+              </div>
+
+              <form className="space-y-4" onSubmit={(e) => {
+                e.preventDefault();
+                alert('Appointment booked successfully! You will receive a confirmation email.');
+                setShowBookingModal(false);
+              }}>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Preferred Date
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    min={new Date().toISOString().split('T')[0]}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Preferred Time
+                  </label>
+                  <select
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500"
+                  >
+                    <option value="">Select time</option>
+                    <option value="09:00">9:00 AM</option>
+                    <option value="10:00">10:00 AM</option>
+                    <option value="11:00">11:00 AM</option>
+                    <option value="14:00">2:00 PM</option>
+                    <option value="15:00">3:00 PM</option>
+                    <option value="16:00">4:00 PM</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Reason for Visit
+                  </label>
+                  <textarea
+                    required
+                    rows={3}
+                    placeholder="Brief description of your symptoms..."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500"
+                    defaultValue={triageResult.symptoms.join(', ')}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Contact Number
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="+91 98765 43210"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500"
+                  />
+                </div>
+
+                <div className="flex gap-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setShowBookingModal(false)}
+                    className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50"
+                  >
+                    {t('cancel')}
+                  </button>
+                  <button
+                    type="submit"
+                    className="flex-1 px-4 py-2 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700"
+                  >
+                    {t('confirm_booking')}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* Details Modal */}
+        {showDetailsModal && selectedFacility && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-gray-900">Facility Details</h3>
+                <button 
+                  onClick={() => setShowDetailsModal(false)}
+                  className="p-2 hover:bg-gray-100 rounded-full"
+                >
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div className="p-4 bg-gradient-to-r from-teal-50 to-blue-50 rounded-lg">
+                  <h4 className="text-lg font-bold text-gray-900 mb-1">{selectedFacility.name}</h4>
+                  <p className="text-sm text-gray-600">{selectedFacility.type}</p>
+                  <div className="flex items-center gap-2 mt-2">
+                    <span className="px-2 py-1 bg-purple-100 text-purple-900 text-xs font-bold rounded">
+                      {selectedFacility.aiMatch}% AI Match
+                    </span>
+                    <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded">
+                      {selectedFacility.availability}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3 bg-gray-50 rounded-lg">
+                    <p className="text-xs text-gray-500 mb-1">Distance</p>
+                    <p className="font-semibold text-gray-900">📍 {selectedFacility.distance}</p>
+                  </div>
+                  <div className="p-3 bg-gray-50 rounded-lg">
+                    <p className="text-xs text-gray-500 mb-1">Wait Time</p>
+                    <p className="font-semibold text-gray-900">⏱️ {selectedFacility.waitTime}</p>
+                  </div>
+                  <div className="p-3 bg-gray-50 rounded-lg">
+                    <p className="text-xs text-gray-500 mb-1">Rating</p>
+                    <p className="font-semibold text-gray-900">⭐ {selectedFacility.rating}/5.0</p>
+                  </div>
+                  <div className="p-3 bg-gray-50 rounded-lg">
+                    <p className="text-xs text-gray-500 mb-1">Services</p>
+                    <p className="font-semibold text-gray-900">
+                      {selectedFacility.hasEmergency && '🚑 '}
+                      {selectedFacility.hasGP && '👨‍⚕️'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-purple-50 border-l-4 border-purple-400 rounded">
+                  <p className="text-sm font-semibold text-purple-900 mb-1">AI Recommendation</p>
+                  <p className="text-sm text-purple-800">{selectedFacility.aiReason}</p>
+                </div>
+
+                <div>
+                  <h5 className="font-semibold text-gray-900 mb-2">Available Services</h5>
+                  <div className="space-y-2">
+                    {selectedFacility.hasEmergency && (
+                      <div className="flex items-center gap-2 text-sm text-gray-700">
+                        <CheckCircleIcon className="h-5 w-5 text-green-600" />
+                        <span>24/7 Emergency Care</span>
+                      </div>
+                    )}
+                    {selectedFacility.hasGP && (
+                      <div className="flex items-center gap-2 text-sm text-gray-700">
+                        <CheckCircleIcon className="h-5 w-5 text-green-600" />
+                        <span>General Practitioner</span>
+                      </div>
+                    )}
+                    <div className="flex items-center gap-2 text-sm text-gray-700">
+                      <CheckCircleIcon className="h-5 w-5 text-green-600" />
+                      <span>Lab Services</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-700">
+                      <CheckCircleIcon className="h-5 w-5 text-green-600" />
+                      <span>Pharmacy</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-4">
+                  <button
+                    onClick={() => {
+                      setShowDetailsModal(false);
+                      setShowBookingModal(true);
+                    }}
+                    className="flex-1 px-4 py-3 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700"
+                  >
+                    {t('book_appointment')}
+                  </button>
+                  <button
+                    onClick={() => setShowDetailsModal(false)}
+                    className="px-4 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50"
+                  >
+                    {t('close')}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

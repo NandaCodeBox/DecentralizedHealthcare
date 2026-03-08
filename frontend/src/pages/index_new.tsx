@@ -15,7 +15,7 @@ const HomePage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Healthcare OS - Home</title>
+        <title>Arogya.ai - Home</title>
         <meta name="description" content="AI-enabled healthcare orchestration system" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </Head>
@@ -121,7 +121,7 @@ const HomePage: React.FC = () => {
 
           {/* Why Choose - Feature Cards */}
           <div className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Why Choose Healthcare OS</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Why Choose Arogya.ai</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all">
                 <div className="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center mb-4">

@@ -216,7 +216,7 @@ const ProfilePage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>{t('profile.title')} - Healthcare OS</title>
+        <title>{t('profile.title')} - Arogya.ai</title>
         <meta name="description" content="Manage your health profile and preferences" />
       </Head>
 

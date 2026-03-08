@@ -15,7 +15,7 @@ const OfflineConfirmationPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Symptoms Saved - Healthcare OS</title>
+        <title>Symptoms Saved - Arogya.ai</title>
         <meta name="description" content="Your symptoms have been saved and will be processed when you're back online" />
       </Head>
 

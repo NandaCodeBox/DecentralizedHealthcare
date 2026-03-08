@@ -1,0 +1,33 @@
+agent:
+  name: supervisor-validation-agent
+  description: "Autonomous agent for validating triage assessments with multi-level reasoning"
+  runtime: bedrock-agentcore
+  model: anthropic.claude-3-haiku-20240307-v1:0
+  
+  memory:
+    enabled: true
+    type: dynamodb
+    ttl: 86400  # 24 hours
+  
+  observability:
+    cloudwatch: true
+    metrics: true
+    tracing: true
+  
+  environment:
+    EPISODE_TABLE_NAME: healthcare-episodes
+    NOTIFICATION_TOPIC_ARN: ${NOTIFICATION_TOPIC_ARN}
+    AWS_REGION: us-east-1
+  
+  iam_permissions:
+    - dynamodb:GetItem
+    - dynamodb:UpdateItem
+    - dynamodb:Query
+    - sns:Publish
+    - bedrock:InvokeModel
+    - logs:CreateLogGroup
+    - logs:CreateLogStream
+    - logs:PutLogEvents
+  
+  timeout: 30
+  memory_size: 512

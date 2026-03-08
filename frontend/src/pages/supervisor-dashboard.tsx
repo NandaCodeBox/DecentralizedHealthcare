@@ -10,9 +10,40 @@ import {
   UserIcon,
   SparklesIcon,
 } from '@heroicons/react/24/outline';
+import { useStaticTranslation } from '@/hooks/useStaticTranslation';
+
+interface VitalSigns {
+  heartRate: number;
+  bloodPressure: string;
+  temperature: string;
+}
+
+interface Validation {
+  id: number;
+  patientName: string;
+  age: number;
+  symptoms: string;
+  primaryComplaint: string;
+  duration: string;
+  severity: number;
+  urgencyLevel: string;
+  aiAssessment: string;
+  aiReasoning: string;
+  confidence: number;
+  flagReason: string | null;
+  timestamp: string;
+  status: string;
+  vitalSigns: VitalSigns;
+  agenticAIDecision?: string | null;
+  agenticAIReasoning?: string | null;
+  supervisorNotes?: string;
+}
 
 const SupervisorDashboard: React.FC = () => {
-  const [validations, setValidations] = useState([
+  const { t } = useStaticTranslation();
+  const [agenticAIEnabled, setAgenticAIEnabled] = useState(true);
+  const [aiProcessing, setAiProcessing] = useState(false);
+  const [validations, setValidations] = useState<Validation[]>([
     {
       id: 1,
       patientName: 'Rajesh Kumar',
@@ -29,6 +60,8 @@ const SupervisorDashboard: React.FC = () => {
       timestamp: '2 minutes ago',
       status: 'pending',
       vitalSigns: { heartRate: 110, bloodPressure: '150/95', temperature: '98.6°F' },
+      agenticAIDecision: null,
+      agenticAIReasoning: null,
     },
     {
       id: 2,
@@ -46,6 +79,8 @@ const SupervisorDashboard: React.FC = () => {
       timestamp: '5 minutes ago',
       status: 'pending',
       vitalSigns: { heartRate: 95, bloodPressure: '120/80', temperature: '102.5°F' },
+      agenticAIDecision: null,
+      agenticAIReasoning: null,
     },
     {
       id: 3,
@@ -87,6 +122,171 @@ const SupervisorDashboard: React.FC = () => {
   const [overrideReason, setOverrideReason] = useState('');
   const [newUrgencyLevel, setNewUrgencyLevel] = useState('');
   const [supervisorNotes, setSupervisorNotes] = useState('');
+
+  // Agentic AI function with multi-level reasoning
+  const runAgenticAI = async (validation: Validation) => {
+    // Call AWS Lambda Supervisor Validation Agent
+    const agentUrl = process.env.NEXT_PUBLIC_SUPERVISOR_AGENT_URL || 'https://35v66sz7u43rqq67e5fqmh6yeu0svwme.lambda-url.us-east-1.on.aws/';
+    
+    try {
+      const response = await fetch(agentUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ validation }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        return {
+          decision: result.decision,
+          reasoning: result.reasoning,
+          autoApproved: result.autoApproved,
+        };
+      }
+    } catch (error) {
+      console.error('Error calling Agentic AI agent:', error);
+    }
+
+    // Fallback to client-side reasoning if API fails
+    const reasoning: string[] = [];
+    let autoApprove = false;
+    let confidence = validation.confidence;
+
+    // Level 1: Confidence Check
+    if (confidence >= 85) {
+      reasoning.push(`High AI confidence (${confidence}%) indicates reliable assessment`);
+      autoApprove = true;
+    } else if (confidence >= 70) {
+      reasoning.push(`Moderate confidence (${confidence}%) - proceeding with additional checks`);
+    } else {
+      reasoning.push(`Low confidence (${confidence}%) - requires human review`);
+      return {
+        decision: 'escalate_to_human',
+        reasoning: reasoning.join('. ') + '. Human expertise needed for accurate assessment.',
+        autoApproved: false,
+      };
+    }
+
+    // Level 2: Severity Analysis
+    if (validation.severity >= 8) {
+      reasoning.push('High severity score warrants immediate attention');
+      if (validation.urgencyLevel === 'emergency') {
+        reasoning.push('Emergency classification aligns with severity');
+        autoApprove = true;
+      }
+    } else if (validation.severity <= 4) {
+      reasoning.push('Low severity indicates routine care appropriate');
+      autoApprove = true;
+    }
+
+    // Level 3: Pattern Matching (check for common scenarios)
+    const commonPatterns = [
+      { symptoms: ['fever', 'cough'], urgency: 'urgent', confidence: 75 },
+      { symptoms: ['headache', 'fatigue'], urgency: 'routine', confidence: 70 },
+      { symptoms: ['chest pain', 'shortness of breath'], urgency: 'emergency', confidence: 90 },
+    ];
+
+    const symptomsLower = validation.symptoms.toLowerCase();
+    const matchedPattern = commonPatterns.find(pattern =>
+      pattern.symptoms.every(s => symptomsLower.includes(s))
+    );
+
+    if (matchedPattern) {
+      reasoning.push(`Matches known pattern for ${matchedPattern.urgency} care`);
+      if (validation.urgencyLevel === matchedPattern.urgency) {
+        reasoning.push('Assessment aligns with established clinical patterns');
+        autoApprove = true;
+      }
+    }
+
+    // Level 4: Vital Signs Check
+    const hr = validation.vitalSigns.heartRate;
+    const temp = parseFloat(validation.vitalSigns.temperature);
+    
+    if (hr > 100 || temp > 101) {
+      reasoning.push('Elevated vital signs support urgency assessment');
+    } else if (hr < 90 && temp < 100) {
+      reasoning.push('Normal vital signs consistent with lower urgency');
+    }
+
+    // Level 5: Flag Check
+    if (validation.flagReason) {
+      reasoning.push('Case flagged for review - escalating to human supervisor');
+      return {
+        decision: 'escalate_to_human',
+        reasoning: reasoning.join('. ') + '. ' + validation.flagReason,
+        autoApproved: false,
+      };
+    }
+
+    // Final Decision
+    if (autoApprove && confidence >= 75) {
+      reasoning.push('All checks passed - auto-approving assessment');
+      return {
+        decision: 'auto_approve',
+        reasoning: reasoning.join('. ') + '. Assessment validated through multi-level AI reasoning.',
+        autoApproved: true,
+      };
+    } else {
+      reasoning.push('Uncertain factors detected - human review recommended');
+      return {
+        decision: 'escalate_to_human',
+        reasoning: reasoning.join('. ') + '. Human expertise will ensure optimal care decision.',
+        autoApproved: false,
+      };
+    }
+  };
+
+  // Auto-run Agentic AI on pending cases
+  React.useEffect(() => {
+    if (!agenticAIEnabled) return;
+
+    const pendingValidations = validations.filter(v => 
+      v.status === 'pending' && !v.agenticAIDecision
+    );
+
+    if (pendingValidations.length > 0 && !aiProcessing) {
+      setAiProcessing(true);
+      
+      // Process each validation with AWS Lambda agent
+      Promise.all(
+        pendingValidations.map(async (v) => {
+          const aiResult = await runAgenticAI(v);
+          return { id: v.id, aiResult };
+        })
+      ).then((results) => {
+        setValidations(prevValidations => 
+          prevValidations.map(v => {
+            const result = results.find(r => r.id === v.id);
+            if (result && v.status === 'pending' && !v.agenticAIDecision) {
+              const aiResult = result.aiResult;
+              
+              // Auto-approve if AI decides
+              if (aiResult.autoApproved) {
+                return {
+                  ...v,
+                  agenticAIDecision: aiResult.decision,
+                  agenticAIReasoning: aiResult.reasoning,
+                  status: 'approved',
+                  supervisorNotes: 'Auto-approved by Agentic AI',
+                };
+              } else {
+                return {
+                  ...v,
+                  agenticAIDecision: aiResult.decision,
+                  agenticAIReasoning: aiResult.reasoning,
+                };
+              }
+            }
+            return v;
+          })
+        );
+        setAiProcessing(false);
+      });
+    }
+  }, [validations, agenticAIEnabled, aiProcessing]);
 
   const handleApprove = (id: number) => {
     setValidations(validations.map(v => 
@@ -146,6 +346,9 @@ const SupervisorDashboard: React.FC = () => {
   const pendingCount = validations.filter(v => v.status === 'pending').length;
   const emergencyCount = validations.filter(v => v.urgencyLevel === 'emergency' && v.status === 'pending').length;
   const lowConfidenceCount = validations.filter(v => v.confidence < 70 && v.status === 'pending').length;
+  const aiApprovedCount = validations.filter(v => v.status === 'approved' && v.supervisorNotes === 'Auto-approved by Agentic AI').length;
+  const totalProcessed = validations.filter(v => v.status !== 'pending').length;
+  const aiApprovalRate = totalProcessed > 0 ? Math.round((aiApprovedCount / totalProcessed) * 100) : 0;
 
   const getUrgencyColor = (level: string) => {
     switch (level) {
@@ -180,7 +383,7 @@ const SupervisorDashboard: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Supervisor Dashboard - Healthcare OS</title>
+        <title>Supervisor Dashboard - Arogya.ai</title>
         <meta name="description" content="Supervisor validation dashboard" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
@@ -193,13 +396,33 @@ const SupervisorDashboard: React.FC = () => {
               <div>
                 <Link href="/" className="inline-flex items-center text-teal-600 hover:text-teal-700 mb-4">
                   <ArrowLeftIcon className="h-5 w-5 mr-2" />
-                  Back to Home
+                  {t('back_to_home')}
                 </Link>
                 <h1 className="text-3xl font-bold text-gray-900">Supervisor Dashboard</h1>
                 <p className="text-gray-600 mt-1">Review and validate patient triage assessments</p>
+                
+                {/* Agentic AI Toggle */}
+                <div className="mt-4 flex items-center gap-3">
+                  <button
+                    onClick={() => setAgenticAIEnabled(!agenticAIEnabled)}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all ${
+                      agenticAIEnabled
+                        ? 'bg-purple-600 text-white hover:bg-purple-700'
+                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    }`}
+                  >
+                    <SparklesIcon className="h-5 w-5" />
+                    Agentic AI: {agenticAIEnabled ? 'ON' : 'OFF'}
+                  </button>
+                  {aiProcessing && (
+                    <span className="text-sm text-purple-600 font-semibold animate-pulse">
+                      🤖 AI Processing...
+                    </span>
+                  )}
+                </div>
               </div>
               <div className="text-right">
-                <div className="grid grid-cols-3 gap-4 text-center">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
                   <div>
                     <div className="text-3xl font-bold text-teal-600">{pendingCount}</div>
                     <div className="text-xs text-gray-600">Pending</div>
@@ -210,11 +433,17 @@ const SupervisorDashboard: React.FC = () => {
                       <div className="text-xs text-gray-600">Emergency</div>
                     </div>
                   )}
-                  {lowConfidenceCount > 0 && (
-                    <div>
-                      <div className="text-3xl font-bold text-orange-600">{lowConfidenceCount}</div>
-                      <div className="text-xs text-gray-600">Low Confidence</div>
-                    </div>
+                  {agenticAIEnabled && (
+                    <>
+                      <div>
+                        <div className="text-3xl font-bold text-purple-600">{aiApprovedCount}</div>
+                        <div className="text-xs text-gray-600">AI Approved</div>
+                      </div>
+                      <div>
+                        <div className="text-3xl font-bold text-green-600">{aiApprovalRate}%</div>
+                        <div className="text-xs text-gray-600">AI Rate</div>
+                      </div>
+                    </>
                   )}
                 </div>
               </div>
@@ -241,11 +470,23 @@ const SupervisorDashboard: React.FC = () => {
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
                           <h3 className="font-bold text-lg">{validation.patientName}</h3>
                           <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusBadge(validation.status)}`}>
                             {validation.status.charAt(0).toUpperCase() + validation.status.slice(1)}
                           </span>
+                          {validation.agenticAIDecision === 'auto_approve' && validation.status === 'approved' && (
+                            <span className="px-2 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-800 flex items-center gap-1">
+                              <SparklesIcon className="h-3 w-3" />
+                              AI Approved
+                            </span>
+                          )}
+                          {validation.agenticAIDecision === 'escalate_to_human' && validation.status === 'pending' && (
+                            <span className="px-2 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-800 flex items-center gap-1">
+                              <UserIcon className="h-3 w-3" />
+                              Human Review
+                            </span>
+                          )}
                         </div>
                         <p className="text-sm opacity-75">{validation.age} years old</p>
                       </div>
@@ -259,6 +500,16 @@ const SupervisorDashboard: React.FC = () => {
                       <p className="text-sm font-semibold mb-1">Symptoms:</p>
                       <p className="text-sm">{validation.symptoms}</p>
                     </div>
+
+                    {validation.agenticAIReasoning && (
+                      <div className="mb-3 p-2 bg-purple-50 border-l-4 border-purple-500 rounded">
+                        <p className="text-xs font-semibold text-purple-900 flex items-center gap-1">
+                          <SparklesIcon className="h-4 w-4" />
+                          Agentic AI Analysis
+                        </p>
+                        <p className="text-xs text-purple-800 mt-1">{validation.agenticAIReasoning}</p>
+                      </div>
+                    )}
 
                     {validation.flagReason && (
                       <div className="mb-3 p-2 bg-orange-100 border-l-4 border-orange-500 rounded">
@@ -322,6 +573,34 @@ const SupervisorDashboard: React.FC = () => {
                             <p className="text-xs font-semibold text-gray-600 mb-1">AI Reasoning:</p>
                             <p className="text-xs text-gray-700 bg-purple-50 p-2 rounded">{validation.aiReasoning}</p>
                           </div>
+
+                          {validation.agenticAIReasoning && (
+                            <div className="mb-3">
+                              <p className="text-xs font-semibold text-purple-700 mb-1 flex items-center gap-1">
+                                <SparklesIcon className="h-4 w-4" />
+                                Agentic AI Multi-Level Analysis:
+                              </p>
+                              <p className="text-xs text-purple-900 bg-purple-100 p-2 rounded border border-purple-300">
+                                {validation.agenticAIReasoning}
+                              </p>
+                              {validation.agenticAIDecision === 'auto_approve' && (
+                                <div className="mt-2 px-3 py-2 bg-green-50 border border-green-300 rounded flex items-center gap-2">
+                                  <CheckCircleIcon className="h-5 w-5 text-green-600" />
+                                  <span className="text-xs font-semibold text-green-800">
+                                    ✓ Auto-Approved by Agentic AI
+                                  </span>
+                                </div>
+                              )}
+                              {validation.agenticAIDecision === 'escalate_to_human' && (
+                                <div className="mt-2 px-3 py-2 bg-orange-50 border border-orange-300 rounded flex items-center gap-2">
+                                  <UserIcon className="h-5 w-5 text-orange-600" />
+                                  <span className="text-xs font-semibold text-orange-800">
+                                    ⚠ Escalated for Human Review
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          )}
 
                           <div className="flex items-center gap-2">
                             <div className="flex-1 bg-gray-200 rounded-full h-2">

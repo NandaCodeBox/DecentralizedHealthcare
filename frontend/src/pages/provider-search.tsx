@@ -12,27 +12,72 @@ import {
   SparklesIcon,
   LightBulbIcon
 } from '@heroicons/react/24/outline';
+import { useStaticTranslation } from '@/hooks/useStaticTranslation';
+import { translateInputToEnglish } from '@/utils/inputTranslation';
 
 const ProviderSearch: React.FC = () => {
+  const { t, currentLanguage } = useStaticTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSpecialty, setSelectedSpecialty] = useState('all');
   const [selectedDistance, setSelectedDistance] = useState('10');
   const [isAiSearching, setIsAiSearching] = useState(false);
   const [aiSuggestions, setAiSuggestions] = useState<string[]>([]);
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [selectedProvider, setSelectedProvider] = useState<any>(null);
+  const [filteredProviders, setFilteredProviders] = useState<any[]>([]);
 
-  const handleAiSearch = () => {
+  const handleAiSearch = async () => {
     setIsAiSearching(true);
-    // Simulate AI processing
-    setTimeout(() => {
-      setIsAiSearching(false);
-      if (searchQuery.toLowerCase().includes('fever') || searchQuery.toLowerCase().includes('headache')) {
-        setAiSuggestions(['General Practitioner', 'Internal Medicine', 'Infectious Disease']);
-      } else if (searchQuery.toLowerCase().includes('heart') || searchQuery.toLowerCase().includes('chest')) {
-        setAiSuggestions(['Cardiologist', 'Emergency Medicine', 'Internal Medicine']);
-      } else {
-        setAiSuggestions(['General Practitioner', 'Family Medicine']);
+    
+    try {
+      // Translate search query to English if needed
+      const englishQuery = await translateInputToEnglish(searchQuery, currentLanguage);
+      
+      // Store translated query for backend processing
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('providerSearchQuery', JSON.stringify({
+          originalQuery: searchQuery,
+          englishQuery,
+          language: currentLanguage
+        }));
       }
-    }, 1000);
+      
+      // Simulate AI processing with translated query
+      setTimeout(() => {
+        setIsAiSearching(false);
+        const lowerQuery = englishQuery.toLowerCase();
+        
+        let suggestions: string[] = [];
+        let filtered: any[] = [];
+        
+        if (lowerQuery.includes('fever') || lowerQuery.includes('headache') || lowerQuery.includes('general')) {
+          suggestions = ['General Practitioner', 'Internal Medicine', 'Infectious Disease'];
+          filtered = providers.filter(p => p.specialty === 'General Practitioner');
+        } else if (lowerQuery.includes('heart') || lowerQuery.includes('chest') || lowerQuery.includes('cardio')) {
+          suggestions = ['Cardiologist', 'Emergency Medicine', 'Internal Medicine'];
+          filtered = providers.filter(p => p.specialty === 'Cardiologist');
+        } else if (lowerQuery.includes('child') || lowerQuery.includes('pediatric') || lowerQuery.includes('kid')) {
+          suggestions = ['Pediatrician', 'Family Medicine'];
+          filtered = providers.filter(p => p.specialty === 'Pediatrician');
+        } else if (lowerQuery.includes('bone') || lowerQuery.includes('joint') || lowerQuery.includes('orthopedic')) {
+          suggestions = ['Orthopedic Surgeon', 'Physical Therapy'];
+          filtered = providers.filter(p => p.specialty === 'Orthopedic Surgeon');
+        } else {
+          suggestions = ['General Practitioner', 'Family Medicine'];
+          filtered = providers;
+        }
+        
+        setAiSuggestions(suggestions);
+        setFilteredProviders(filtered);
+      }, 1000);
+    } catch (error) {
+      console.error('Translation error:', error);
+      setIsAiSearching(false);
+      // Continue with original query if translation fails
+      setAiSuggestions(['General Practitioner', 'Family Medicine']);
+      setFilteredProviders(providers);
+    }
   };
 
   const providers = [
@@ -115,7 +160,7 @@ const ProviderSearch: React.FC = () => {
   return (
     <>
       <Head>
-        <title>AI Provider Search - Healthcare OS</title>
+        <title>AI Provider Search - Arogya.ai</title>
         <meta name="description" content="AI-powered semantic search for healthcare providers" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </Head>
@@ -172,7 +217,7 @@ const ProviderSearch: React.FC = () => {
                   ) : (
                     <>
                       <SparklesIcon className="h-4 w-4" />
-                      AI Search
+                      {t('ai_search')}
                     </>
                   )}
                 </button>
@@ -257,7 +302,12 @@ const ProviderSearch: React.FC = () => {
         {/* Results */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="mb-4 flex items-center justify-between">
-            <p className="text-sm text-gray-600">{providers.length} providers found</p>
+            <p className="text-sm text-gray-600">
+              {filteredProviders.length > 0 ? filteredProviders.length : providers.length} providers found
+              {filteredProviders.length > 0 && filteredProviders.length < providers.length && (
+                <span className="ml-2 text-purple-600 font-semibold">(filtered by AI)</span>
+              )}
+            </p>
             <div className="flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-purple-100 to-blue-100 border border-purple-300 rounded-full">
               <SparklesIcon className="h-4 w-4 text-purple-600 animate-pulse" />
               <span className="text-xs font-bold text-purple-900">Sorted by AI relevance</span>
@@ -265,13 +315,13 @@ const ProviderSearch: React.FC = () => {
           </div>
 
           <div className="space-y-4">
-            {providers.map((provider) => (
+            {(filteredProviders.length > 0 ? filteredProviders : providers).map((provider) => (
               <div key={provider.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
                 <div className="flex gap-4">
                   {/* Provider Avatar */}
                   <div className="flex-shrink-0">
                     <div className="w-16 h-16 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center text-white font-bold text-xl">
-                      {provider.name.split(' ').map(n => n[0]).join('')}
+                      {provider.name.split(' ').map((n: string) => n[0]).join('')}
                     </div>
                   </div>
 
@@ -325,11 +375,25 @@ const ProviderSearch: React.FC = () => {
                     </div>
 
                     <div className="flex flex-wrap gap-2">
-                      <button className="flex-1 sm:flex-none px-4 py-2 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 transition-colors">
-                        Book Appointment
+                      <button 
+                        onClick={() => {
+                          setSelectedProvider(provider);
+                          setShowBookingModal(true);
+                        }}
+                        data-testid={`book-appointment-provider-${provider.id}`}
+                        className="flex-1 sm:flex-none px-4 py-2 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 transition-colors"
+                      >
+                        {t('book_appointment')}
                       </button>
-                      <button className="flex-1 sm:flex-none px-4 py-2 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors">
-                        View Profile
+                      <button 
+                        onClick={() => {
+                          setSelectedProvider(provider);
+                          setShowDetailsModal(true);
+                        }}
+                        data-testid={`view-profile-provider-${provider.id}`}
+                        className="flex-1 sm:flex-none px-4 py-2 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors"
+                      >
+                        {t('view_profile')}
                       </button>
                       <button className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50">
                         <PhoneIcon className="h-5 w-5 text-gray-600" />
@@ -348,6 +412,213 @@ const ProviderSearch: React.FC = () => {
             ))}
           </div>
         </div>
+
+        {/* Booking Modal */}
+        {showBookingModal && selectedProvider && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-gray-900">Book Appointment</h3>
+                <button 
+                  onClick={() => setShowBookingModal(false)}
+                  className="p-2 hover:bg-gray-100 rounded-full"
+                >
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="mb-4 p-3 bg-teal-50 rounded-lg">
+                <p className="font-semibold text-teal-900">{selectedProvider.name}</p>
+                <p className="text-sm text-teal-700">{selectedProvider.specialty} • {selectedProvider.hospital}</p>
+              </div>
+
+              <form className="space-y-4" onSubmit={(e) => {
+                e.preventDefault();
+                alert(`Appointment booked with ${selectedProvider.name}! You will receive a confirmation email.`);
+                setShowBookingModal(false);
+              }}>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Preferred Date
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    min={new Date().toISOString().split('T')[0]}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Preferred Time
+                  </label>
+                  <select
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500"
+                  >
+                    <option value="">Select time</option>
+                    <option value="09:00">9:00 AM</option>
+                    <option value="10:00">10:00 AM</option>
+                    <option value="11:00">11:00 AM</option>
+                    <option value="14:00">2:00 PM</option>
+                    <option value="15:00">3:00 PM</option>
+                    <option value="16:00">4:00 PM</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Reason for Visit
+                  </label>
+                  <textarea
+                    required
+                    rows={3}
+                    placeholder="Brief description of your symptoms..."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Contact Number
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="+91 98765 43210"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500"
+                  />
+                </div>
+
+                <div className="flex gap-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setShowBookingModal(false)}
+                    className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50"
+                  >
+                    {t('cancel')}
+                  </button>
+                  <button
+                    type="submit"
+                    className="flex-1 px-4 py-2 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700"
+                  >
+                    {t('confirm_booking')}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* Provider Details Modal */}
+        {showDetailsModal && selectedProvider && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-gray-900">Provider Profile</h3>
+                <button 
+                  onClick={() => setShowDetailsModal(false)}
+                  className="p-2 hover:bg-gray-100 rounded-full"
+                >
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-teal-50 to-blue-50 rounded-lg">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+                    {selectedProvider.name.split(' ').map((n: string) => n[0]).join('')}
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-lg font-bold text-gray-900 mb-1">{selectedProvider.name}</h4>
+                    <p className="text-sm text-gray-600 mb-2">{selectedProvider.specialty}</p>
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-1 bg-purple-100 text-purple-900 text-xs font-bold rounded">
+                        {selectedProvider.aiMatch}% AI Match
+                      </span>
+                      {selectedProvider.acceptingNew && (
+                        <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded">
+                          Accepting New Patients
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3 bg-gray-50 rounded-lg">
+                    <p className="text-xs text-gray-500 mb-1">Experience</p>
+                    <p className="font-semibold text-gray-900">{selectedProvider.experience}</p>
+                  </div>
+                  <div className="p-3 bg-gray-50 rounded-lg">
+                    <p className="text-xs text-gray-500 mb-1">Rating</p>
+                    <p className="font-semibold text-gray-900">⭐ {selectedProvider.rating} ({selectedProvider.reviews} reviews)</p>
+                  </div>
+                  <div className="p-3 bg-gray-50 rounded-lg">
+                    <p className="text-xs text-gray-500 mb-1">Distance</p>
+                    <p className="font-semibold text-gray-900">📍 {selectedProvider.distance}</p>
+                  </div>
+                  <div className="p-3 bg-gray-50 rounded-lg">
+                    <p className="text-xs text-gray-500 mb-1">Availability</p>
+                    <p className="font-semibold text-gray-900">⏰ {selectedProvider.availability}</p>
+                  </div>
+                </div>
+
+                <div>
+                  <h5 className="font-semibold text-gray-900 mb-2">Hospital/Clinic</h5>
+                  <p className="text-gray-700">{selectedProvider.hospital}</p>
+                </div>
+
+                <div>
+                  <h5 className="font-semibold text-gray-900 mb-2">Languages</h5>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedProvider.languages.map((lang: string, idx: number) => (
+                      <span key={idx} className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">
+                        {lang}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="p-4 bg-purple-50 border-l-4 border-purple-400 rounded">
+                  <p className="text-sm font-semibold text-purple-900 mb-1">AI Recommendation</p>
+                  <p className="text-sm text-purple-800">{selectedProvider.aiReason}</p>
+                </div>
+
+                {selectedProvider.nextSlot && (
+                  <div className="p-3 bg-teal-50 rounded-lg">
+                    <p className="text-sm text-teal-700">
+                      <span className="font-semibold">Next available:</span> {selectedProvider.nextSlot}
+                    </p>
+                  </div>
+                )}
+
+                <div className="flex gap-3 pt-4">
+                  <button
+                    onClick={() => {
+                      setShowDetailsModal(false);
+                      setShowBookingModal(true);
+                    }}
+                    className="flex-1 px-4 py-3 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700"
+                  >
+                    {t('book_appointment')}
+                  </button>
+                  <button
+                    onClick={() => setShowDetailsModal(false)}
+                    className="px-4 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50"
+                  >
+                    {t('close')}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

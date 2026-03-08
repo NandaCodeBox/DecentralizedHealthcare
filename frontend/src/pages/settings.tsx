@@ -205,7 +205,7 @@ const SettingsPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>{t('settings.title')} - Healthcare OS</title>
+        <title>{t('settings.title')} - Arogya.ai</title>
         <meta name="description" content="Manage your app settings and preferences" />
       </Head>
 
@@ -378,7 +378,7 @@ const SettingsPage: React.FC = () => {
                 </div>
                 <div className="pt-3 border-t border-gray-200">
                   <p className="text-xs text-gray-500">
-                    Healthcare OS - AI-enabled decentralized care orchestration system for India's healthcare network.
+                    Arogya.ai - AI-enabled decentralized care orchestration system for India's healthcare network.
                   </p>
                 </div>
               </div>

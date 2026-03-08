@@ -55,6 +55,16 @@ export class HealthcareOrchestrationStack extends cdk.Stack {
     const episodeTrackerFunction = this.createEpisodeTrackerFunction(episodeTable);
     const translationFunction = this.createTranslationFunction();
 
+    // ===== AGENTIC AI AGENTS =====
+    // Agent 1: Supervisor Validation Agent (Auto-validates triage assessments)
+    const agentCoreFunction = this.createAgentCoreFunction(episodeTable, notificationTopic);
+    
+    // Agent 2: Care Pathway Orchestrator Agent (Autonomous care coordination)
+    const carePathwayAgentFunction = this.createCarePathwayAgentFunction(episodeTable, patientTable, notificationTopic);
+    
+    // Agent 3: Clinical Decision Support Agent (AI-powered diagnosis assistance)
+    const clinicalDecisionAgentFunction = this.createClinicalDecisionAgentFunction(patientTable, episodeTable);
+
     // API Gateway Routes (basic structure)
     this.createApiRoutes(api, {
       symptomIntake: symptomIntakeFunction,
@@ -66,6 +76,9 @@ export class HealthcareOrchestrationStack extends cdk.Stack {
       referrals: referralManagerFunction,
       episodes: episodeTrackerFunction,
       translation: translationFunction,
+      agentCore: agentCoreFunction,
+      carePathwayAgent: carePathwayAgentFunction,
+      clinicalDecisionAgent: clinicalDecisionAgentFunction,
     });
 
     // CloudWatch Monitoring and Alarms
@@ -79,6 +92,9 @@ export class HealthcareOrchestrationStack extends cdk.Stack {
       referralManagerFunction,
       episodeTrackerFunction,
       translationFunction,
+      agentCoreFunction,
+      carePathwayAgentFunction,
+      clinicalDecisionAgentFunction,
     ]);
 
     // CloudWatch Log Groups

@@ -119,7 +119,7 @@ const EpisodesPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>{t('episodes.title')} - Healthcare OS</title>
+        <title>{t('episodes.title')} - Arogya.ai</title>
         <meta name="description" content="Track your healthcare journey and care episodes" />
       </Head>
 

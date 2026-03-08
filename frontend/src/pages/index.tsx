@@ -123,7 +123,7 @@ const HomePage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Healthcare OS - Home</title>
+        <title>Arogya.ai - Home</title>
         <meta name="description" content="AI-enabled healthcare orchestration system" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </Head>
@@ -132,6 +132,16 @@ const HomePage: React.FC = () => {
         {/* Header */}
         <div className="px-4 sm:px-6 lg:px-8 pt-6 pb-4 border-b border-gray-200">
           <div className="max-w-7xl mx-auto">
+            {/* Arogya.ai Branding */}
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center">
+                <span className="text-white font-bold text-lg">A</span>
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                Arogya<span className="text-teal-600">.ai</span>
+              </h1>
+            </div>
+            
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
                 <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center text-white font-bold text-sm sm:text-lg">

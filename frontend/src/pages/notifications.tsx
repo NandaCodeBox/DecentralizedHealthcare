@@ -88,7 +88,7 @@ const NotificationsPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Notifications - Healthcare OS</title>
+        <title>Notifications - Arogya.ai</title>
         <meta name="description" content="Real-time notifications and alerts" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>

@@ -85,7 +85,7 @@ const CareStatusPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Care Status - Healthcare OS</title>
+        <title>Care Status - Arogya.ai</title>
         <meta name="description" content="Track your care episode status" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>

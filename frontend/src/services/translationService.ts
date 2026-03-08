@@ -94,17 +94,17 @@ class TranslationService {
   /**
    * Translate text using AWS Translate API
    */
-  async translate(text: string, targetLanguage?: SupportedLanguage): Promise<string> {
+  async translate(text: string, targetLanguage?: SupportedLanguage, sourceLanguage: SupportedLanguage = 'en'): Promise<string> {
     const target = targetLanguage || this.currentLanguage;
     
-    // If target is English or text is empty, return as-is
-    if (target === 'en' || !text || text.trim() === '') {
+    // If target is same as source, return as-is
+    if (target === sourceLanguage || !text || text.trim() === '') {
       return text;
     }
 
     // Check cache first
-    const cacheKey = `${text}:${target}`;
-    const cached = this.translations.get(text)?.get(target);
+    const cacheKey = `${sourceLanguage}:${text}:${target}`;
+    const cached = this.translations.get(cacheKey)?.get(target);
     if (cached) {
       return cached;
     }
@@ -118,7 +118,7 @@ class TranslationService {
         },
         body: JSON.stringify({
           text,
-          sourceLanguage: 'en',
+          sourceLanguage,
           targetLanguage: target,
         }),
       });
@@ -131,10 +131,10 @@ class TranslationService {
       const translatedText = data.translatedText || text;
 
       // Cache the translation
-      if (!this.translations.has(text)) {
-        this.translations.set(text, new Map());
+      if (!this.translations.has(cacheKey)) {
+        this.translations.set(cacheKey, new Map());
       }
-      this.translations.get(text)!.set(target, translatedText);
+      this.translations.get(cacheKey)!.set(target, translatedText);
 
       return translatedText;
     } catch (error) {

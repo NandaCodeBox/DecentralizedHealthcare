@@ -1,0 +1,30 @@
+agents:
+  supervisor-validation-agent:
+    name: supervisor-validation-agent
+    path: agents/supervisor-validation-agent
+    entrypoint: agent.py
+    deployment_type: direct_code_deploy
+    aws:
+      account: "289892867722"
+      region: us-east-1
+      execution_role: arn:aws:iam::289892867722:role/BedrockAgentCoreExecutionRole
+    
+  care-pathway-agent:
+    name: care-pathway-agent
+    path: agents/care-pathway-agent
+    entrypoint: agent.py
+    deployment_type: direct_code_deploy
+    aws:
+      account: "289892867722"
+      region: us-east-1
+      execution_role: arn:aws:iam::289892867722:role/BedrockAgentCoreExecutionRole
+    
+  clinical-decision-agent:
+    name: clinical-decision-agent
+    path: agents/clinical-decision-agent
+    entrypoint: agent.py
+    deployment_type: direct_code_deploy
+    aws:
+      account: "289892867722"
+      region: us-east-1
+      execution_role: arn:aws:iam::289892867722:role/BedrockAgentCoreExecutionRole

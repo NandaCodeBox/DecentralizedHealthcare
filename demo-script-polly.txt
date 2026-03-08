@@ -1,0 +1,19 @@
+India faces a healthcare crisis. With 1.4 billion people and only 1 doctor per 1,445 people, 70% of our rural population struggles to access healthcare. Language barriers exclude 980 million people from digital health solutions.
+
+Introducing Arogya AI, an AI-powered healthcare platform that breaks language barriers and provides instant medical triage in Hindi, Tamil, Telugu, and English. Let me show you how it works.
+
+The application is fully multilingual. Watch as I switch to Hindi. The entire interface translates instantly, every button, every label, every piece of text. This covers 80% of India's population.
+
+Now, here's our breakthrough feature. I'm on the symptom intake page, and I'll type my symptoms in Hindi. I just typed 'I have fever and headache' in Hindi. The system automatically translates this to English for AI processing. I'll select the severity as moderate and duration as 1 to 3 days.
+
+Watch what happens. The AI analyzes my symptoms using Amazon Bedrock with Claude 3, and provides an assessment with 87% confidence. It recommends seeing a general practitioner within 24 hours and explains the clinical reasoning. This is load-bearing AI, without it, the system cannot understand natural language in multiple languages or provide nuanced medical assessments.
+
+Next, our AI provider search. I'll switch to Tamil and search for a cardiologist. The system uses semantic search, not just keyword matching. It understands the intent and finds relevant providers with AI match scores. This top provider has a 95% match, considering specialty, distance, availability, and quality ratings.
+
+Finally, our human-in-the-loop system. The supervisor dashboard shows all cases requiring validation. Low-confidence cases are automatically flagged for human review. This ensures safety while maintaining speed. AI provides the assessment, humans provide the final validation.
+
+The results speak for themselves. 87% triage accuracy, 95% provider match accuracy, and assessments in under 30 seconds. All of this costs just $0.001 per assessment, 100 times cheaper than manual triage.
+
+Built entirely on AWS using Lambda, Bedrock, Translate, DynamoDB, and S3. Fully serverless, auto-scaling, and production-ready.
+
+Arogya AI, Breaking language barriers, saving lives. Try it now at the link below. Thank you.

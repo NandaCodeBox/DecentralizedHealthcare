@@ -13,7 +13,7 @@ const TestPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Test Page - Healthcare OS</title>
+        <title>Test Page - Arogya.ai</title>
         <meta name="description" content="Test page for PWA functionality" />
       </Head>
 

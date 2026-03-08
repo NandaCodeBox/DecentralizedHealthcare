@@ -51,6 +51,78 @@ export const translations: Translations = {
     ta: 'கடவுச்சொல்',
     te: 'పాస్‌వర్డ్',
   },
+  
+  // Common Actions
+  'submit': {
+    en: 'Submit',
+    hi: 'जमा करें',
+    ta: 'சமர்ப்பிக்கவும்',
+    te: 'సమర్పించండి',
+  },
+  'cancel': {
+    en: 'Cancel',
+    hi: 'रद्द करें',
+    ta: 'ரத்துசெய்',
+    te: 'రద్దు చేయండి',
+  },
+  'close': {
+    en: 'Close',
+    hi: 'बंद करें',
+    ta: 'மூடு',
+    te: 'మూసివేయండి',
+  },
+  'next': {
+    en: 'Next',
+    hi: 'अगला',
+    ta: 'அடுத்து',
+    te: 'తదుపరి',
+  },
+  'back_to_home': {
+    en: 'Back to Home',
+    hi: 'होम पर वापस जाएं',
+    ta: 'முகப்புக்கு திரும்பு',
+    te: 'హోమ్‌కు తిరిగి వెళ్ళండి',
+  },
+  
+  // Appointment & Details
+  'book_appointment': {
+    en: 'Book Appointment',
+    hi: 'अपॉइंटमेंट बुक करें',
+    ta: 'சந்திப்பு பதிவு செய்யவும்',
+    te: 'అపాయింట్‌మెంట్ బుక్ చేయండి',
+  },
+  'view_details': {
+    en: 'View Details',
+    hi: 'विवरण देखें',
+    ta: 'விவரங்களைக் காண்க',
+    te: 'వివరాలను చూడండి',
+  },
+  'view_profile': {
+    en: 'View Profile',
+    hi: 'प्रोफ़ाइल देखें',
+    ta: 'சுயவிவரத்தைக் காண்க',
+    te: 'ప్రొఫైల్ చూడండి',
+  },
+  'confirm_booking': {
+    en: 'Confirm Booking',
+    hi: 'बुकिंग की पुष्टि करें',
+    ta: 'பதிவை உறுதிப்படுத்தவும்',
+    te: 'బుకింగ్‌ను నిర్ధారించండి',
+  },
+  
+  // Search
+  'ai_search': {
+    en: 'AI Search',
+    hi: 'एआई खोज',
+    ta: 'AI தேடல்',
+    te: 'AI శోధన',
+  },
+  'search': {
+    en: 'Search',
+    hi: 'खोजें',
+    ta: 'தேடு',
+    te: 'శోధించండి',
+  },
   'welcome_back': {
     en: 'Welcome Back',
     hi: 'वापसी पर स्वागत है',
@@ -125,17 +197,95 @@ export const translations: Translations = {
     ta: 'வயிற்று வலி',
     te: 'కడుపు నొప్పి',
   },
-  'submit': {
-    en: 'Submit',
-    hi: 'जमा करें',
-    ta: 'சமர்ப்பிக்கவும்',
-    te: 'సమర్పించండి',
-  },
   'get_ai_triage': {
     en: 'Get AI Triage Assessment',
     hi: 'एआई ट्राइएज मूल्यांकन प्राप्त करें',
     ta: 'AI மதிப்பீட்டைப் பெறுங்கள்',
     te: 'AI అంచనా పొందండి',
+  },
+  'add_custom_symptom': {
+    en: 'Add Custom Symptom',
+    hi: 'कस्टम लक्षण जोड़ें',
+    ta: 'தனிப்பயன் அறிகுறியைச் சேர்க்கவும்',
+    te: 'అనుకూల లక్షణాన్ని జోడించండి',
+  },
+  'type_symptom': {
+    en: 'Type your symptom...',
+    hi: 'अपना लक्षण टाइप करें...',
+    ta: 'உங்கள் அறிகுறியை உள்ளிடவும்...',
+    te: 'మీ లక్షణాన్ని టైప్ చేయండి...',
+  },
+  'how_severe': {
+    en: 'How severe are your symptoms?',
+    hi: 'आपके लक्षण कितने गंभीर हैं?',
+    ta: 'உங்கள் அறிகுறிகள் எவ்வளவு தீவிரமானவை?',
+    te: 'మీ లక్షణాలు ఎంత తీవ్రంగా ఉన్నాయి?',
+  },
+  'mild': {
+    en: 'Mild',
+    hi: 'हल्का',
+    ta: 'லேசான',
+    te: 'తేలికపాటి',
+  },
+  'moderate': {
+    en: 'Moderate',
+    hi: 'मध्यम',
+    ta: 'மிதமான',
+    te: 'మితమైన',
+  },
+  'severe': {
+    en: 'Severe',
+    hi: 'गंभीर',
+    ta: 'கடுமையான',
+    te: 'తీవ్రమైన',
+  },
+  'critical': {
+    en: 'Critical',
+    hi: 'गंभीर',
+    ta: 'முக்கியமான',
+    te: 'క్లిష్టమైన',
+  },
+  'how_long_symptoms': {
+    en: 'How long have you had these symptoms?',
+    hi: 'आपको ये लक्षण कब से हैं?',
+    ta: 'இந்த அறிகுறிகள் எவ்வளவு காலமாக உள்ளன?',
+    te: 'ఈ లక్షణాలు మీకు ఎంతకాలంగా ఉన్నాయి?',
+  },
+  'select_duration': {
+    en: 'Select duration...',
+    hi: 'अवधि चुनें...',
+    ta: 'காலத்தைத் தேர்ந்தெடுக்கவும்...',
+    te: 'వ్యవధిని ఎంచుకోండి...',
+  },
+  'additional_info': {
+    en: 'Additional Information (Optional)',
+    hi: 'अतिरिक्त जानकारी (वैकल्पिक)',
+    ta: 'கூடுதல் தகவல் (விருப்பமானது)',
+    te: 'అదనపు సమాచారం (ఐచ్ఛికం)',
+  },
+  'additional_info_placeholder': {
+    en: 'Any other details that might help us understand your condition...',
+    hi: 'कोई अन्य विवरण जो आपकी स्थिति को समझने में मदद कर सकता है...',
+    ta: 'உங்கள் நிலையைப் புரிந்துகொள்ள உதவும் வேறு ஏதேனும் விவரங்கள்...',
+    te: 'మీ పరిస్థితిని అర్థం చేసుకోవడానికి సహాయపడే ఏవైనా ఇతర వివరాలు...',
+  },
+  'ai_powered_assessment': {
+    en: 'AI-Powered Assessment',
+    hi: 'एआई-संचालित मूल्यांकन',
+    ta: 'AI-இயங்கும் மதிப்பீடு',
+    te: 'AI-శక్తితో అంచనా',
+  },
+  'ai_analyze_seconds': {
+    en: 'Our AI will analyze your symptoms in seconds',
+    hi: 'हमारा एआई सेकंड में आपके लक्षणों का विश्लेषण करेगा',
+    ta: 'எங்கள் AI உங்கள் அறிகுறிகளை விநாடிகளில் பகுப்பாய்வு செய்யும்',
+    te: 'మా AI మీ లక్షణాలను సెకన్లలో విశ్లేషిస్తుంది',
+  },
+  'info_secure': {
+    en: 'Your information is secure and confidential',
+    hi: 'आपकी जानकारी सुरक्षित और गोपनीय है',
+    ta: 'உங்கள் தகவல் பாதுகாப்பானது மற்றும் ரகசியமானது',
+    te: 'మీ సమాచారం సురక్షితం మరియు గోప్యం',
   },
   
   // Provider Search
@@ -144,18 +294,6 @@ export const translations: Translations = {
     hi: 'प्रदाता खोजें',
     ta: 'வழங்குநரைக் கண்டறியவும்',
     te: 'ప్రొవైడర్‌ను కనుగొనండి',
-  },
-  'ai_search': {
-    en: 'AI Search',
-    hi: 'एआई खोज',
-    ta: 'AI தேடல்',
-    te: 'AI శోధన',
-  },
-  'search': {
-    en: 'Search',
-    hi: 'खोजें',
-    ta: 'தேடு',
-    te: 'శోధించండి',
   },
   
   // Supervisor Dashboard
@@ -413,23 +551,11 @@ export const translations: Translations = {
     ta: 'சேமிக்கவும்',
     te: 'సేవ్ చేయండి',
   },
-  'cancel': {
-    en: 'Cancel',
-    hi: 'रद्द करें',
-    ta: 'ரத்துசெய்',
-    te: 'రద్దు చేయండి',
-  },
   'continue': {
     en: 'Continue',
     hi: 'जारी रखें',
     ta: 'தொடரவும்',
     te: 'కొనసాగించండి',
-  },
-  'close': {
-    en: 'Close',
-    hi: 'बंद करें',
-    ta: 'மூடு',
-    te: 'మూసివేయండి',
   },
   
   // Status Messages

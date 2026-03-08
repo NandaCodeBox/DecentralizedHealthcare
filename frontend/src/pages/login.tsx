@@ -90,7 +90,7 @@ const LoginPage: React.FC = () => {
     return (
       <>
         <Head>
-          <title>Authentication Unavailable - Healthcare OS</title>
+          <title>Authentication Unavailable - Arogya.ai</title>
         </Head>
         <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
           <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
@@ -114,8 +114,8 @@ const LoginPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Sign In - Healthcare OS</title>
-        <meta name="description" content="Sign in to Healthcare OS" />
+        <title>Sign In - Arogya.ai</title>
+        <meta name="description" content="Sign in to Arogya.ai" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </Head>
 
@@ -269,19 +269,6 @@ const LoginPage: React.FC = () => {
             <div className="space-y-3 mb-6">
               <button
                 type="button"
-                onClick={() => handleQuickLogin('test@arogya.ai', 'SecurePass123!')}
-                disabled={isLoading}
-                className="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                <span className="text-xl">👤</span>
-                <div className="text-left">
-                  <div className="text-sm font-bold">Login as Test User</div>
-                  <div className="text-xs opacity-90">test@arogya.ai</div>
-                </div>
-              </button>
-
-              <button
-                type="button"
                 onClick={() => handleQuickLogin('patient@arogya.ai', 'PatientPass123!')}
                 disabled={isLoading}
                 className="w-full px-4 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-lg hover:from-green-700 hover:to-green-800 transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
@@ -319,20 +306,15 @@ const LoginPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Test Credentials */}
+            {/* Demo Credentials */}
             <div className="space-y-2 text-sm">
-              <div className="p-3 bg-blue-50 rounded-lg">
-                <p className="font-semibold text-blue-900 mb-1">Test User</p>
-                <p className="text-blue-700">Email: test@arogya.ai</p>
-                <p className="text-blue-700">Password: SecurePass123!</p>
-              </div>
               <div className="p-3 bg-green-50 rounded-lg">
-                <p className="font-semibold text-green-900 mb-1">Patient</p>
+                <p className="font-semibold text-green-900 mb-1">Patient (Demo User)</p>
                 <p className="text-green-700">Email: patient@arogya.ai</p>
                 <p className="text-green-700">Password: PatientPass123!</p>
               </div>
               <div className="p-3 bg-purple-50 rounded-lg">
-                <p className="font-semibold text-purple-900 mb-1">Supervisor</p>
+                <p className="font-semibold text-purple-900 mb-1">Supervisor (Healthcare Staff)</p>
                 <p className="text-purple-700">Email: supervisor@arogya.ai</p>
                 <p className="text-purple-700">Password: SupervisorPass123!</p>
               </div>

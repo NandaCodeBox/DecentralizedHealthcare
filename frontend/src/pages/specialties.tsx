@@ -23,7 +23,7 @@ const SpecialtiesPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>All Specialties - Healthcare OS</title>
+        <title>All Specialties - Arogya.ai</title>
         <meta name="description" content="Browse all medical specialties" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </Head>

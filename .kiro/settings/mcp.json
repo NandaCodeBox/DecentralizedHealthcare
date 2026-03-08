@@ -46,7 +46,9 @@
         "add_table",
         "list_presentations",
         "switch_presentation",
-        "extract_presentation_text"
+        "extract_presentation_text",
+        "set_core_properties",
+        "add_bullet_points"
       ]
     },
     "playwright": {

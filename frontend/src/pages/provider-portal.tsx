@@ -109,7 +109,7 @@ const ProviderPortal: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Provider Portal - Healthcare OS</title>
+        <title>Provider Portal - Arogya.ai</title>
         <meta name="description" content="Provider portal for managing assigned patients" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>

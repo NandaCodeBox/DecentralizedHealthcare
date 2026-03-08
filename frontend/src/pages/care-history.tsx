@@ -40,7 +40,7 @@ const CareHistoryPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Care History - Healthcare OS</title>
+        <title>Care History - Arogya.ai</title>
         <meta name="description" content="Your complete care history" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>

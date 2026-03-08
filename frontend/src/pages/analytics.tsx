@@ -7,7 +7,7 @@ const AnalyticsDashboard: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Analytics Dashboard - Healthcare OS</title>
+        <title>Analytics Dashboard - Arogya.ai</title>
         <meta name="description" content="System analytics and insights" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>

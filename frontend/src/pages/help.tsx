@@ -109,8 +109,8 @@ const HelpPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>{t('navigation.help')} - Healthcare OS</title>
-        <meta name="description" content="Get help and support for Healthcare OS" />
+        <title>{t('navigation.help')} - Arogya.ai</title>
+        <meta name="description" content="Get help and support for Arogya.ai" />
       </Head>
 
       <Layout>

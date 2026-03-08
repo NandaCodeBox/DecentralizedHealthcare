@@ -1,0 +1,5 @@
+{
+  "supervisor-validation-agent": "https://35v66sz7u43rqq67e5fqmh6yeu0svwme.lambda-url.us-east-1.on.aws/",
+  "care-pathway-agent": "https://kfrboux5jjxxtteqkp44e3psca0nzcic.lambda-url.us-east-1.on.aws/",
+  "clinical-decision-agent": "https://46cvklukkhccawngp5g2yd7fpi0tqswa.lambda-url.us-east-1.on.aws/"
+}

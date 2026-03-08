@@ -86,8 +86,8 @@ const TestDataPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Test Data - Healthcare OS</title>
-        <meta name="description" content="Test data management for Healthcare OS" />
+        <title>Test Data - Arogya.ai</title>
+        <meta name="description" content="Test data management for Arogya.ai" />
       </Head>
 
       <Layout>
@@ -103,7 +103,7 @@ const TestDataPage: React.FC = () => {
                   Test Data Management
                 </h1>
                 <p className="text-lg text-gray-600">
-                  Load sample data to test the Healthcare OS application
+                  Load sample data to test the Arogya.ai application
                 </p>
               </div>
             </div>

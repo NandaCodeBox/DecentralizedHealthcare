@@ -66,7 +66,7 @@ const ApiTestPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>API Test - Healthcare OS</title>
+        <title>API Test - Arogya.ai</title>
         <meta name="description" content="Test API connectivity and functionality" />
       </Head>
 

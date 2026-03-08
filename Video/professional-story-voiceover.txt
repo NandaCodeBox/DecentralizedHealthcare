@@ -1,0 +1,111 @@
+# PROFESSIONAL STORY-DRIVEN VOICEOVER
+# Synchronized with video actions - 3 minutes
+# Natural pacing with pauses for visual demonstration
+
+## OPENING: THE PROBLEM (0-30s)
+
+[PAUSE 2s - Show homepage]
+
+Imagine this. It's two in the morning. Rajesh Kumar, a forty-five year old man in rural Maharashtra, wakes up with severe chest pain.
+
+[PAUSE 2s - Show emergency banner]
+
+His nearest hospital is fifty kilometers away. He doesn't know if this is life-threatening or if he can wait until morning. Should he risk the long journey, or wait and hope for the best?
+
+[PAUSE 2s - Scroll homepage]
+
+This is the daily reality for nine hundred million Indians living in underserved areas. Limited access to healthcare. No immediate guidance. And lives hanging in the balance.
+
+## SOLUTION BEGINS: PATIENT JOURNEY (30-90s)
+
+[PAUSE 2s - Language selection]
+
+Now, watch how Arogya dot AI transforms this critical moment. Rajesh opens our mobile app. First, he selects his language. Hindi. Because healthcare should speak your language.
+
+[PAUSE 3s - Navigate to symptom intake]
+
+He taps on "Tell us your symptoms". The interface is simple. No confusing medical terms. Just clear, easy-to-understand options.
+
+[PAUSE 4s - Click symptom tiles]
+
+He selects his symptoms. Chest pain. Shortness of breath. Fever. Just tap what you're feeling. That's it.
+
+[PAUSE 3s - Scroll and select severity]
+
+He rates how severe it feels. And indicates when it started. A few hours ago.
+
+[PAUSE 3s - Submit form]
+
+He submits. And now, watch what happens.
+
+[PAUSE 4s - AI processing and results]
+
+Within seconds, our AI powered by Amazon Bedrock analyzes everything. Ninety-four percent confidence. This is high priority. Immediate medical attention needed.
+
+[PAUSE 4s - Show facility recommendations]
+
+The system instantly recommends three nearby facilities. Look at this. City General Hospital. Ninety-five percent AI match. Just two kilometers away. Two hour wait time. Available now.
+
+[PAUSE 4s - Book appointment]
+
+Rajesh books his appointment. Right here. Right now. Date. Time. Contact number. Done.
+
+[PAUSE 2s]
+
+What used to take forty-five minutes of waiting and uncertainty, now takes thirty seconds. Rajesh is on his way to get the care he needs.
+
+## THE REVOLUTION: AGENTIC AI (90-150s)
+
+[PAUSE 3s - Switch to supervisor dashboard]
+
+But here's where it gets truly revolutionary. Behind every decision, three autonomous AI agents are working twenty-four seven.
+
+[PAUSE 3s - Show AI toggle]
+
+See this purple toggle? Agentic AI. It's always on. Always learning. Always improving.
+
+[PAUSE 3s - Show statistics]
+
+Look at today's numbers. Forty-seven cases processed. Thirty-eight automatically approved. That's eighty-one percent automation. No human bottleneck. No delays.
+
+[PAUSE 4s - Click on case]
+
+Let's look at Rajesh's case. The AI performed six levels of reasoning. Symptom severity analysis. Vital signs correlation. Urgency assessment. Facility matching. Care pathway planning. And risk stratification. All of this in under three seconds.
+
+[PAUSE 3s - Show green indicator]
+
+Green indicator. Auto-approved. Rajesh gets immediate care without waiting for manual review.
+
+[PAUSE 4s - Show another case]
+
+Now look at this case. Orange indicator. The AI detected conflicting symptoms. It escalated this to a human supervisor for review. This is intelligent automation. The AI knows when to act independently, and when to ask for human expertise.
+
+## SCALE AND IMPACT (150-175s)
+
+[PAUSE 3s - Language demonstration]
+
+Arogya AI speaks ten Indian languages. Tamil. Telugu. Bengali. Hindi. English. Every patient gets care in their mother tongue.
+
+[PAUSE 3s - Provider search]
+
+Our AI-powered provider search understands natural language. Type "heart specialist near me" in any language, and get instant, relevant results.
+
+[PAUSE 3s - Show final stats]
+
+This entire system runs on AWS. Three Lambda functions. Amazon Bedrock for AI. DynamoDB for data. All serverless. All scalable.
+
+[PAUSE 2s]
+
+The cost? Six dollars and twenty-two cents per month for ten thousand patients. That's point zero six cents per patient.
+
+## CLOSING: THE IMPACT (175-180s)
+
+[PAUSE 2s]
+
+Ninety times faster than traditional triage. Eighty-one percent automation. Accessible to nine hundred million Indians.
+
+[PAUSE 1s]
+
+Arogya AI. Democratizing healthcare with Agentic AI.
+
+[END]

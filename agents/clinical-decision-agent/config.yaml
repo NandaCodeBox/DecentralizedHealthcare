@@ -1,0 +1,32 @@
+agent:
+  name: clinical-decision-agent
+  description: "AI-powered clinical decision support for diagnosis and treatment recommendations"
+  runtime: bedrock-agentcore
+  model: anthropic.claude-3-haiku-20240307-v1:0
+  
+  memory:
+    enabled: true
+    type: dynamodb
+    ttl: 43200  # 12 hours
+  
+  observability:
+    cloudwatch: true
+    metrics: true
+    tracing: true
+  
+  environment:
+    PATIENT_TABLE_NAME: healthcare-patients
+    EPISODE_TABLE_NAME: healthcare-episodes
+    AWS_REGION: us-east-1
+  
+  iam_permissions:
+    - dynamodb:GetItem
+    - dynamodb:UpdateItem
+    - dynamodb:Query
+    - bedrock:InvokeModel
+    - logs:CreateLogGroup
+    - logs:CreateLogStream
+    - logs:PutLogEvents
+  
+  timeout: 30
+  memory_size: 512

@@ -1,4 +1,4 @@
-// Sample test data for Healthcare OS application
+// Sample test data for Arogya.ai application
 import { CareEpisode, Provider, Patient } from '@/types';
 
 // Sample User Profile Data

@@ -37,9 +37,14 @@ const Layout: React.FC<LayoutProps> = ({ children, showNavigation = true }) => {
                 </button>
               )}
               
-              <h1 className="text-lg sm:text-xl font-semibold text-gray-900 ml-2 md:ml-0">
-                Healthcare OS
-              </h1>
+              <div className="flex items-center gap-2 ml-2 md:ml-0">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">A</span>
+                </div>
+                <h1 className="text-lg sm:text-xl font-bold text-gray-900">
+                  Arogya<span className="text-teal-600">.ai</span>
+                </h1>
+              </div>
             </div>
             
             <div className="flex items-center space-x-2 sm:space-x-4">

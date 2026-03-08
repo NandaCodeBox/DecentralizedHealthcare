@@ -1,0 +1,22 @@
+# HACKATHON DEMO - 3 MINUTE VOICEOVER (SHARP & CONCISE)
+# Total: ~180 seconds
+
+## SEGMENT 1: THE PROBLEM (0-25s)
+
+Meet Rajesh. Two AM. Severe chest pain. Rural India. Nearest hospital? Fifty kilometers away. Should he wait or go now? This is the reality for nine hundred million Indians. Long wait times. No guidance. Lives at risk.
+
+## SEGMENT 2: PATIENT JOURNEY (25-70s)
+
+Watch Arogya AI change everything. Rajesh opens the app. Selects Hindi. Taps his symptoms. Chest pain. Shortness of breath. Fever. Simple. No medical jargon. He rates severity. Selects duration. Submits. Within seconds, our AI analyzes everything. Ninety four percent confidence. High priority. Immediate attention needed. Three facilities recommended. City General Hospital. Ninety five percent AI match. Two kilometers away. Two hour wait. Rajesh books instantly. Date. Time. Contact. Done. Life threatening condition addressed in minutes, not hours.
+
+## SEGMENT 3: AGENTIC AI (70-130s)
+
+Here's the revolution. Behind the scenes, three autonomous agents validate every case. See this purple toggle? Agentic AI is ON. No human bottleneck. Forty seven cases today. Thirty eight auto approved. Eighty one percent automation. Look at Rajesh's case. Six level reasoning. Symptom severity. Vital signs. Urgency. Facility matching. Care pathway. Risk assessment. All in three seconds. Green indicator. Auto approved. Immediate care. No waiting for manual review. This case? Orange indicator. Conflicting symptoms. Escalated for human review. Intelligent automation. The AI knows when to act and when to ask.
+
+## SEGMENT 4: SCALE & IMPACT (130-165s)
+
+Ten Indian languages. Watch. Tamil. Telugu. Bengali. Every patient, their mother tongue. AI powered provider search. Type anything. Heart specialist. Cardiologist. Instant results. Deployed on AWS. Three Lambda agents. Twenty four seven. Amazon Bedrock powers the AI. The cost? Six dollars twenty two cents per month. Ten thousand patients. That's point zero six cents per patient. Scales to millions. Same cost per patient.
+
+## SEGMENT 5: THE IMPACT (165-180s)
+
+Seventy to eighty percent auto approved. Thirty seconds versus forty five minutes. Ninety X faster. Nine hundred million underserved Indians. No language barriers. No geographic barriers. No economic barriers. Arogya AI. Democratizing healthcare with Agentic AI.

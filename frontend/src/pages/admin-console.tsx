@@ -34,7 +34,7 @@ const AdminConsole: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Admin Console - Healthcare OS</title>
+        <title>Admin Console - Arogya.ai</title>
         <meta name="description" content="System administration and management" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>

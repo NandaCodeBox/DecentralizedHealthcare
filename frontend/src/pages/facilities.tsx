@@ -107,7 +107,7 @@ const FacilitiesPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>All Nearby Facilities - Healthcare OS</title>
+        <title>All Nearby Facilities - Arogya.ai</title>
         <meta name="description" content="Browse all nearby healthcare facilities" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </Head>

@@ -12,11 +12,23 @@ const BASE_URL = 'http://arogya-ai-healthcare-20260308102925.s3-website-us-east-
 const SCREENSHOT_DIR = 'multilingual-test-results';
 const API_BASE_URL = 'https://mj3wk76zw4.execute-api.us-east-1.amazonaws.com/v1';
 
-// Test credentials
+// Test credentials - Use environment variables in production
 const TEST_USERS = {
-  test: { email: 'test@arogya.ai', password: 'Test@123456', role: 'Test User' },
-  patient: { email: 'patient@arogya.ai', password: 'Patient@123456', role: 'Patient' },
-  supervisor: { email: 'supervisor@arogya.ai', password: 'Supervisor@123456', role: 'Supervisor' }
+  test: { 
+    email: process.env.TEST_USER_EMAIL || 'test@arogya.ai', 
+    password: process.env.TEST_USER_PASSWORD || 'Test@123456', 
+    role: 'Test User' 
+  },
+  patient: { 
+    email: process.env.PATIENT_USER_EMAIL || 'patient@arogya.ai', 
+    password: process.env.PATIENT_USER_PASSWORD || 'Patient@123456', 
+    role: 'Patient' 
+  },
+  supervisor: { 
+    email: process.env.SUPERVISOR_USER_EMAIL || 'supervisor@arogya.ai', 
+    password: process.env.SUPERVISOR_USER_PASSWORD || 'Supervisor@123456', 
+    role: 'Supervisor' 
+  }
 };
 
 // Languages to test

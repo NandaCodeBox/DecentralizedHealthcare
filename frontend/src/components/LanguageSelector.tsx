@@ -52,10 +52,11 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ className = '' }) =
           <div
             className="fixed inset-0 z-10"
             onClick={() => setIsOpen(false)}
+            style={{ pointerEvents: 'auto' }}
           />
 
           {/* Menu */}
-          <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 z-20">
+          <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 z-20" style={{ pointerEvents: 'auto' }}>
             <div className="p-2">
               <div className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase">
                 Select Language
@@ -69,6 +70,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({ className = '' }) =
                       ? 'bg-teal-50 text-teal-700'
                       : 'hover:bg-gray-50 text-gray-700'
                   }`}
+                  style={{ pointerEvents: 'auto' }}
                 >
                   <div className="flex items-center gap-3">
                     <span className="text-xl">{language.flag}</span>

@@ -5,8 +5,8 @@
   "devFiles": [],
   "ampDevFiles": [],
   "lowPriorityFiles": [
-    "static/dZpBguGWyIAslk5uMeQmU/_buildManifest.js",
-    "static/dZpBguGWyIAslk5uMeQmU/_ssgManifest.js"
+    "static/KwLBMxVeOssH04DJu0e9U/_buildManifest.js",
+    "static/KwLBMxVeOssH04DJu0e9U/_ssgManifest.js"
   ],
   "rootMainFiles": [],
   "pages": {
@@ -16,7 +16,7 @@
       "static/chunks/main-b2b109a5e8165c1d.js",
       "static/chunks/664-d254d21a6fe56bff.js",
       "static/chunks/167-b56ee10b014889d8.js",
-      "static/chunks/873-459513fff09fffb3.js",
+      "static/chunks/873-7a1b5f8f92f4c182.js",
       "static/chunks/pages/index-31444f5fea874c35.js"
     ],
     "/_app": [
@@ -122,7 +122,7 @@
       "static/chunks/framework-64ad27b21261a9ce.js",
       "static/chunks/main-b2b109a5e8165c1d.js",
       "static/chunks/167-b56ee10b014889d8.js",
-      "static/chunks/873-459513fff09fffb3.js",
+      "static/chunks/873-7a1b5f8f92f4c182.js",
       "static/chunks/pages/login-360b0f1e9a1b9293.js"
     ],
     "/my-episodes": [

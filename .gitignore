@@ -59,6 +59,16 @@ pids/
 tmp/
 temp/
 
+# Video files (too large for GitHub)
+Video/
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.wmv
+*.flv
+*.webm
+
 # Package manager
 package-lock.json
 yarn.lock

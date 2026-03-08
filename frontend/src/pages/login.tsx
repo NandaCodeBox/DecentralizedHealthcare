@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { authService } from '@/services/authService';
 import LanguageSelector from '@/components/LanguageSelector';
+import { useStaticTranslation } from '@/hooks/useStaticTranslation';
 import { 
   LockClosedIcon,
   EnvelopeIcon,
@@ -13,6 +14,7 @@ import {
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
+  const { t } = useStaticTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);

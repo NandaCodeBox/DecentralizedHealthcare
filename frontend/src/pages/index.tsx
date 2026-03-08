@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { authService, AuthUser } from '@/services/authService';
 import LanguageSelector from '@/components/LanguageSelector';
+import { useStaticTranslation } from '@/hooks/useStaticTranslation';
 import {
   MagnifyingGlassIcon,
   BellIcon,
@@ -18,6 +19,7 @@ import {
 
 const HomePage: React.FC = () => {
   const router = useRouter();
+  const { t } = useStaticTranslation();
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -181,13 +183,13 @@ const HomePage: React.FC = () => {
                 <div className="relative px-4 sm:px-6 py-4 sm:py-5 flex flex-row items-center justify-center gap-3">
                   <div className="flex-1 flex flex-col items-center text-center">
                     <h2 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3">
-                      Get the Right Care, Right Now
+                      {t('get_right_care')}
                     </h2>
                     <Link
                       href="/symptom-intake"
                       className="inline-flex items-center px-4 py-2 bg-white text-teal-600 font-bold rounded-full hover:bg-gray-50 transition-all text-xs sm:text-sm"
                     >
-                      Tell Us Your Symptoms
+                      {t('tell_us_your_symptoms')}
                     </Link>
                   </div>
                   <div className="text-3xl sm:text-4xl">⚕️</div>
@@ -204,15 +206,15 @@ const HomePage: React.FC = () => {
                     <div className="flex-1 flex flex-col items-center text-center">
                       <div className="flex items-center gap-2 mb-2">
                         <h2 className="text-lg sm:text-xl font-bold text-white">
-                          AI Provider Search
+                          {t('ai_provider_search_title')}
                         </h2>
                         <span className="text-2xl">✨</span>
                       </div>
                       <p className="text-xs sm:text-sm text-purple-100 mb-2">
-                        Semantic search powered by AI
+                        {t('semantic_search_powered')}
                       </p>
                       <div className="inline-flex items-center px-4 py-2 bg-white text-purple-600 font-bold rounded-full hover:bg-gray-50 transition-all text-xs sm:text-sm">
-                        Find Provider
+                        {t('find_provider')}
                       </div>
                     </div>
                     <div className="text-3xl sm:text-4xl">🧭</div>
@@ -227,8 +229,8 @@ const HomePage: React.FC = () => {
         <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-between mb-3 sm:mb-4">
-              <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900">Find Your Care</h3>
-              <Link href="/specialties" className="text-teal-600 text-xs font-semibold hover:underline">See All →</Link>
+              <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900">{t('find_your_care')}</h3>
+              <Link href="/specialties" className="text-teal-600 text-xs font-semibold hover:underline">{t('see_all')} →</Link>
             </div>
             <div className="grid grid-cols-4 gap-2">
               {/* Specialty 1 */}
@@ -261,7 +263,7 @@ const HomePage: React.FC = () => {
         {/* Dashboards & Tools Section */}
         <div className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           <div className="max-w-7xl mx-auto">
-            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-6">Dashboards & Tools</h3>
+            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-6">{t('dashboards_tools')}</h3>
             
             {/* Critical Dashboards */}
             <div className="mb-8">
@@ -382,7 +384,7 @@ const HomePage: React.FC = () => {
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
               <div className="bg-teal-50 rounded-2xl p-4 sm:p-5 text-center">
                 <div className="text-2xl sm:text-3xl font-bold text-teal-600 mb-1">24/7</div>
-                <div className="text-xs sm:text-sm text-gray-600 font-semibold">Always Available</div>
+                <div className="text-xs sm:text-sm text-gray-600 font-semibold">{t('always_available')}</div>
               </div>
               <div className="bg-teal-50 rounded-2xl p-4 sm:p-5 text-center">
                 <div className="text-2xl sm:text-3xl font-bold text-teal-600 mb-1">100%</div>
@@ -407,16 +409,16 @@ const HomePage: React.FC = () => {
               <div className="flex items-start gap-3 sm:gap-4">
                 <ExclamationCircleIcon className="h-5 w-5 sm:h-6 sm:w-6 text-red-600 flex-shrink-0 mt-0.5" />
                 <div className="flex-1">
-                  <h4 className="font-bold text-red-900 text-sm sm:text-base mb-1">Medical Emergency?</h4>
+                  <h4 className="font-bold text-red-900 text-sm sm:text-base mb-1">{t('medical_emergency')}</h4>
                   <p className="text-xs sm:text-sm text-red-800 mb-3">
-                    For life-threatening situations, call emergency services immediately.
+                    {t('life_threatening')}
                   </p>
                   <a
                     href="tel:108"
                     className="inline-flex items-center px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors text-xs sm:text-sm"
                   >
                     <PhoneIcon className="h-4 w-4 mr-2" />
-                    Call 108 Now
+                    {t('call_now')}
                   </a>
                 </div>
               </div>

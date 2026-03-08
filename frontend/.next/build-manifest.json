@@ -5,8 +5,8 @@
   "devFiles": [],
   "ampDevFiles": [],
   "lowPriorityFiles": [
-    "static/KwLBMxVeOssH04DJu0e9U/_buildManifest.js",
-    "static/KwLBMxVeOssH04DJu0e9U/_ssgManifest.js"
+    "static/tzCjRa12n4QZHjDlXx6IW/_buildManifest.js",
+    "static/tzCjRa12n4QZHjDlXx6IW/_ssgManifest.js"
   ],
   "rootMainFiles": [],
   "pages": {
@@ -16,8 +16,8 @@
       "static/chunks/main-b2b109a5e8165c1d.js",
       "static/chunks/664-d254d21a6fe56bff.js",
       "static/chunks/167-b56ee10b014889d8.js",
-      "static/chunks/873-7a1b5f8f92f4c182.js",
-      "static/chunks/pages/index-31444f5fea874c35.js"
+      "static/chunks/87-2d5cf034ef6e6dc8.js",
+      "static/chunks/pages/index-cb23a7e34a908706.js"
     ],
     "/_app": [
       "static/chunks/webpack-87b3a303122f2f0d.js",
@@ -122,8 +122,8 @@
       "static/chunks/framework-64ad27b21261a9ce.js",
       "static/chunks/main-b2b109a5e8165c1d.js",
       "static/chunks/167-b56ee10b014889d8.js",
-      "static/chunks/873-7a1b5f8f92f4c182.js",
-      "static/chunks/pages/login-360b0f1e9a1b9293.js"
+      "static/chunks/87-2d5cf034ef6e6dc8.js",
+      "static/chunks/pages/login-d4b192bd6b9ec6c0.js"
     ],
     "/my-episodes": [
       "static/chunks/webpack-87b3a303122f2f0d.js",
@@ -204,7 +204,7 @@
       "static/chunks/framework-64ad27b21261a9ce.js",
       "static/chunks/main-b2b109a5e8165c1d.js",
       "static/chunks/664-d254d21a6fe56bff.js",
-      "static/chunks/pages/symptom-intake-e0386418289af0e2.js"
+      "static/chunks/pages/symptom-intake-26c8f4b7bab6677d.js"
     ],
     "/test": [
       "static/chunks/webpack-87b3a303122f2f0d.js",

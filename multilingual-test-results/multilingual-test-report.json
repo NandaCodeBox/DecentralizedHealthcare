@@ -1,150 +1,241 @@
 {
-  "timestamp": "2026-03-08T07:59:01.027Z",
-  "totalTests": 19,
-  "passed": 15,
-  "failed": 2,
-  "warnings": 2,
+  "timestamp": "2026-03-08T08:19:05.559Z",
+  "totalTests": 32,
+  "passed": 28,
+  "failed": 1,
+  "warnings": 3,
   "tests": [
     {
       "name": "Language selector visible on homepage",
       "status": "PASS",
       "details": "",
       "severity": "info",
-      "timestamp": "2026-03-08T07:59:05.607Z"
+      "timestamp": "2026-03-08T08:19:10.233Z"
     },
     {
       "name": "Language selector visible on login page",
       "status": "PASS",
       "details": "",
       "severity": "info",
-      "timestamp": "2026-03-08T07:59:07.163Z"
+      "timestamp": "2026-03-08T08:19:12.320Z"
     },
     {
       "name": "One-click login button found",
       "status": "PASS",
       "details": "",
       "severity": "info",
-      "timestamp": "2026-03-08T07:59:07.899Z"
+      "timestamp": "2026-03-08T08:19:13.057Z"
     },
     {
       "name": "Login redirect to homepage",
       "status": "PASS",
       "details": "",
       "severity": "info",
-      "timestamp": "2026-03-08T07:59:11.034Z"
+      "timestamp": "2026-03-08T08:19:16.198Z"
     },
     {
       "name": "Authentication token retrieved",
       "status": "WARN",
       "details": "No token found, API tests may fail",
       "severity": "info",
-      "timestamp": "2026-03-08T07:59:11.040Z"
+      "timestamp": "2026-03-08T08:19:16.205Z"
     },
     {
       "name": "Switch to English",
       "status": "PASS",
       "details": "",
       "severity": "info",
-      "timestamp": "2026-03-08T07:59:13.283Z"
+      "timestamp": "2026-03-08T08:19:18.418Z"
     },
     {
       "name": "English preference saved",
-      "status": "FAIL",
-      "details": "Expected en, got null",
+      "status": "PASS",
+      "details": "English is default language",
       "severity": "info",
-      "timestamp": "2026-03-08T07:59:16.409Z"
+      "timestamp": "2026-03-08T08:19:21.544Z"
     },
     {
       "name": "Switch to Hindi",
       "status": "PASS",
       "details": "",
       "severity": "info",
-      "timestamp": "2026-03-08T07:59:18.886Z"
+      "timestamp": "2026-03-08T08:19:24.023Z"
     },
     {
       "name": "Hindi preference saved",
       "status": "PASS",
       "details": "",
       "severity": "info",
-      "timestamp": "2026-03-08T07:59:22.019Z"
+      "timestamp": "2026-03-08T08:19:27.162Z"
     },
     {
       "name": "Switch to Tamil",
       "status": "PASS",
       "details": "",
       "severity": "info",
-      "timestamp": "2026-03-08T07:59:24.495Z"
+      "timestamp": "2026-03-08T08:19:29.618Z"
     },
     {
       "name": "Tamil preference saved",
       "status": "PASS",
       "details": "",
       "severity": "info",
-      "timestamp": "2026-03-08T07:59:27.629Z"
+      "timestamp": "2026-03-08T08:19:32.763Z"
     },
     {
       "name": "Switch to Telugu",
       "status": "PASS",
       "details": "",
       "severity": "info",
-      "timestamp": "2026-03-08T07:59:30.133Z"
+      "timestamp": "2026-03-08T08:19:35.217Z"
     },
     {
       "name": "Telugu preference saved",
       "status": "PASS",
       "details": "",
       "severity": "info",
-      "timestamp": "2026-03-08T07:59:33.238Z"
+      "timestamp": "2026-03-08T08:19:38.332Z"
     },
     {
       "name": "Select symptom: Fever",
       "status": "PASS",
       "details": "",
       "severity": "info",
-      "timestamp": "2026-03-08T07:59:41.065Z"
+      "timestamp": "2026-03-08T08:19:46.187Z"
     },
     {
       "name": "Select symptom: Headache",
       "status": "PASS",
       "details": "",
       "severity": "info",
-      "timestamp": "2026-03-08T07:59:42.147Z"
+      "timestamp": "2026-03-08T08:19:47.246Z"
     },
     {
       "name": "Select symptom: Fatigue",
       "status": "PASS",
       "details": "",
       "severity": "info",
-      "timestamp": "2026-03-08T07:59:43.208Z"
+      "timestamp": "2026-03-08T08:19:48.295Z"
     },
     {
       "name": "Select symptom duration",
-      "status": "WARN",
-      "details": "Duration dropdown not found",
+      "status": "PASS",
+      "details": "",
       "severity": "info",
-      "timestamp": "2026-03-08T07:59:43.291Z"
+      "timestamp": "2026-03-08T08:19:48.891Z"
     },
     {
       "name": "Fill additional details",
       "status": "PASS",
       "details": "",
       "severity": "info",
-      "timestamp": "2026-03-08T07:59:43.813Z"
+      "timestamp": "2026-03-08T08:19:49.938Z"
     },
     {
-      "name": "Test suite execution",
-      "status": "FAIL",
-      "details": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button:has-text(\"Get AI Triage\")').first()\u001b[22m\n\u001b[2m    - locator resolved to <button disabled type=\"submit\" id=\"submit-button\" class=\"w-full px-6 py-4 bg-teal-600 text-white font-bold rounded-lg hover:bg-teal-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2\">…</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    57 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n",
+      "name": "Submit for AI triage",
+      "status": "PASS",
+      "details": "",
       "severity": "info",
-      "timestamp": "2026-03-08T08:00:14.433Z"
+      "timestamp": "2026-03-08T08:19:50.595Z"
+    },
+    {
+      "name": "AI triage results displayed",
+      "status": "PASS",
+      "details": "",
+      "severity": "info",
+      "timestamp": "2026-03-08T08:19:55.719Z"
+    },
+    {
+      "name": "AI confidence score displayed",
+      "status": "PASS",
+      "details": "Found: AI: 87%",
+      "severity": "info",
+      "timestamp": "2026-03-08T08:19:55.724Z"
+    },
+    {
+      "name": "Enter natural language search query",
+      "status": "PASS",
+      "details": "",
+      "severity": "info",
+      "timestamp": "2026-03-08T08:19:58.147Z"
+    },
+    {
+      "name": "Click AI search button",
+      "status": "PASS",
+      "details": "",
+      "severity": "info",
+      "timestamp": "2026-03-08T08:19:58.812Z"
+    },
+    {
+      "name": "AI search results displayed",
+      "status": "PASS",
+      "details": "",
+      "severity": "info",
+      "timestamp": "2026-03-08T08:20:03.938Z"
+    },
+    {
+      "name": "AI match scores displayed",
+      "status": "PASS",
+      "details": "Found: 95% Match",
+      "severity": "info",
+      "timestamp": "2026-03-08T08:20:03.945Z"
+    },
+    {
+      "name": "Login as Supervisor",
+      "status": "WARN",
+      "details": "Supervisor login button not found",
+      "severity": "info",
+      "timestamp": "2026-03-08T08:20:06.952Z"
+    },
+    {
+      "name": "Supervisor dashboard cases displayed",
+      "status": "PASS",
+      "details": "",
+      "severity": "info",
+      "timestamp": "2026-03-08T08:20:08.324Z"
+    },
+    {
+      "name": "Low confidence cases flagged",
+      "status": "PASS",
+      "details": "",
+      "severity": "info",
+      "timestamp": "2026-03-08T08:20:08.329Z"
+    },
+    {
+      "name": "Supervisor action buttons present",
+      "status": "WARN",
+      "details": "Some action buttons not found",
+      "severity": "info",
+      "timestamp": "2026-03-08T08:20:08.413Z"
+    },
+    {
+      "name": "Language switching as Supervisor",
+      "status": "FAIL",
+      "details": "Language selector not found",
+      "severity": "info",
+      "timestamp": "2026-03-08T08:20:08.419Z"
+    },
+    {
+      "name": "Sign out button clicked",
+      "status": "PASS",
+      "details": "",
+      "severity": "info",
+      "timestamp": "2026-03-08T08:20:10.263Z"
+    },
+    {
+      "name": "Redirect to login after sign out",
+      "status": "PASS",
+      "details": "",
+      "severity": "info",
+      "timestamp": "2026-03-08T08:20:12.405Z"
     }
   ],
   "summary": {
-    "totalTests": 19,
-    "passed": 15,
-    "failed": 2,
-    "warnings": 2,
-    "passRate": "78.95%"
+    "totalTests": 32,
+    "passed": 28,
+    "failed": 1,
+    "warnings": 3,
+    "passRate": "87.50%"
   },
   "testSections": {
     "languageSelector": [
@@ -153,14 +244,14 @@
         "status": "PASS",
         "details": "",
         "severity": "info",
-        "timestamp": "2026-03-08T07:59:05.607Z"
+        "timestamp": "2026-03-08T08:19:10.233Z"
       },
       {
         "name": "Language selector visible on login page",
         "status": "PASS",
         "details": "",
         "severity": "info",
-        "timestamp": "2026-03-08T07:59:07.163Z"
+        "timestamp": "2026-03-08T08:19:12.320Z"
       }
     ],
     "authentication": [
@@ -169,21 +260,28 @@
         "status": "PASS",
         "details": "",
         "severity": "info",
-        "timestamp": "2026-03-08T07:59:07.163Z"
+        "timestamp": "2026-03-08T08:19:12.320Z"
       },
       {
         "name": "One-click login button found",
         "status": "PASS",
         "details": "",
         "severity": "info",
-        "timestamp": "2026-03-08T07:59:07.899Z"
+        "timestamp": "2026-03-08T08:19:13.057Z"
       },
       {
         "name": "Authentication token retrieved",
         "status": "WARN",
         "details": "No token found, API tests may fail",
         "severity": "info",
-        "timestamp": "2026-03-08T07:59:11.040Z"
+        "timestamp": "2026-03-08T08:19:16.205Z"
+      },
+      {
+        "name": "Redirect to login after sign out",
+        "status": "PASS",
+        "details": "",
+        "severity": "info",
+        "timestamp": "2026-03-08T08:20:12.405Z"
       }
     ],
     "languageSwitching": [
@@ -192,56 +290,56 @@
         "status": "PASS",
         "details": "",
         "severity": "info",
-        "timestamp": "2026-03-08T07:59:13.283Z"
+        "timestamp": "2026-03-08T08:19:18.418Z"
       },
       {
         "name": "English preference saved",
-        "status": "FAIL",
-        "details": "Expected en, got null",
+        "status": "PASS",
+        "details": "English is default language",
         "severity": "info",
-        "timestamp": "2026-03-08T07:59:16.409Z"
+        "timestamp": "2026-03-08T08:19:21.544Z"
       },
       {
         "name": "Switch to Hindi",
         "status": "PASS",
         "details": "",
         "severity": "info",
-        "timestamp": "2026-03-08T07:59:18.886Z"
+        "timestamp": "2026-03-08T08:19:24.023Z"
       },
       {
         "name": "Hindi preference saved",
         "status": "PASS",
         "details": "",
         "severity": "info",
-        "timestamp": "2026-03-08T07:59:22.019Z"
+        "timestamp": "2026-03-08T08:19:27.162Z"
       },
       {
         "name": "Switch to Tamil",
         "status": "PASS",
         "details": "",
         "severity": "info",
-        "timestamp": "2026-03-08T07:59:24.495Z"
+        "timestamp": "2026-03-08T08:19:29.618Z"
       },
       {
         "name": "Tamil preference saved",
         "status": "PASS",
         "details": "",
         "severity": "info",
-        "timestamp": "2026-03-08T07:59:27.629Z"
+        "timestamp": "2026-03-08T08:19:32.763Z"
       },
       {
         "name": "Switch to Telugu",
         "status": "PASS",
         "details": "",
         "severity": "info",
-        "timestamp": "2026-03-08T07:59:30.133Z"
+        "timestamp": "2026-03-08T08:19:35.217Z"
       },
       {
         "name": "Telugu preference saved",
         "status": "PASS",
         "details": "",
         "severity": "info",
-        "timestamp": "2026-03-08T07:59:33.238Z"
+        "timestamp": "2026-03-08T08:19:38.332Z"
       }
     ],
     "translationAPI": [],
@@ -251,32 +349,105 @@
         "status": "PASS",
         "details": "",
         "severity": "info",
-        "timestamp": "2026-03-08T07:59:41.065Z"
+        "timestamp": "2026-03-08T08:19:46.187Z"
       },
       {
         "name": "Select symptom: Headache",
         "status": "PASS",
         "details": "",
         "severity": "info",
-        "timestamp": "2026-03-08T07:59:42.147Z"
+        "timestamp": "2026-03-08T08:19:47.246Z"
       },
       {
         "name": "Select symptom: Fatigue",
         "status": "PASS",
         "details": "",
         "severity": "info",
-        "timestamp": "2026-03-08T07:59:43.208Z"
+        "timestamp": "2026-03-08T08:19:48.295Z"
       },
       {
         "name": "Select symptom duration",
-        "status": "WARN",
-        "details": "Duration dropdown not found",
+        "status": "PASS",
+        "details": "",
         "severity": "info",
-        "timestamp": "2026-03-08T07:59:43.291Z"
+        "timestamp": "2026-03-08T08:19:48.891Z"
+      },
+      {
+        "name": "Submit for AI triage",
+        "status": "PASS",
+        "details": "",
+        "severity": "info",
+        "timestamp": "2026-03-08T08:19:50.595Z"
+      },
+      {
+        "name": "AI triage results displayed",
+        "status": "PASS",
+        "details": "",
+        "severity": "info",
+        "timestamp": "2026-03-08T08:19:55.719Z"
       }
     ],
-    "providerSearch": [],
-    "supervisorDashboard": [],
-    "signOut": []
+    "providerSearch": [
+      {
+        "name": "Enter natural language search query",
+        "status": "PASS",
+        "details": "",
+        "severity": "info",
+        "timestamp": "2026-03-08T08:19:58.147Z"
+      },
+      {
+        "name": "Click AI search button",
+        "status": "PASS",
+        "details": "",
+        "severity": "info",
+        "timestamp": "2026-03-08T08:19:58.812Z"
+      },
+      {
+        "name": "AI search results displayed",
+        "status": "PASS",
+        "details": "",
+        "severity": "info",
+        "timestamp": "2026-03-08T08:20:03.938Z"
+      }
+    ],
+    "supervisorDashboard": [
+      {
+        "name": "Login as Supervisor",
+        "status": "WARN",
+        "details": "Supervisor login button not found",
+        "severity": "info",
+        "timestamp": "2026-03-08T08:20:06.952Z"
+      },
+      {
+        "name": "Supervisor dashboard cases displayed",
+        "status": "PASS",
+        "details": "",
+        "severity": "info",
+        "timestamp": "2026-03-08T08:20:08.324Z"
+      },
+      {
+        "name": "Supervisor action buttons present",
+        "status": "WARN",
+        "details": "Some action buttons not found",
+        "severity": "info",
+        "timestamp": "2026-03-08T08:20:08.413Z"
+      },
+      {
+        "name": "Language switching as Supervisor",
+        "status": "FAIL",
+        "details": "Language selector not found",
+        "severity": "info",
+        "timestamp": "2026-03-08T08:20:08.419Z"
+      }
+    ],
+    "signOut": [
+      {
+        "name": "Sign out button clicked",
+        "status": "PASS",
+        "details": "",
+        "severity": "info",
+        "timestamp": "2026-03-08T08:20:10.263Z"
+      }
+    ]
   }
 }
